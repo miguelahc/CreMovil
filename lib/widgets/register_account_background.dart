@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-class LoginBackground extends StatelessWidget {
-  const LoginBackground({Key? key}) : super(key: key);
+class RegisterAccountBackground extends StatelessWidget {
+  const RegisterAccountBackground({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _Title extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text(
-                "Ingreso",
+                "Registro",
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class _Title extends StatelessWidget {
               ),
               SizedBox(height: 30),
               Text(
-                "Digite su nombre y número de",
+                "Bienvenido a CRE Móvil,",
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,
@@ -97,7 +97,15 @@ class _Title extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               Text(
-                "teléfono para continuar",
+                "necesitamos el registro de tu",
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                "Código Fijo o Servicio para continuar",
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,
@@ -106,8 +114,7 @@ class _Title extends StatelessWidget {
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }
 
@@ -115,36 +122,41 @@ class _FooterTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(Icons.message_outlined, color: Color(0xFF84BD00)),
-                const SizedBox(width: 10),
-                Column(
-                  children: const [
-                    Text(
-                      '¿No puedes ingresar?',
-                      style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      'Comunícate con Soporte',
-                      style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      )
-    );
+        child: Padding(
+      padding: const EdgeInsets.only(bottom: 25),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(Icons.live_help_outlined, color: Color(0xFF84BD00)),
+              const SizedBox(width: 10),
+              Column(
+                children: const [
+                  Text(
+                    '¿No puedes registrarte?',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Consulta la información de Ayuda',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    ));
   }
 }

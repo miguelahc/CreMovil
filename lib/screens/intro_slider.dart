@@ -5,7 +5,7 @@ import 'package:intro_slider/dot_animation_enum.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 
-import 'package:app_cre/screens/login_screen1.dart';
+import 'package:app_cre/screens/login_screen.dart';
 
 class IntroSliderPage extends StatefulWidget {
   List<Slide> slides = <Slide>[];
@@ -143,14 +143,16 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
         ),
         IntroSlider(
           slides: slides,
-          renderSkipBtn: const Text("Saltar intro"),
+          renderSkipBtn: const Text(
+            "Saltar intro",
+            style: TextStyle(color: Color(0xFF84BD00)),
+          ),
           renderNextBtn: const Text(
             "Siguiente",
             style: TextStyle(color: Colors.black),
           ),
-          renderDoneBtn: const Text(
-            "Continuar",
-          ),
+          renderDoneBtn: const Text("Continuar",
+              style: TextStyle(color: Color(0xFF84BD00))),
           // // colorDoneBtn: Colors.white,
           colorActiveDot: const Color(0xFF84BD00),
           sizeDot: 8.0,
@@ -161,7 +163,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
           onDonePress: () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => const LoginScreen1(),
+              builder: (_) => const LoginScreen(),
             ),
           ),
         )

@@ -1,5 +1,7 @@
+import 'package:app_cre/models/models.dart';
+import 'package:app_cre/screens/register_account_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:app_cre/screens/login_screen1.dart';
+import 'package:app_cre/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:app_cre/screens/screens.dart';
@@ -31,10 +33,13 @@ class MyApp extends StatelessWidget {
       title: 'Reto Api',
       initialRoute: 'bienvenida',
       routes: {
+        'register': (_) => const RegisterAccountScreen(),
         'checking': (_) => const CheckAuthScreen(),
-        'validar': (_) => ValidatecodScreen(),
+        'validar': (_) => ValidateCodScreen(
+              user: User("", "", ""),
+            ),
         'home': (_) => const HomeScreen(),
-        'login': (_) => const LoginScreen1(),
+        'login': (_) => const LoginScreen(),
         'bienvenida': (_) => IntroSliderPage(
               slides: const [],
             ),
