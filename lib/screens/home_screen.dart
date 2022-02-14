@@ -1,6 +1,4 @@
-import 'package:app_cre/screens/dashboard_screen.dart';
 import 'package:app_cre/screens/screens.dart';
-import 'package:app_cre/widgets/widgets.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        drawer: menuLateral(authService, context),
+        endDrawer: SafeArea(child: menuLateral(authService, context)),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.green),
           // title: Text("Prueba1"),
@@ -110,6 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30))),
     );
   }
 }

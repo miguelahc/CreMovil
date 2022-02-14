@@ -6,3 +6,4 @@ export 'package:app_cre/screens/validate_cod_screen.dart';
 export 'package:app_cre/screens/dashboard_screen.dart';
 export 'package:app_cre/screens/notification_screen.dart';
 export 'package:app_cre/screens/profile_screen.dart';
+export 'package:app_cre/screens/message_screen.dart';
