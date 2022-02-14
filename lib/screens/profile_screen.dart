@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Perfil'),
+    return Container(
+      child: Row(
+        children: [
+          Text("data"),
+        ],
       ),
     );
   }

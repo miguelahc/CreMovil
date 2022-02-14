@@ -39,6 +39,8 @@ dependencies:
   intro_slider: ^3.0.3
   pin_code_fields: ^7.3.0
   convex_bottom_bar: ^3.0.0
+  firebase_messaging: ^11.2.6
+  firebase_core: ^1.12.0
   # iconos_cupertino: ^1.0.2
 
 dev_dependencies:
