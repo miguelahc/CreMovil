@@ -1,6 +1,6 @@
 # app_cre
 
-A new Flutter project.
+Aplicación Móvil en Fluter.
 
 ## Getting Started
 

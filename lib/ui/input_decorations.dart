@@ -13,9 +13,9 @@ class InputDecorations {
             borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
         hintText: hintText,
         labelText: labelText,
-        labelStyle: const TextStyle(color: Color(0xFF84BD00)),
+        labelStyle: const TextStyle(color: Color(0xFF999999)),
         prefixIcon: prefixIcon != null
-            ? Icon(prefixIcon, color: const Color(0xFF84BD00))
+            ? Icon(prefixIcon, color: const Color(0xFF999999))
             : null);
   }
 }

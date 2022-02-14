@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        drawer: menuLateral(authService, context),
+        endDrawer: SafeArea(child: menuLateral(authService, context)),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.green),
           // title: Text("Prueba1"),
@@ -108,6 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30))),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:app_cre/screens/login_screen1.dart';
+import 'package:app_cre/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +24,7 @@ class CheckAuthScreen extends StatelessWidget {
                 Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => const LoginScreen1(),
+                        pageBuilder: (_, __, ___) => const LoginScreen(),
                         transitionDuration: const Duration(seconds: 0)));
               });
             } else {
