@@ -43,7 +43,7 @@ class _FormLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
-    generateToken();
+    TokenService().generateToken();
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.height * 0.04),
@@ -72,8 +72,8 @@ class _FormLogin extends StatelessWidget {
                 onPressed: () {
                   if (loginForm.isValidForm()) {
                     var user = loginForm.getValues();
-                    readToken().then((value) {
-                      sendPin(value, user.phone).then((value) {
+                    TokenService().readToken().then((value) {
+                      UserService().sendPin(value, user.phone).then((value) {
                         var code = jsonDecode(value)["Code"];
                         if (code == 0) {
                           _showDialogExit(context, user);
