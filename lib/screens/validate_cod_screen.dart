@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:app_cre/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/widgets/widgets.dart';
@@ -66,25 +65,38 @@ class ValidateCodScreen extends StatelessWidget {
                     ),
                     length: 4,
                     onCompleted: (code) {
-                      readToken().then((token) {
-                        getPin(token, user.phone, user.phone).then((response) {
+                      TokenService().readToken().then((token) {
+                        UserService()
+                            .getPin(token, user.phone, user.phone)
+                            .then((response) {
                           String message = jsonDecode(response)['Message'];
-                          var pin = findPinInPaternString(message);
+                          var pin =
+                              UserService().findPinInPaternString(message);
                           if (code == pin) {
-                            saveUserData(pin, user.phone, user.prefixPhone,
+                            UserService().saveUserData(
+                                pin,
+                                user.name,
+                                user.phone,
+                                user.prefixPhone,
                                 user.prefixPhone + user.phone);
-                            readUserData().then((data) {
+                            UserService().readUserData().then((data) {
                               var userData = jsonDecode(data);
-                              registerUser(token, userData,
-                                      user.prefixPhone + user.phone)
-                                  .then((value) {
-                                print(value);
+                              PushNotificationService()
+                                  .readPhonePushId()
+                                  .then((phonePushId) {
+                                UserService()
+                                    .registerUser(token, userData, phonePushId)
+                                    .then((value) {
+                                  print(value);
+                                });
                               });
                             });
-                            getAccounts(token, pin, user.phone, user.phone)
+                            AccountService()
+                                .getAccounts(token, pin, user.phone, user.phone)
                                 .then((value) {
                               var data = jsonDecode(value)["Data"];
-                              List accounts = getListOfAccounts(data);
+                              List accounts =
+                                  AccountService().getListOfAccounts(data);
                               if (accounts.isEmpty) {
                                 _showDialogCreateAccount(context);
                               } else {
@@ -120,8 +132,10 @@ class ValidateCodScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         onTap: () {
-                          readToken().then((token) {
-                            sendPin(token, user.phone).then((value) {
+                          TokenService().readToken().then((token) {
+                            UserService()
+                                .sendPin(token, user.phone)
+                                .then((value) {
                               var code = jsonDecode(value)["Code"];
                               if (code == 0) {
                                 _showDialogExit(context, user);

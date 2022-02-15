@@ -69,22 +69,27 @@ class _FormRegisterAccount extends StatelessWidget {
                 ),
                 onPressed: () {
                   if (registerForm.isValidForm()) {
-                    readToken().then((token) {
-                      readUserData().then((data) {
+                    TokenService().readToken().then((token) {
+                      UserService().readUserData().then((data) {
                         var userData = jsonDecode(data);
                         Account account = registerForm.getValues();
-                        // NOTE: Repace PhonePushId here
-                        registerAccount(
-                                token, userData, account, userData["PhoneImei"])
-                            .then((data) {
-                          var message = jsonDecode(data)["Message"];
-                          var companyName = jsonDecode(message)["CompanyName"];
-                          var clientName = jsonDecode(message)["ClientName"];
-                          if (companyName != null && clientName != null) {
-                            _showDialogExit(context);
-                          } else {
-                            _showDialogError(context);
-                          }
+                        PushNotificationService()
+                            .readPhonePushId()
+                            .then((phonePushId) {
+                          AccountService()
+                              .registerAccount(
+                                  token, userData, account, phonePushId)
+                              .then((data) {
+                            var message = jsonDecode(data)["Message"];
+                            var companyName =
+                                jsonDecode(message)["CompanyName"];
+                            var clientName = jsonDecode(message)["ClientName"];
+                            if (companyName != null && clientName != null) {
+                              _showDialogExit(context);
+                            } else {
+                              _showDialogError(context);
+                            }
+                          });
                         });
                       });
                     });

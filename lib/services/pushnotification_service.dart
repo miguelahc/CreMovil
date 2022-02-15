@@ -1,7 +1,7 @@
 // sh1    9F:37:86:3C:BC:24:93:D8:93:90:0B:49:99:5B:17:F4:B7:D1:B5:09
-
 import 'dart:async';
-
+import 'package:app_cre/services/services.dart';
+import 'package:app_cre/services/storage_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -38,7 +38,7 @@ class PushNotificationService {
     await Firebase.initializeApp();
     token = await FirebaseMessaging.instance.getToken();
     print(token);
-
+    storage.write(key: "PhonePushId", value: token);
     //Handlers
     FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
     FirebaseMessaging.onMessage.listen(_onMessangeHandler);
@@ -47,5 +47,9 @@ class PushNotificationService {
 
   static closeStreams() {
     _messageStream.close();
+  }
+
+  Future<String> readPhonePushId() async {
+    return await storage.read(key: "PhonePushId") ?? "";
   }
 }
