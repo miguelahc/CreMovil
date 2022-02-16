@@ -1,6 +1,7 @@
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/screens/register_account_screen.dart';
 import 'package:app_cre/services/pushnotification_service.dart';
+import 'package:app_cre/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/screens/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         'validar': (_) => ValidateCodScreen(
               user: User("", "", ""),
             ),
-        'home': (_) => const HomeScreen(),
+        'home': (_) => Splash(),
         'login': (_) => const LoginScreen(),
         'messange': (_) => MessageScreen(),
         'perfil': (_) => ProfileScreen(),
