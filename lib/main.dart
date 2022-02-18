@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
             ),
         'home': (_) => HomeScreen(),
         'login': (_) => const LoginScreen(),
-        'messange': (_) => MessageScreen(),
+        'messange': (_) => NotificationScreen(),
         'perfil': (_) => ProfileScreen(),
         'bienvenida': (_) => IntroSliderPage(
               slides: const [],

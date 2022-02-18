@@ -1,13 +1,19 @@
 import 'dart:convert';
 
+import 'package:app_cre/models/models.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
-import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../models/FactoryData.dart';
 
-import '../widgets/screens_background.dart';
+class DashboardScreen extends StatefulWidget {
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
 
-class DashboardScreen extends StatelessWidget {
+class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,10 +40,90 @@ class DashboardScreen extends StatelessWidget {
                     ),
                     onPressed: () {}),
               ],
+            ),
+            Container(
+              padding: EdgeInsets.all(16),
+              alignment: Alignment.centerLeft,
+              child: const Text("Códigos Fijos",
+                  style: TextStyle(
+                      color: Color(0XFF3A3D5F), fontWeight: FontWeight.bold)),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: FactoryData.servicios.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    item(FactoryData.servicios[index]),
+              ),
             )
           ],
         ));
   }
+}
+
+Widget item(Servicios servicio) {
+  return Slidable(
+    key: const ValueKey(0),
+    endActionPane: ActionPane(
+      motion: const ScrollMotion(),
+      dismissible: DismissiblePane(onDismissed: () {}),
+      children: [
+        SlidableAction(
+          // An action can be bigger than the others.
+          onPressed: (ex) {
+            print(ex);
+          },
+          backgroundColor: Color.fromARGB(255, 216, 216, 3),
+          foregroundColor: Colors.white,
+          icon: Icons.payments_outlined,
+          label: 'Pagar',
+        ),
+        SlidableAction(
+          // An action can be bigger than the others.
+          onPressed: (ex) {
+            FactoryData.servicios
+                .removeWhere((element) => element.id == servicio.id);
+          },
+          backgroundColor: const Color(0xFF618A02),
+          foregroundColor: Colors.white,
+          icon: Icons.edit_note,
+          label: 'Editar',
+        ),
+        SlidableAction(
+          onPressed: (ex) {
+            FactoryData.servicios
+                .removeWhere((element) => element.id == servicio.id);
+          },
+          backgroundColor: Color.fromARGB(255, 138, 43, 2),
+          foregroundColor: Colors.white,
+          icon: Icons.restore_from_trash_outlined,
+          label: 'Eliminar',
+        ),
+      ],
+    ),
+    child: ListTile(
+      leading: CachedNetworkImage(
+        imageUrl: servicio.photo,
+        imageBuilder: (context, imageProvider) => Container(
+          width: 20,
+          height: 25,
+          decoration: BoxDecoration(
+            // shape: BoxShape.circle,
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+          ),
+        ),
+        placeholder: (context, url) => CircularProgressIndicator(
+          strokeWidth: 2,
+          valueColor: new AlwaysStoppedAnimation<Color>(
+            Color(0xFF3A3D5F),
+          ),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
+      title: Text(servicio.name),
+      subtitle: Text(servicio.email),
+      onTap: () {},
+    ),
+  );
 }
 
 class _CajaSuperiorDatos extends StatefulWidget {
@@ -79,6 +165,14 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: Container(
         padding: EdgeInsets.only(left: 12, right: 12),
