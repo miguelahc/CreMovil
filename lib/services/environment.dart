@@ -1,2 +1,2 @@
-const url = 'http://192.168.0.106/api_cre/api/mobile/';
+const url = 'http://181.188.147.43:1555/apicre/api/mobile/';
 const env = 'D';

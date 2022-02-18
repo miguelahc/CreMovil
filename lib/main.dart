@@ -1,4 +1,6 @@
 import 'package:app_cre/models/models.dart';
+import 'package:app_cre/screens/account_history_screen.dart';
+import 'package:app_cre/screens/notification_category_screen.dart';
 import 'package:app_cre/screens/register_account_screen.dart';
 import 'package:app_cre/services/pushnotification_service.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +67,7 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: messengerKey,
       routes: {
+        'notification': (_) => NotificationCategoryScreen(),
         'register': (_) => const RegisterAccountScreen(),
         'checking': (_) => const CheckAuthScreen(),
         'validar': (_) => ValidateCodScreen(

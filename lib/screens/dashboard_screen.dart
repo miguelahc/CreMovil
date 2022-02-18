@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,11 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                               padding: EdgeInsets.zero,
                               color: const Color(0xFF84BD00),
                               iconSize: 24,
-                              icon: const Icon(Icons.edit_note_outlined),
+                              icon: const ImageIcon(
+                                AssetImage(
+                                    'assets/icons/vuesax-linear-edit.png'),
+                                color: Color(0XFF84BD00),
+                              ),
                               onPressed: () {},
                             ))
                       ],
@@ -129,8 +134,17 @@ class sabiasQue extends StatelessWidget {
           children: [
             IconButton(
               color: const Color(0xFF84BD00),
-              icon: const Icon(Icons.lightbulb_outline),
-              onPressed: () {},
+              icon: const ImageIcon(
+                AssetImage('assets/icons/vuesax-linear-lamp-charge.png'),
+                color: Color(0XFF84BD00),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AccountStatusScreen(
+                            accountNumber: "35963", companyNumber: "1")));
+              },
             ),
             const Text(
               " ¿Sabías que?",
