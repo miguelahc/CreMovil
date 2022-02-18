@@ -56,6 +56,24 @@ class AccountService {
           'Authorization': token
         },
         body: jsonEncode({
+          'PhoneNumber': userData["PhoneNumber"],
+          'PhoneImei': userData["PhoneImei"],
+          'AccountNumber': accountNumber,
+          'CompanyNumber': companyNumber,
+          'Environment': environment.env
+        }));
+    return response.body;
+  }
+
+  Future<dynamic> modifyAlias(
+      token, userData, accountNumber, companyNumber) async {
+    final response = await http.post(
+        Uri.parse(environment.url + 'cre_modifyalias'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: jsonEncode({
           // 'PhoneNumber': userData["PhoneNumber"],
           'PhoneNumber': "78498664",
           // 'PhoneImei': userData["PhoneImei"],

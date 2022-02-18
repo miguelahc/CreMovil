@@ -131,7 +131,10 @@ class _FooterTitle extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.live_help_outlined, color: Color(0xFF84BD00)),
+              const ImageIcon(
+                AssetImage('assets/icons/vuesax-linear-message-question.png'),
+                color: Color(0xFF84BD00),
+              ),
               const SizedBox(width: 10),
               Column(
                 children: const [

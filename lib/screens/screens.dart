@@ -10,3 +10,5 @@ export 'package:app_cre/screens/message_screen.dart';
 export 'package:app_cre/screens/account_status_screen.dart';
 export 'package:app_cre/screens/account_history_screen.dart';
 export 'package:app_cre/screens/invoice_detail_screen.dart';
+export 'package:app_cre/screens/register_account_screen.dart';
+export 'package:app_cre/screens/register_account_session_screen.dart';

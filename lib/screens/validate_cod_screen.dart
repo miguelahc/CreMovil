@@ -29,9 +29,9 @@ class ValidateCodScreen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.25,
                     child: Row(
                       children: <Widget>[
-                        const Icon(
-                          Icons.phone_android_outlined,
-                          size: 44,
+                        const ImageIcon(
+                          AssetImage('assets/icons/vuesax-linear-mobileXL.png'),
+                          color: Color(0XFF3A3D5F),
                         ),
                         const SizedBox(width: 10),
                         Column(
@@ -92,11 +92,12 @@ class ValidateCodScreen extends StatelessWidget {
                               });
                             });
                             AccountService()
-                                .getAccounts(token, pin, user.phone, user.phone)
+                                .getAccounts(token, pin, user.phone,
+                                    user.prefixPhone + user.phone)
                                 .then((value) {
-                              var data = jsonDecode(value)["Data"];
-                              List accounts =
-                                  AccountService().getListOfAccounts(data);
+                              var data = jsonDecode(value)["Message"];
+                              List accounts = jsonDecode(data);
+                              // AccountService().getListOfAccounts(data);
                               if (accounts.isEmpty) {
                                 _showDialogCreateAccount(context);
                               } else {

@@ -1,9 +1,10 @@
 // import 'dart:html';
 
+import 'package:app_cre/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
-class LoginBackground extends StatelessWidget {
-  const LoginBackground({Key? key}) : super(key: key);
+class RegisterAccountSessionBackground extends StatelessWidget {
+  const RegisterAccountSessionBackground({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +19,31 @@ class LoginBackground extends StatelessWidget {
             ]));
     return Stack(
       children: [
-        Container(
-          decoration: boxDecoration,
-        ),
         //Caja Media
         _CajaMedia(),
         //Caja superior
         _CajaSuperior(),
         //Título
         _Title(),
+
+        _Leading(),
         //Titulo del pie
         _FooterTitle(),
       ],
     );
+  }
+}
+
+class _Leading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: IconButton(
+            color: Colors.white,
+            icon: Icon(Icons.keyboard_arrow_left),
+            onPressed: () {
+              Navigator.pop(context);
+            }));
   }
 }
 
@@ -60,8 +73,8 @@ class _CajaMedia extends StatelessWidget {
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
             gradient: LinearGradient(colors: [
-              Color(0xFFFFFFFF),
-              Color(0xFFFFFFFF),
+              Color(0xFFF7F7F7),
+              Color(0xFFF7F7F7),
             ])),
       ),
     );
@@ -80,7 +93,7 @@ class _Title extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text(
-                "Ingreso",
+                "Registro",
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -89,7 +102,7 @@ class _Title extends StatelessWidget {
               ),
               SizedBox(height: 30),
               Text(
-                "Digite su nombre y número de",
+                "Ingresa los datos solicitados",
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,
@@ -97,13 +110,13 @@ class _Title extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               Text(
-                "teléfono para continuar",
+                "para registrar tu Código Fijo o Servicio",
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,
                     fontWeight: FontWeight.normal),
                 textAlign: TextAlign.center,
-              )
+              ),
             ],
           ),
         ));
@@ -131,18 +144,18 @@ class _FooterTitle extends StatelessWidget {
               Column(
                 children: const [
                   Text(
-                    '¿No puedes ingresar?',
+                    '¿No puedes registrarte?',
                     style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white,
+                        color: Color(0XFF3A3D5F),
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    'Comunícate con Soporte',
+                    'Consulta la información de Ayuda',
                     style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white,
+                        color: Color(0XFF3A3D5F),
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
