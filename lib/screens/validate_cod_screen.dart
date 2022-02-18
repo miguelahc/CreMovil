@@ -92,11 +92,12 @@ class ValidateCodScreen extends StatelessWidget {
                               });
                             });
                             AccountService()
-                                .getAccounts(token, pin, user.phone, user.phone)
+                                .getAccounts(token, pin, user.phone,
+                                    user.prefixPhone + user.phone)
                                 .then((value) {
-                              var data = jsonDecode(value)["Data"];
-                              List accounts =
-                                  AccountService().getListOfAccounts(data);
+                              var data = jsonDecode(value)["Message"];
+                              List accounts = jsonDecode(data);
+                              // AccountService().getListOfAccounts(data);
                               if (accounts.isEmpty) {
                                 _showDialogCreateAccount(context);
                               } else {

@@ -56,10 +56,8 @@ class AccountService {
           'Authorization': token
         },
         body: jsonEncode({
-          // 'PhoneNumber': userData["PhoneNumber"],
-          'PhoneNumber': "78498664",
-          // 'PhoneImei': userData["PhoneImei"],
-          'PhoneImei': "HHH",
+          'PhoneNumber': userData["PhoneNumber"],
+          'PhoneImei': userData["PhoneImei"],
           'AccountNumber': accountNumber,
           'CompanyNumber': companyNumber,
           'Environment': environment.env

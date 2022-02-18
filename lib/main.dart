@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Reto Api',
-      initialRoute: 'home',
+      initialRoute: 'splash',
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: messengerKey,
       routes: {
@@ -81,6 +81,7 @@ class _MyAppState extends State<MyApp> {
         'bienvenida': (_) => IntroSliderPage(
               slides: const [],
             ),
+        'splash': (_) => Splash()
       },
       // scaffoldMessengerKey: NotificationsService.messengerKey,
       theme: ThemeData.light().copyWith(
