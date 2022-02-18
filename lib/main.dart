@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         'validar': (_) => ValidateCodScreen(
               user: User("", "", ""),
             ),
-        'home': (_) => Splash(),
+        'home': (_) => HomeScreen(),
         'login': (_) => const LoginScreen(),
         'messange': (_) => MessageScreen(),
         'perfil': (_) => ProfileScreen(),
