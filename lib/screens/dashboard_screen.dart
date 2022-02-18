@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_cre/screens/register_account_session_screen.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/widgets.dart';
@@ -15,26 +16,50 @@ class DashboardScreen extends StatelessWidget {
         child: Column(
           children: [
             _CajaSuperiorDatos(),
-            Row(
-              children: [
-                const SizedBox(width: 270),
-                MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    disabledColor: Colors.black87,
-                    elevation: 0,
-                    color: const Color(0xFF618A02),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                      child: const Text(
-                        "Registrar",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    onPressed: () {}),
-              ],
-            )
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Column(children: [
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  MaterialButton(
+                      padding: EdgeInsets.all(0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      disabledColor: Colors.black87,
+                      elevation: 0,
+                      child: Container(
+                          constraints:
+                              BoxConstraints(minWidth: 100, maxHeight: 30),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              gradient: const LinearGradient(colors: [
+                                Color(0XFF618A02),
+                                Color(0XFF84BD00)
+                              ])),
+                          child: Row(
+                            children: const [
+                              ImageIcon(
+                                AssetImage(
+                                    'assets/icons/vuesax-linear-add-square.png'),
+                                color: Colors.white,
+                              ),
+                              Text(
+                                'Registrar',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                            ],
+                          )),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    RegisterAccountSession()));
+                      })
+                ])
+              ]),
+            ),
           ],
         ));
   }
@@ -115,7 +140,10 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                             padding: EdgeInsets.zero,
                             color: const Color(0xFF84BD00),
                             iconSize: 24,
-                            icon: const Icon(Icons.edit_note_outlined),
+                            icon: const ImageIcon(
+                              AssetImage('assets/icons/vuesax-linear-edit.png'),
+                              color: Color(0XFF84BD00),
+                            ),
                             onPressed: () {},
                           ))
                     ],
