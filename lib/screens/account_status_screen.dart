@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_cre/models/account_detail.dart';
 import 'package:app_cre/screens/account_history_screen.dart';
+import 'package:app_cre/screens/edit_reference_screen.dart';
 import 'package:app_cre/services/auth_service.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/app_bar.dart';
@@ -124,7 +125,14 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                           ),
                         )),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditReferenceScreen(
+                                          reference: accountDetail.aliasName,
+                                        )));
+                          },
                           icon: const ImageIcon(
                             AssetImage('assets/icons/vuesax-linear-edit.png'),
                             color: Color(0XFF84BD00),
