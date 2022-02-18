@@ -56,14 +56,21 @@ class _FormLogin extends StatelessWidget {
             const _Telefono(),
             const SizedBox(height: 30),
             MaterialButton(
+                padding: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
                 elevation: 0,
-                color: const Color(0xFF84BD00),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                  constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width * 0.75,
+                      maxWidth: MediaQuery.of(context).size.width * 0.75,
+                      maxHeight: 50),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: const LinearGradient(
+                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: Text(
                     loginForm.isLoading ? 'Espere por favor ....' : 'Ingresar',
                     style: const TextStyle(color: Colors.white, fontSize: 16),
@@ -86,7 +93,7 @@ class _FormLogin extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                   // //Todo Login Forms
                   if (!loginForm.isValidForm()) return;
-                })
+                }),
           ])),
     );
   }
@@ -109,17 +116,24 @@ class _FormLogin extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: MaterialButton(
+                padding: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
                 elevation: 0,
-                color: const Color(0xFF618A02),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width * 0.5,
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      maxHeight: 50),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: const LinearGradient(
+                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
-                    "Ingresar PIN",
-                    style: TextStyle(color: Colors.white),
+                    'Ingresar PIN',
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {
@@ -154,17 +168,24 @@ class _FormLogin extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: MaterialButton(
+                padding: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
                 elevation: 0,
-                color: const Color(0xFF618A02),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width * 0.5,
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      maxHeight: 50),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: const LinearGradient(
+                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
-                    "Volver a Intentar",
-                    style: TextStyle(color: Colors.white),
+                    'Volver a Intentar',
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {

@@ -54,14 +54,21 @@ class _FormRegisterAccount extends StatelessWidget {
             const _AliasName(),
             const SizedBox(height: 30),
             MaterialButton(
+                padding: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
+                    borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
                 elevation: 0,
-                color: const Color(0xFF84BD00),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                  constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width * 0.75,
+                      maxWidth: MediaQuery.of(context).size.width * 0.75,
+                      maxHeight: 50),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: const LinearGradient(
+                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
                     'Registrar',
                     style: const TextStyle(color: Colors.white, fontSize: 16),
@@ -97,7 +104,7 @@ class _FormRegisterAccount extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                   // //Todo Login Forms
                   if (!registerForm.isValidForm()) return;
-                })
+                }),
           ])),
     );
   }
@@ -118,25 +125,31 @@ class _FormRegisterAccount extends StatelessWidget {
         ),
         actions: <Widget>[
           Align(
-            alignment: Alignment.center,
-            child: MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                disabledColor: Colors.black87,
-                elevation: 0,
-                color: const Color(0xFF618A02),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                  child: const Text(
-                    "Ingresar",
-                    style: TextStyle(color: Colors.white),
+              alignment: Alignment.center,
+              child: MaterialButton(
+                  padding: EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  disabledColor: Colors.black87,
+                  elevation: 0,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxHeight: 50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    child: const Text(
+                      'Ingresar',
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'home');
-                }),
-          ),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, 'home');
+                  })),
         ],
       ),
     );
@@ -158,25 +171,31 @@ class _FormRegisterAccount extends StatelessWidget {
         ),
         actions: <Widget>[
           Align(
-            alignment: Alignment.center,
-            child: MaterialButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                disabledColor: Colors.black87,
-                elevation: 0,
-                color: const Color(0xFF618A02),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                  child: const Text(
-                    "Regresar",
-                    style: TextStyle(color: Colors.white),
+              alignment: Alignment.center,
+              child: MaterialButton(
+                  padding: EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  disabledColor: Colors.black87,
+                  elevation: 0,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxHeight: 50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    child: const Text(
+                      'Regresar',
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
-          ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })),
         ],
       ),
     );
