@@ -6,7 +6,7 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          Text("data"),
+          Text("Perfil"),
         ],
       ),
     );

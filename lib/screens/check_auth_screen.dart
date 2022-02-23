@@ -2,8 +2,8 @@ import 'package:app_cre/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/screens/screens.dart';
 
 class CheckAuthScreen extends StatelessWidget {
   const CheckAuthScreen({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class CheckAuthScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-          future: authService.readToken(),
+          future: authService.checkAuth(),
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             if (!snapshot.hasData) return const Text('');
 
@@ -24,7 +24,8 @@ class CheckAuthScreen extends StatelessWidget {
                 Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => const LoginScreen(),
+                        pageBuilder: (_, __, ___) =>
+                            IntroSliderPage(slides: []),
                         transitionDuration: const Duration(seconds: 0)));
               });
             } else {

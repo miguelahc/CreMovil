@@ -1,4 +1,5 @@
 class AccountDetail {
+  String companyNumber = "";
   String aliasName = "";
   String accountNumber = "";
   String accountType = "Pospago PD";

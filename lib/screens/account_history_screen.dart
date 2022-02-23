@@ -1,7 +1,5 @@
-import 'package:app_cre/models/account_detail.dart';
-import 'package:app_cre/services/auth_service.dart';
-import 'package:app_cre/widgets/app_bar.dart';
-import 'package:app_cre/widgets/custom_table.dart';
+import 'package:app_cre/models/models.dart';
+import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +46,12 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
               height: 60,
               alignment: Alignment.center,
               decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                  ),
+                ],
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
@@ -102,6 +106,12 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
             height: 110,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                  ),
+                ],
                 color: Color(0XFF3A3D5F),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Column(children: [

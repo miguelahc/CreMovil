@@ -8,8 +8,7 @@ import 'package:app_cre/providers/login_form_provider.dart';
 import 'package:app_cre/ui/input_decorations.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import '../models/user.dart';
+import 'package:app_cre/models/models.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -62,30 +61,32 @@ class _FormLogin extends StatelessWidget {
                 disabledColor: Colors.black87,
                 elevation: 0,
                 child: Container(
-                  constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width * 0.75,
-                      maxWidth: MediaQuery.of(context).size.width * 0.75,
-                      maxHeight: 50),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
-                  child: Text(
-                    loginForm.isLoading ? 'Espere por favor ....' : 'Ingresar',
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width * 0.75,
+                        maxWidth: MediaQuery.of(context).size.width * 0.75,
+                        maxHeight: 50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    child: loginForm.isLoading
+                        ? circularProgress()
+                        : const Text(
+                            'Ingresar',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )),
                 onPressed: () {
-                  if (loginForm.isValidForm()) {
+                  if (loginForm.isValidForm() && !loginForm.isLoading) {
+                    loginForm.isLoading = true;
                     var user = loginForm.getValues();
                     TokenService().readToken().then((value) {
                       UserService().sendPin(value, user.phone).then((value) {
                         var code = jsonDecode(value)["Code"];
                         if (code == 0) {
-                          _showDialogExit(context, user);
+                          _showDialogExit(context, user, loginForm);
                         } else {
-                          _showDialogError(context);
+                          _showDialogError(context, loginForm);
                         }
                       });
                     });
@@ -98,8 +99,9 @@ class _FormLogin extends StatelessWidget {
     );
   }
 
-  _showDialogExit(context, user) {
+  _showDialogExit(context, user, loginForm) {
     showDialog<String>(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
@@ -137,6 +139,7 @@ class _FormLogin extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  loginForm.isLoading = false;
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -150,9 +153,10 @@ class _FormLogin extends StatelessWidget {
     );
   }
 
-  _showDialogError(context) {
+  _showDialogError(context, loginForm) {
     showDialog<String>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
             const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
@@ -189,6 +193,7 @@ class _FormLogin extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  loginForm.isLoading = false;
                   Navigator.pop(context);
                 }),
           ),
@@ -237,54 +242,68 @@ class _Telefono extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
-    return Row(children: [
-      // SizedBox(height: MediaQuery.of(context).size.height * 0.35),
-      SizedBox(
-        width: 80,
-        child: DropdownButtonFormField(
-            value: '+591',
-            items: const [
-              DropdownMenuItem(value: '+591', child: Text('+591')),
-              DropdownMenuItem(value: '+592', child: Text('+592')),
-              DropdownMenuItem(value: '+593', child: Text('+593')),
-            ],
-            decoration: const InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF84BD00)),
+    return Container(
+      alignment: Alignment.center,
+      child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        Container(
+          width: 100,
+          child: DropdownButtonFormField(
+              value: '+591',
+              items: [
+                DropdownMenuItem(
+                    value: '+591',
+                    child: Row(children: [
+                      Image.asset("assets/icons/bolivia.png"),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Text('+591')
+                    ])),
+                DropdownMenuItem(
+                    value: '+593',
+                    child: Row(children: [
+                      Image.asset("assets/icons/ecuador.png"),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Text('+593')
+                    ])),
+              ],
+              decoration: const InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF84BD00)),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
               ),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
-            ),
-            onChanged: (value) {
-              loginForm.setPrefixPhone(value.toString());
-            }),
-      ),
-      const Text(" "),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.6,
-        child: TextFormField(
-          // maxLength: 100,
-          initialValue: '',
-          keyboardType: TextInputType.number,
-          decoration: InputDecorations.authInputDecoration(
-              hintText: 'Teléfono',
-              labelText: 'Teléfono móvil',
-              prefixIcon: Icons.phone_android),
-          style: const TextStyle(fontSize: 14),
-          onChanged: (value) => loginForm.setPhone(value),
-          validator: (value1) {
-            String pattern = r'^\d+$';
-            RegExp regExp = RegExp(pattern);
-            if (!regExp.hasMatch(value1 ?? '')) {
-              return "Solo se aceptan carateres numericos";
-            }
-            if (value1 == null || value1 == '') {
-              return 'Este campo es requerido';
-            }
-            return value1.length < 4 ? 'Minimo 4 números' : null;
-          },
+              onChanged: (value) {
+                loginForm.setPrefixPhone(value.toString());
+              }),
         ),
-      )
-    ]);
+        Expanded(
+          child: TextFormField(
+            initialValue: '',
+            keyboardType: TextInputType.number,
+            decoration: InputDecorations.authInputDecoration(
+                hintText: 'Teléfono',
+                labelText: 'Teléfono móvil',
+                prefixIcon: Icons.phone_android),
+            style: const TextStyle(fontSize: 14),
+            onChanged: (value) => loginForm.setPhone(value),
+            validator: (value1) {
+              String pattern = r'^\d+$';
+              RegExp regExp = RegExp(pattern);
+              if (!regExp.hasMatch(value1 ?? '')) {
+                return "Solo se aceptan carateres numericos";
+              }
+              if (value1 == null || value1 == '') {
+                return 'Este campo es requerido';
+              }
+              return value1.length < 4 ? 'Minimo 4 números' : null;
+            },
+          ),
+        )
+      ]),
+    );
   }
 }

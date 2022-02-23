@@ -3,11 +3,18 @@ import 'package:app_cre/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../models/user.dart';
+import 'package:app_cre/models/models.dart';
 
-class ValidateCodScreen extends StatelessWidget {
+class ValidateCodScreen extends StatefulWidget {
   final User user;
   const ValidateCodScreen({Key? key, required this.user}) : super(key: key);
+
+  @override
+  State<ValidateCodScreen> createState() => _ValidateCodScreenState();
+}
+
+class _ValidateCodScreenState extends State<ValidateCodScreen> {
+  bool onLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,7 @@ class ValidateCodScreen extends StatelessWidget {
                             const Text("Teléfono",
                                 style: TextStyle(color: Color(0xFF999999))),
                             Text(
-                              "${user.prefixPhone} ${user.phone}",
+                              "${widget.user.prefixPhone} ${widget.user.phone}",
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             )
@@ -65,50 +72,75 @@ class ValidateCodScreen extends StatelessWidget {
                     ),
                     length: 4,
                     onCompleted: (code) {
-                      TokenService().readToken().then((token) {
-                        UserService()
-                            .getPin(token, user.phone, user.phone)
-                            .then((response) {
-                          String message = jsonDecode(response)['Message'];
-                          var pin =
-                              UserService().findPinInPaternString(message);
-                          if (code == pin) {
-                            UserService().saveUserData(
-                                pin,
-                                user.name,
-                                user.phone,
-                                user.prefixPhone,
-                                user.prefixPhone + user.phone);
-                            UserService().readUserData().then((data) {
-                              var userData = jsonDecode(data);
-                              PushNotificationService()
-                                  .readPhonePushId()
-                                  .then((phonePushId) {
-                                UserService()
-                                    .registerUser(token, userData, phonePushId)
-                                    .then((value) {
-                                  print(value);
+                      if (!onLoading) {
+                        setState(() {
+                          onLoading = true;
+                        });
+                        TokenService().readToken().then((token) {
+                          UserService()
+                              .getPin(
+                                  token, widget.user.phone, widget.user.phone)
+                              .then((response) {
+                            String message = jsonDecode(response)['Message'];
+                            var pin =
+                                UserService().findPinInPaternString(message);
+                            if (code == pin) {
+                              UserService().saveUserData(
+                                  pin,
+                                  widget.user.name,
+                                  widget.user.phone,
+                                  widget.user.prefixPhone,
+                                  widget.user.prefixPhone + widget.user.phone);
+                              UserService().readUserData().then((data) {
+                                var userData = jsonDecode(data);
+                                PushNotificationService()
+                                    .readPhonePushId()
+                                    .then((phonePushId) {
+                                  UserService()
+                                      .registerUser(
+                                          token, userData, phonePushId)
+                                      .then((value) {
+                                    print(value);
+                                  });
                                 });
                               });
-                            });
-                            AccountService()
-                                .getAccounts(token, pin, user.phone,
-                                    user.prefixPhone + user.phone)
-                                .then((value) {
-                              var data = jsonDecode(value)["Message"];
-                              List accounts = jsonDecode(data);
-                              // AccountService().getListOfAccounts(data);
-                              if (accounts.isEmpty) {
-                                _showDialogCreateAccount(context);
-                              } else {
-                                Navigator.pushReplacementNamed(context, "home");
-                              }
-                            });
-                          } else {
-                            _showDialogError(context);
-                          }
+                              AccountService()
+                                  .getAccounts(
+                                      token,
+                                      pin,
+                                      widget.user.phone,
+                                      widget.user.prefixPhone +
+                                          widget.user.phone)
+                                  .then((value) {
+                                var data = jsonDecode(value)["Message"];
+                                List accounts = jsonDecode(data);
+                                // AccountService().getListOfAccounts(data);
+                                if (accounts.isEmpty) {
+                                  setState(() {
+                                    onLoading = false;
+                                  });
+                                  _showDialogCreateAccount(context);
+                                } else {
+                                  setState(() {
+                                    onLoading = false;
+                                  });
+                                  // Navigator.pop(context);
+                                  // Navigator.pop(context);
+                                  // Navigator.pushReplacementNamed(
+                                  //     context, "home");
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      'home', (Route<dynamic> route) => false);
+                                }
+                              });
+                            } else {
+                              setState(() {
+                                onLoading = false;
+                              });
+                              _showDialogError(context);
+                            }
+                          });
                         });
-                      });
+                      }
                     },
                     onChanged: (String value) {},
                   ),
@@ -133,19 +165,32 @@ class ValidateCodScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         onTap: () {
-                          TokenService().readToken().then((token) {
-                            UserService()
-                                .sendPin(token, user.phone)
-                                .then((value) {
-                              var code = jsonDecode(value)["Code"];
-                              if (code == 0) {
-                                _showDialogExit(context, user);
-                              }
+                          if (!onLoading) {
+                            setState(() {
+                              onLoading = true;
                             });
-                          });
+
+                            TokenService().readToken().then((token) {
+                              UserService()
+                                  .sendPin(token, widget.user.phone)
+                                  .then((value) {
+                                var code = jsonDecode(value)["Code"];
+                                if (code == 0) {
+                                  setState(() {
+                                    onLoading = false;
+                                  });
+                                  _showDialogExit(context, widget.user);
+                                }
+                              });
+                            });
+                          }
                         },
                       )
                     ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 32),
+                    child: onLoading ? circularProgress() : const SizedBox(),
                   )
                 ],
               ),
@@ -163,6 +208,7 @@ class ValidateCodScreen extends StatelessWidget {
   _showDialogCreateAccount(context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
             const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
@@ -209,6 +255,7 @@ class ValidateCodScreen extends StatelessWidget {
   _showDialogExit(context, user) {
     showDialog<String>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
             const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
@@ -255,6 +302,7 @@ class ValidateCodScreen extends StatelessWidget {
   _showDialogError(context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
             const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
