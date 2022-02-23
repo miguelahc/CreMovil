@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/models.dart';
+import 'package:app_cre/models/account.dart';
+import 'package:app_cre/models/account_detail.dart';
 import 'package:app_cre/screens/edit_reference_screen.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
-import 'package:app_cre/widgets/circular_progress.dart';
+import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_slidable/flutter_slidable.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -16,48 +15,11 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   var accounts = [];
-  var services = [
-    {
-      "PhoneNumber": "78498664",
-      "PhoneImei": "HHH",
-      "AccountNumber": "762078",
-      "AccountName": "ZAPATA ORTIZ ELENA",
-      "CompanyNumber": "1",
-      "AliasName": "Depar",
-      "AccountType": "PD"
-    },
-    {
-      "PhoneNumber": "78498664",
-      "PhoneImei": "HHH",
-      "AccountNumber": "762078",
-      "AccountName": "ZAPATA ORTIZ ELENA",
-      "CompanyNumber": "1",
-      "AliasName": "Empresa",
-      "AccountType": "PD"
-    }
-  ];
-  var general = [
-    {
-      "PhoneNumber": "78498664",
-      "PhoneImei": "HHH",
-      "AccountNumber": "762078",
-      "AccountName": "ZAPATA ORTIZ ELENA",
-      "CompanyNumber": "1",
-      "AliasName": "Oficina",
-      "AccountType": "PD"
-    },
-    {
-      "PhoneNumber": "78498664",
-      "PhoneImei": "HHH",
-      "AccountNumber": "762078",
-      "AccountName": "ZAPATA ORTIZ ELENA",
-      "CompanyNumber": "1",
-      "AliasName": "Casa mama",
-      "AccountType": "PD"
-    }
-  ];
+  var services = [];
+  var general = [];
 
   bool onLoad = true;
+  bool onLoadDialog = false;
 
   @override
   void initState() {
@@ -70,8 +32,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 userData["PhoneImei"])
             .then((value) {
           var data = jsonDecode(value)["Message"];
+          Iterable<dynamic> all = jsonDecode(data);
           setState(() {
-            accounts = jsonDecode(data);
+            accounts = all
+                .where((element) => element["AccountTypeRegister"] == "Cuenta")
+                .toList();
             this.onLoad = false;
           });
         });
@@ -182,156 +147,331 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 )),
         ]));
   }
-}
 
-Widget item(context, data) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 8),
-    height: 52,
-    decoration: const BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        gradient:
-            LinearGradient(colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
-    child: Row(children: [
-      Expanded(
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: [
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AccountStatusScreen(
-                                accountNumber: data["AccountNumber"],
-                                companyNumber: data["CompanyNumber"])));
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    width: MediaQuery.of(context).size.width - 32,
-                    child: Row(children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8, right: 16),
-                        child: ImageIcon(
-                          AssetImage(
-                              'assets/icons/vuesax-linear-keyboard-open-blue.png'),
-                          color: Color(0XFF3A3D5F),
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Nro.",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0XFF393D5E),
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(data["AccountNumber"],
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0XFF999999)))
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Referencia",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0XFF393D5E),
-                                    fontWeight: FontWeight.w500)),
-                            Text(data["AliasName"],
-                                style: const TextStyle(
-                                    fontSize: 12, color: Color(0XFF999999)))
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text("Deuda",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0XFF393D5E),
-                                    fontWeight: FontWeight.w500)),
-                            Text("Bs. 3.125.10",
-                                style: TextStyle(
-                                    fontSize: 12, color: Color(0XFF999999)))
-                          ],
-                        ),
-                      ),
-                      MaterialButton(
-                          padding: EdgeInsets.all(0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          disabledColor: Colors.black87,
-                          elevation: 0,
-                          child: Container(
-                              constraints: const BoxConstraints(
-                                  minWidth: 80, maxHeight: 30),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  gradient: const LinearGradient(colors: [
-                                    Color(0XFF618A02),
-                                    Color(0XFF84BD00)
-                                  ])),
-                              child: Row(
-                                children: const [
-                                  Text(
-                                    'Pagar',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12),
-                                  ),
-                                ],
-                              )),
-                          onPressed: () {}),
-                      const ImageIcon(
-                        AssetImage('assets/icons/vuesax-linear-more.png'),
-                        color: Colors.black,
-                      ),
-                    ]),
-                  ),
-                ),
-                IconButton(
-                    onPressed: () {
+  Widget item(context, data) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 8),
+      height: 52,
+      decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 6,
+            ),
+          ],
+          color: Colors.amber,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          gradient:
+              LinearGradient(colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+      child: Row(children: [
+        Expanded(
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditReferenceScreen(
-                                    reference: data["AliasName"],
-                                  )));
+                              builder: (context) => AccountStatusScreen(
+                                  accountNumber: data["AccountNumber"],
+                                  companyNumber: data["CompanyNumber"])));
                     },
-                    icon: const ImageIcon(
-                      AssetImage('assets/icons/vuesax-linear-edit-white.png'),
-                      color: Colors.black,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const ImageIcon(
-                      AssetImage('assets/icons/vuesax-linear-trash.png'),
-                      color: Colors.black,
-                    )),
-              ],
-            )
-          ],
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      width: MediaQuery.of(context).size.width - 32,
+                      child: Row(children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8, right: 16),
+                          child: ImageIcon(
+                            AssetImage(
+                                'assets/icons/vuesax-linear-keyboard-open-blue.png'),
+                            color: Color(0XFF3A3D5F),
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Nro.",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0XFF393D5E),
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(data["AccountNumber"],
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Color(0XFF999999)))
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text("Referencia",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0XFF393D5E),
+                                      fontWeight: FontWeight.w500)),
+                              Text(data["AliasName"],
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Color(0XFF999999)))
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text("Deuda",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0XFF393D5E),
+                                      fontWeight: FontWeight.w500)),
+                              Text("Bs. 3.125.10",
+                                  style: TextStyle(
+                                      fontSize: 12, color: Color(0XFF999999)))
+                            ],
+                          ),
+                        ),
+                        MaterialButton(
+                            padding: EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            disabledColor: Colors.black87,
+                            elevation: 0,
+                            child: Container(
+                                constraints: const BoxConstraints(
+                                    minWidth: 80, maxHeight: 30),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    gradient: const LinearGradient(colors: [
+                                      Color(0XFF618A02),
+                                      Color(0XFF84BD00)
+                                    ])),
+                                child: Row(
+                                  children: const [
+                                    Text(
+                                      'Pagar',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 12),
+                                    ),
+                                  ],
+                                )),
+                            onPressed: () {}),
+                        const ImageIcon(
+                          AssetImage('assets/icons/vuesax-linear-more.png'),
+                          color: Colors.black,
+                        ),
+                      ]),
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        AccountDetail accountDetail = AccountDetail();
+                        accountDetail.accountNumber = data["AccountNumber"];
+                        accountDetail.companyNumber = data["CompanyNumber"];
+                        accountDetail.aliasName = data["AliasName"];
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditReferenceScreen(
+                                      account: accountDetail,
+                                    )));
+                      },
+                      icon: const ImageIcon(
+                        AssetImage('assets/icons/vuesax-linear-edit-white.png'),
+                        color: Colors.black,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        AccountDetail accountDetail = AccountDetail();
+                        accountDetail.accountNumber = data["AccountNumber"];
+                        accountDetail.companyNumber = data["CompanyNumber"];
+                        accountDetail.aliasName = data["AliasName"];
+                        _showDialogConfirm(context, accountDetail);
+                      },
+                      icon: const ImageIcon(
+                        AssetImage('assets/icons/vuesax-linear-trash.png'),
+                        color: Colors.black,
+                      )),
+                ],
+              )
+            ],
+          ),
         ),
+      ]),
+    );
+  }
+
+  _showDialogExit(context, AccountDetail accountDetail) {
+    var aliasName = accountDetail.aliasName;
+    showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        contentPadding:
+            const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+        actionsPadding: const EdgeInsets.only(bottom: 30),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        content: Text(
+          'El registro $aliasName\nse ha eliminado',
+          style: TextStyle(fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
+        actions: <Widget>[
+          Align(
+              alignment: Alignment.center,
+              child: MaterialButton(
+                  padding: EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  disabledColor: Colors.black87,
+                  elevation: 0,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxHeight: 50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    child: const Text(
+                      'Aceptar',
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, "home");
+                  })),
+        ],
       ),
-    ]),
-  );
+    );
+  }
+
+  _showDialogConfirm(context, AccountDetail accountDetail) {
+    var aliasName = accountDetail.aliasName;
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        contentPadding:
+            const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+        actionsPadding: const EdgeInsets.only(bottom: 30),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        content: Text(
+          '¿Está seguro que desea\neliminar $aliasName \nde la Aplicación Móvil?',
+          style: TextStyle(fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                  alignment: Alignment.center,
+                  child: MaterialButton(
+                      padding: EdgeInsets.all(0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      disabledColor: Colors.black87,
+                      elevation: 0,
+                      child: Container(
+                        constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width * 0.25,
+                            maxWidth: MediaQuery.of(context).size.width * 0.25,
+                            maxHeight: 50),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            gradient: const LinearGradient(colors: [
+                              Color(0XFF618A02),
+                              Color(0XFF84BD00)
+                            ])),
+                        child: onLoadDialog
+                            ? circularProgress()
+                            : const Text(
+                                'Eliminar',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          onLoadDialog = true;
+                        });
+                        TokenService().readToken().then((token) {
+                          UserService().readUserData().then((data) {
+                            var userData = jsonDecode(data);
+                            AccountService()
+                                .disableAccount(
+                                    token,
+                                    userData,
+                                    accountDetail.accountNumber,
+                                    accountDetail.companyNumber)
+                                .then((value) {
+                              print(jsonDecode(value));
+                              setState(() {
+                                onLoadDialog = false;
+                              });
+                              Navigator.pop(context);
+                              _showDialogExit(context, accountDetail);
+                            });
+                          });
+                        });
+                      })),
+              const SizedBox(
+                width: 15,
+              ),
+              Align(
+                  alignment: Alignment.center,
+                  child: MaterialButton(
+                      padding: EdgeInsets.all(0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      disabledColor: Colors.black87,
+                      elevation: 0,
+                      child: Container(
+                        constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width * 0.25,
+                            maxWidth: MediaQuery.of(context).size.width * 0.25,
+                            maxHeight: 50),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          border:
+                              Border.all(color: Color(0XFF3A3D5F), width: 1.5),
+                        ),
+                        child: const Text(
+                          'Cancelar',
+                          style:
+                              TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      })),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }
 
 class _CajaSuperiorDatos extends StatefulWidget {
@@ -373,14 +513,12 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black26,
-        //     spreadRadius: 5,
-        //     blurRadius: 7,
-        //     offset: Offset(0, 3),
-        //   ),
-        // ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 6,
+          ),
+        ],
       ),
       child: Container(
         padding: EdgeInsets.only(left: 12, right: 12),
@@ -456,6 +594,12 @@ class sabiasQue extends StatelessWidget {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
           color: Color(0XFFF7F7F7),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 6,
+            ),
+          ],
         ),
         child: Column(
           children: [

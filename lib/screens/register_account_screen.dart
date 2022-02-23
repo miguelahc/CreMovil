@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/account.dart';
+import 'package:app_cre/models/models.dart';
 import 'package:app_cre/providers/register_account_form_provider.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/input_decorations.dart';
@@ -69,13 +69,17 @@ class _FormRegisterAccount extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       gradient: const LinearGradient(
                           colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
-                  child: const Text(
-                    'Registrar',
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+                  child: registerForm.isLoading
+                      ? circularProgress()
+                      : const Text(
+                          'Registrar',
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 16),
+                        ),
                 ),
                 onPressed: () {
-                  if (registerForm.isValidForm()) {
+                  if (registerForm.isValidForm() && !registerForm.isLoading) {
+                    registerForm.isLoading = true;
                     TokenService().readToken().then((token) {
                       UserService().readUserData().then((data) {
                         var userData = jsonDecode(data);
@@ -87,13 +91,22 @@ class _FormRegisterAccount extends StatelessWidget {
                               .registerAccount(
                                   token, userData, account, phonePushId)
                               .then((data) {
-                            var message = jsonDecode(data)["Message"];
-                            var companyName =
-                                jsonDecode(message)["CompanyName"];
-                            var clientName = jsonDecode(message)["ClientName"];
-                            if (companyName != null && clientName != null) {
-                              _showDialogExit(context);
+                            var code = jsonDecode(data)["Code"];
+                            if (code == 0) {
+                              var message = jsonDecode(data)["Message"];
+                              var companyName =
+                                  jsonDecode(message)["CompanyName"];
+                              var clientName =
+                                  jsonDecode(message)["ClientName"];
+                              if (companyName != null && clientName != null) {
+                                registerForm.isLoading = false;
+                                _showDialogExit(context);
+                              } else {
+                                registerForm.isLoading = false;
+                                _showDialogError(context);
+                              }
                             } else {
+                              registerForm.isLoading = false;
                               _showDialogError(context);
                             }
                           });
@@ -112,6 +125,7 @@ class _FormRegisterAccount extends StatelessWidget {
   _showDialogExit(context) {
     showDialog<String>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
             const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
@@ -148,7 +162,7 @@ class _FormRegisterAccount extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'home');
+                    Navigator.popAndPushNamed(context, 'home');
                   })),
         ],
       ),
@@ -158,6 +172,7 @@ class _FormRegisterAccount extends StatelessWidget {
   _showDialogError(context) {
     showDialog<String>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
             const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
@@ -285,7 +300,7 @@ class _AliasName extends StatelessWidget {
         registerForm.aliasName = value;
       },
       validator: (value) {
-        String pattern = r'^[a-zA-Z]+$';
+        String pattern = r'^[a-zA-Z\s]+$';
         RegExp regExp = RegExp(pattern);
 
         return regExp.hasMatch(value ?? '')

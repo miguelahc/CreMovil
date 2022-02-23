@@ -1,6 +1,5 @@
-import 'package:app_cre/services/auth_service.dart';
-import 'package:app_cre/widgets/app_bar.dart';
-import 'package:app_cre/widgets/end_drawer.dart';
+import 'package:app_cre/services/services.dart';
+import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +21,6 @@ class _NotificationCategoryScreenState
         backgroundColor: Color(0XFFF7F7F7),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
-        body: Text("dfghjk"));
+        body: Text("Notification"));
   }
 }

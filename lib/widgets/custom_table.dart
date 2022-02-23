@@ -18,6 +18,12 @@ class CustomTable extends StatelessWidget {
             height: 50,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 6,
+                ),
+              ],
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),

@@ -10,6 +10,6 @@ class InvoiceDetail {
   Iterable<dynamic> energyPower = [];
   Iterable<dynamic> municipalFees = [];
   Iterable<dynamic> chargesPayments = [];
-
+  Iterable<dynamic> others = [];
   InvoiceDetail(this.documentNumber, this.companyNumber);
 }

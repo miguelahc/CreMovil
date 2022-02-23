@@ -1,3 +1,4 @@
+import 'package:app_cre/widgets/item_option.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -68,31 +69,32 @@ class _NotificationScreenState extends State<NotificationScreen> {
               controller: _pageController,
               children: [
                 Container(
-                    padding: EdgeInsets.only(top: 16),
+                    padding: EdgeInsets.only(top: 16, left: 1, right: 1),
                     child: Column(
                       children: [
-                        option("Mantenimiento preventivo", "calendar.png",
+                        itemOption("Mantenimiento preventivo", "calendar.png",
                             () => null),
-                        option("Suspensión de servicio por mora",
+                        itemOption("Suspensión de servicio por mora",
                             "lamp-slash.png", () => null),
-                        option("Facturacion",
+                        itemOption("Facturacion",
                             "vuesax-linear-clipboard-text.png", () => null),
-                        option("Relaciones públicas",
+                        itemOption("Relaciones públicas",
                             "vuesax-linear-people.png", () => null),
-                        option("Servicio Técnico", "vuesax-linear-judge.png",
-                            () => null),
-                        option("Nueva conexión",
+                        itemOption("Servicio Técnico",
+                            "vuesax-linear-judge.png", () => null),
+                        itemOption("Nueva conexión",
                             "vuesax-linear-lamp-charge-blue.png", () => null)
                       ],
                     )),
                 Container(
-                    padding: EdgeInsets.only(top: 16),
+                    padding: EdgeInsets.only(top: 16, left: 8, right: 8),
                     child: Column(
                       children: [
-                        option("Asistencia social cooperativa",
+                        itemOption("Asistencia social cooperativa",
                             "vuesax-linear-star.png", () => null),
-                        option("Medco", "vuesax-linear-story.png", () => null),
-                        option("Crece", "vuesax-linear-send-square.png",
+                        itemOption(
+                            "Medco", "vuesax-linear-story.png", () => null),
+                        itemOption("Crece", "vuesax-linear-send-square.png",
                             () => null),
                       ],
                     )),
@@ -100,35 +102,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ))
           ]),
     ));
-  }
-
-  Widget option(String title, String icon, Function() function) {
-    return Container(
-      margin: const EdgeInsets.only(top: 8, bottom: 8),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: ListTile(
-          onTap: function,
-          leading: ImageIcon(
-            AssetImage("assets/icons/$icon"),
-            color: Color(0xFF3A3D5F),
-          ),
-          title: Row(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                    color: Color(0xFF3A3D5F),
-                    fontSize: 14,
-                    fontFamily: "Mulish",
-                    fontWeight: FontWeight.w600),
-              ),
-              Spacer(),
-              Icon(Icons.keyboard_arrow_right)
-            ],
-          )),
-    );
   }
 }
 

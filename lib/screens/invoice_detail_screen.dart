@@ -1,12 +1,8 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/invoice_detail.dart';
-import 'package:app_cre/services/auth_service.dart';
-import 'package:app_cre/services/invoice_service.dart';
+import 'package:app_cre/models/models.dart';
 import 'package:app_cre/services/services.dart';
-import 'package:app_cre/widgets/app_bar.dart';
-import 'package:app_cre/widgets/circular_progress.dart';
-import 'package:app_cre/widgets/end_drawer.dart';
+import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -84,6 +80,12 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                         height: 70,
                         alignment: Alignment.center,
                         decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                            ),
+                          ],
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
@@ -192,67 +194,74 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                           "camera-small.png"),
                       doubleRowData("Periodo: ", "02 nov. 2021 / 01 dic. 2021",
                           "Días: ", "31"),
-                      // Seccion energia y potencia
-                      section("Energía y potencia", "Monto Bs.", Colors.white),
-                      Column(
-                          children: invoiceDetail.energyPower
-                              .map((e) => doubleSimpleRowData(
-                                  e["Description"], e["Value"].toString()))
-                              .toList()),
-                      // Seccion tasas municipales
-                      section("Tasas municipales", "Monto Bs.", Colors.white),
-                      Column(
-                          children: invoiceDetail.municipalFees
-                              .map((e) => doubleSimpleRowData(
-                                  e["Description"], e["Value"].toString()))
-                              .toList()),
-                      // Seccion Cargos y abonos
-                      section("Cargos / abonos", "Monto Bs.", Colors.white),
-                      doubleSimpleRowData(
-                          "Beneficiarios por tarifa dignidad con", "3.00"),
+                      Expanded(
+                          child: ListView(
+                        children: [
+                          // Seccion energia y potencia
+                          section(
+                              "Energía y potencia", "Monto Bs.", Colors.white),
+                          Column(
+                              children: invoiceDetail.energyPower
+                                  .map((e) => doubleSimpleRowData(
+                                      e["Description"], e["Value"].toString()))
+                                  .toList()),
+                          // Seccion tasas municipales
+                          section(
+                              "Tasas municipales", "Monto Bs.", Colors.white),
+                          Column(
+                              children: invoiceDetail.municipalFees
+                                  .map((e) => doubleSimpleRowData(
+                                      e["Description"], e["Value"].toString()))
+                                  .toList()),
+                          // Seccion Cargos y abonos
+                          section("Cargos / abonos", "Monto Bs.", Colors.white),
 
-                      Column(
-                          children: invoiceDetail.chargesPayments
-                              .map((e) => doubleSimpleRowData(
-                                  e["Description"], e["Value"].toString()))
-                              .toList()),
+                          Column(
+                              children: invoiceDetail.chargesPayments
+                                  .map((e) => doubleSimpleRowData(
+                                      e["Description"], e["Value"].toString()))
+                                  .toList()),
 
-                      doubleSimpleRowData("Base p/cred. fiscal Bs.",
-                          invoiceDetail.baseTaxCredit.toString()),
-                      section(
-                          "Total facturado Bs.",
-                          invoiceDetail.totalInvoice.toString(),
-                          Color(0XFF393E5E)),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      MaterialButton(
-                          padding: EdgeInsets.all(0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          disabledColor: Colors.black87,
-                          elevation: 0,
-                          child: Container(
-                            constraints: BoxConstraints(
-                                minWidth:
-                                    MediaQuery.of(context).size.width * 0.75,
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.75,
-                                maxHeight: 50),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                gradient: const LinearGradient(colors: [
-                                  Color(0XFF618A02),
-                                  Color(0XFF84BD00)
-                                ])),
-                            child: const Text(
-                              'Pagar',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
+                          doubleSimpleRowData("Base p/cred. fiscal Bs.",
+                              invoiceDetail.baseTaxCredit.toString()),
+                          section(
+                              "Total facturado Bs.",
+                              invoiceDetail.totalInvoice.toString(),
+                              Color(0XFF393E5E)),
+                          const SizedBox(
+                            height: 16,
                           ),
-                          onPressed: () {})
+                          MaterialButton(
+                              padding: EdgeInsets.all(0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              disabledColor: Colors.black87,
+                              elevation: 0,
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    minWidth:
+                                        MediaQuery.of(context).size.width *
+                                            0.75,
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width *
+                                            0.75,
+                                    maxHeight: 50),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    gradient: const LinearGradient(colors: [
+                                      Color(0XFF618A02),
+                                      Color(0XFF84BD00)
+                                    ])),
+                                child: const Text(
+                                  'Pagar',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                              onPressed: () {})
+                        ],
+                      ))
                     ])),
               ));
   }
@@ -563,6 +572,12 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       children: [
         Container(
           decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 6,
+              ),
+            ],
             color: color,
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),

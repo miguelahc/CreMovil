@@ -8,6 +8,14 @@ class RegisterAccountFormProvider extends ChangeNotifier {
   String _identificationNumber = '';
   String _aliasName = '';
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
   bool isValidForm() {
     formKey.currentState?.save();
     return formKey.currentState?.validate() ?? false;

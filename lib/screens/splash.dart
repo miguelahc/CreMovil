@@ -1,5 +1,7 @@
 import 'package:app_cre/screens/screens.dart';
+import 'package:app_cre/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -14,13 +16,10 @@ class _SplashState extends State<Splash> {
   }
 
   _navigatetohome() async {
-    await Future.delayed(const Duration(milliseconds: 1500));
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => IntroSliderPage(
-                  slides: const [],
-                )));
+    await Future.delayed(const Duration(milliseconds: 3000));
+    TokenService().generateToken();
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => const CheckAuthScreen()));
   }
 
   @override

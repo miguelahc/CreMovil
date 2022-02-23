@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/account_detail.dart';
+import 'package:app_cre/models/models.dart';
+import 'package:app_cre/screens/register_reading_screen.dart';
+import 'package:app_cre/screens/simulate_invoice_screen.dart';
+import 'package:app_cre/services/services.dart';
+import 'package:app_cre/widgets/widgets.dart';
 import 'package:app_cre/screens/account_history_screen.dart';
 import 'package:app_cre/screens/edit_reference_screen.dart';
-import 'package:app_cre/services/auth_service.dart';
-import 'package:app_cre/services/services.dart';
-import 'package:app_cre/widgets/app_bar.dart';
-import 'package:app_cre/widgets/circular_progress.dart';
-import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +48,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
     setState(() {
       accountDetail.aliasName = message["AliasName"];
       accountDetail.accountNumber = message["AccountNumber"];
+      accountDetail.companyNumber = widget.companyNumber;
       accountDetail.titularName = message["TitularName"];
       accountDetail.address = message["Address"];
       accountDetail.state = message["StateAccount"];
@@ -79,6 +79,12 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                     height: 60,
                     alignment: Alignment.center,
                     decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 6,
+                        ),
+                      ],
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
@@ -126,11 +132,15 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                         )),
                         IconButton(
                           onPressed: () {
+                            Account account = Account(
+                                accountDetail.accountNumber,
+                                widget.companyNumber,
+                                accountDetail.aliasName);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EditReferenceScreen(
-                                          reference: accountDetail.aliasName,
+                                          account: accountDetail,
                                         )));
                           },
                           icon: const ImageIcon(
@@ -158,6 +168,12 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                         height: 110,
                         alignment: Alignment.center,
                         decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                              ),
+                            ],
                             color: Color(0XFF3A3D5F),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),
@@ -242,19 +258,28 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                   child: ListView(
                     children: <Widget>[
                       (accountDetail.totalDebt > 0.0)
-                          ? option("Pagar Deuda", "money-send-pay.png", () {})
+                          ? itemOption(
+                              "Pagar Deuda", "money-send-pay.png", () {})
                           : SizedBox(),
                       (accountDetail.accountType == "Prepago" &&
                               accountDetail.totalDebt == 0.0)
-                          ? option("Comprar Energia",
+                          ? itemOption("Comprar Energia",
                               "vuesax-linear-trend-up.png", () {})
                           : SizedBox(),
                       (accountDetail.accountType == "Pospago PD")
-                          ? option("Simular Factura",
-                              "vuesax-linear-document-cloud.png", () {})
+                          ? itemOption("Simular Factura",
+                              "vuesax-linear-document-cloud.png", () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SimulateInvoiceScreen(
+                                            accountDetail: accountDetail,
+                                          )));
+                            })
                           : SizedBox(),
                       (accountDetail.accountType != "Pago Extraordinario")
-                          ? option(
+                          ? itemOption(
                               "Historico de Cuenta", "vuesax-linear-note.png",
                               () {
                               Navigator.push(
@@ -267,43 +292,22 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                             })
                           : SizedBox(),
                       (accountDetail.accountType == "Pospago PD")
-                          ? option("Registrar Lectura del Medidor",
-                              "vuesax-linear-watch-status.png", () {})
+                          ? itemOption("Registrar Lectura del Medidor",
+                              "vuesax-linear-watch-status.png", () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegisterReadingScreen(
+                                            accountDetail: accountDetail,
+                                          )));
+                            })
                           : SizedBox()
                     ],
                   ),
                 )
               ]),
             )),
-    );
-  }
-
-  Widget option(String title, String icon, Function() function) {
-    return Container(
-      margin: const EdgeInsets.only(top: 5, bottom: 5),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: ListTile(
-          onTap: function,
-          leading: ImageIcon(
-            AssetImage("assets/icons/$icon"),
-            color: Color(0xFF3A3D5F),
-          ),
-          title: Row(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                    color: Color(0xFF3A3D5F),
-                    fontSize: 14,
-                    fontFamily: "Mulish",
-                    fontWeight: FontWeight.w600),
-              ),
-              Spacer(),
-              Icon(Icons.keyboard_arrow_right)
-            ],
-          )),
     );
   }
 

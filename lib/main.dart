@@ -1,9 +1,7 @@
 import 'package:app_cre/models/models.dart';
-import 'package:app_cre/screens/account_history_screen.dart';
 import 'package:app_cre/screens/notification_category_screen.dart';
 import 'package:app_cre/screens/register_account_screen.dart';
-import 'package:app_cre/services/pushnotification_service.dart';
-import 'package:app_cre/splash.dart';
+import 'package:app_cre/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/screens/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -68,20 +66,18 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: messengerKey,
       routes: {
-        'notification': (_) => NotificationCategoryScreen(),
-        'register': (_) => const RegisterAccountScreen(),
+        'splash': (_) => Splash(),
         'checking': (_) => const CheckAuthScreen(),
-        'validar': (_) => ValidateCodScreen(
-              user: User("", "", ""),
-            ),
-        'home': (_) => HomeScreen(),
-        'login': (_) => const LoginScreen(),
-        'messange': (_) => NotificationScreen(),
-        'perfil': (_) => ProfileScreen(),
         'bienvenida': (_) => IntroSliderPage(
               slides: const [],
             ),
-        'splash': (_) => Splash()
+        'login': (_) => const LoginScreen(),
+        'validar': (_) => ValidateCodScreen(
+              user: User("", "", ""),
+            ),
+        'register': (_) => const RegisterAccountScreen(),
+        'home': (_) => HomeScreen(),
+        'messange': (_) => NotificationScreen(),
       },
       // scaffoldMessengerKey: NotificationsService.messengerKey,
       theme: ThemeData.light().copyWith(

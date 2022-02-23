@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-class EditRefrenceFormProvider extends ChangeNotifier {
+class ReadingFormProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String _reference = "";
-
-  EditRefrenceFormProvider(this._reference);
+  String _reading = "";
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -20,10 +18,10 @@ class EditRefrenceFormProvider extends ChangeNotifier {
     return formKey.currentState?.validate() ?? false;
   }
 
-  set reference(String reference) {
-    _reference = reference;
+  set reading(String reading) {
+    _reading = reading;
     notifyListeners();
   }
 
-  String get reference => _reference;
+  String get reading => _reading;
 }
