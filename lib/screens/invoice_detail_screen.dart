@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,22 +74,17 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             ? circularProgress()
             : SafeArea(
                 child: Container(
-                    margin: EdgeInsets.only(left: 16, right: 16),
+                    margin: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                    ),
                     child: Column(children: [
                       Container(
+                        margin: EdgeInsets.only(bottom: 8),
                         padding: EdgeInsets.only(left: 16, right: 16),
                         height: 70,
                         alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 6,
-                            ),
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
+                        decoration: customBoxDecoration(10),
                         child: Row(children: [
                           Expanded(
                               child: Column(
@@ -194,6 +190,9 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                           "camera-small.png"),
                       doubleRowData("Periodo: ", "02 nov. 2021 / 01 dic. 2021",
                           "Días: ", "31"),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       Expanded(
                           child: ListView(
                         children: [
@@ -377,13 +376,10 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
   Widget rowData(String key, String value) {
     return Column(
       children: [
-        const Divider(
-          height: 20,
-          color: Colors.black,
-        ),
+        const CustomDivider(),
         Container(
           padding: EdgeInsets.only(left: 16),
-          height: 30,
+          height: 40,
           child: Row(
             children: [
               Text(
@@ -409,7 +405,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       children: [
         Container(
           padding: EdgeInsets.only(left: 16, right: 16),
-          height: 30,
+          height: 40,
           child: Row(
             children: [
               Expanded(
@@ -449,10 +445,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             ],
           ),
         ),
-        const Divider(
-          height: 20,
-          color: Colors.black,
-        ),
+        const CustomDivider()
       ],
     );
   }
@@ -461,13 +454,10 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       String key, String value, String text, String imagePath) {
     return Column(
       children: [
-        const Divider(
-          height: 22,
-          color: Colors.black,
-        ),
+        const CustomDivider(),
         Container(
           padding: EdgeInsets.only(left: 16, right: 16),
-          height: 30,
+          height: 40,
           child: Row(
             children: [
               Expanded(
@@ -519,10 +509,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             ],
           ),
         ),
-        const Divider(
-          height: 22,
-          color: Colors.black,
-        ),
+        const CustomDivider()
       ],
     );
   }
@@ -532,7 +519,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       children: [
         Container(
           padding: EdgeInsets.only(left: 16, right: 16),
-          height: 35,
+          height: 40,
           child: Row(
             children: [
               Expanded(
@@ -559,10 +546,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             ],
           ),
         ),
-        const Divider(
-          height: 10,
-          color: Colors.black,
-        ),
+        const CustomDivider()
       ],
     );
   }

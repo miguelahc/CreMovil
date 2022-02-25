@@ -5,7 +5,10 @@ import 'package:app_cre/models/account_detail.dart';
 import 'package:app_cre/screens/edit_reference_screen.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
+import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/widgets/widgets.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -36,6 +39,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           setState(() {
             accounts = all
                 .where((element) => element["AccountTypeRegister"] == "Cuenta")
+                .toList();
+            services = all
+                .where(
+                    (element) => element["AccountTypeRegister"] == "Servicio")
                 .toList();
             this.onLoad = false;
           });
@@ -152,17 +159,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       height: 52,
-      decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 6,
-            ),
-          ],
-          color: Colors.amber,
+      decoration: BoxDecoration(
+          boxShadow: customBoxShadow(),
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          gradient:
-              LinearGradient(colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+          gradient: PrimaryGradient),
       child: Row(children: [
         Expanded(
           child: ListView(
@@ -510,28 +510,24 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
       width: MediaQuery.of(context).size.width * 0.96,
       height: 100,
       margin: const EdgeInsets.only(left: 8, top: 8),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-          ),
-        ],
-      ),
+      decoration: customBoxDecoration(10),
       child: Container(
         padding: EdgeInsets.only(left: 12, right: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: MediaQuery.of(context).size.width / 13,
-              backgroundColor: Colors.black,
+            DottedBorder(
+              padding: EdgeInsets.all(2),
+              borderType: BorderType.Circle,
+              dashPattern: [6, 3, 6, 3, 6, 3],
               child: CircleAvatar(
-                radius: MediaQuery.of(context).size.width / 10,
-                backgroundImage: AssetImage('assets/foto.png'),
+                radius: MediaQuery.of(context).size.width / 13,
+                backgroundColor: Colors.black,
+                child: CircleAvatar(
+                  radius: MediaQuery.of(context).size.width / 10,
+                  backgroundImage: AssetImage('assets/foto.png'),
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -559,7 +555,12 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                               AssetImage('assets/icons/vuesax-linear-edit.png'),
                               color: Color(0XFF84BD00),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HomeScreen(currentPage: 2)));
+                            },
                           ))
                     ],
                   ),
@@ -591,16 +592,10 @@ class sabiasQue extends StatelessWidget {
         margin: EdgeInsets.only(top: 8, bottom: 8),
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width * 0.22,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
-          color: Color(0XFFF7F7F7),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 6,
-            ),
-          ],
-        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
+            color: Color(0XFFF7F7F7),
+            boxShadow: customBoxShadow()),
         child: Column(
           children: [
             IconButton(

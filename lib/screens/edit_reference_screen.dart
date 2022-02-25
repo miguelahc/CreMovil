@@ -217,8 +217,10 @@ class _FormRegisterAccount extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen(currentPage: 1)));
                   })),
         ],
       ),

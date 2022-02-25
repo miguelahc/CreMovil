@@ -1,3 +1,6 @@
+import 'package:app_cre/models/notification.dart';
+import 'package:app_cre/screens/notification_category_screen.dart';
+import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/item_option.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +22,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
           duration: Duration(milliseconds: 500),
           curve: Curves.fastLinearToSlowEaseIn);
     });
+  }
+
+  openNotificationCategory(Notifications notification) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                NotificationCategoryScreen(notification: notification)));
   }
 
   @override
@@ -72,18 +83,36 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     padding: EdgeInsets.only(top: 16, left: 1, right: 1),
                     child: Column(
                       children: [
-                        itemOption("Mantenimiento preventivo", "calendar.png",
-                            () => null),
-                        itemOption("Suspensión de servicio por mora",
-                            "lamp-slash.png", () => null),
-                        itemOption("Facturacion",
-                            "vuesax-linear-clipboard-text.png", () => null),
-                        itemOption("Relaciones públicas",
-                            "vuesax-linear-people.png", () => null),
-                        itemOption("Servicio Técnico",
-                            "vuesax-linear-judge.png", () => null),
-                        itemOption("Nueva conexión",
-                            "vuesax-linear-lamp-charge-blue.png", () => null)
+                        itemOption(
+                            "Mantenimiento preventivo",
+                            "calendar.png",
+                            () => openNotificationCategory(
+                                Notifications("Mantenimiento preventivo"))),
+                        itemOption(
+                            "Suspensión de servicio por mora",
+                            "lamp-slash.png",
+                            () => openNotificationCategory(Notifications(
+                                "Suspensión de servicio por mora"))),
+                        itemOption(
+                            "Facturacion",
+                            "vuesax-linear-clipboard-text.png",
+                            () => openNotificationCategory(
+                                Notifications("Facturacion"))),
+                        itemOption(
+                            "Relaciones públicas",
+                            "vuesax-linear-people.png",
+                            () => openNotificationCategory(
+                                Notifications("Relaciones públicas"))),
+                        itemOption(
+                            "Servicio Técnico",
+                            "vuesax-linear-judge.png",
+                            () => openNotificationCategory(
+                                Notifications("Servicio Técnico"))),
+                        itemOption(
+                            "Nueva conexión",
+                            "vuesax-linear-lamp-charge-blue.png",
+                            () => openNotificationCategory(
+                                Notifications("Nueva conexión")))
                       ],
                     )),
                 Container(

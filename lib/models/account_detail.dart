@@ -2,7 +2,7 @@ class AccountDetail {
   String companyNumber = "";
   String aliasName = "";
   String accountNumber = "";
-  String accountType = "Pospago PD";
+  String accountType = "PD";
   String titularName = "";
   String category = "Domiciliaria-PC-BT";
   String address = "";

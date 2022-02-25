@@ -7,19 +7,26 @@ import 'package:provider/provider.dart';
 import 'package:app_cre/services/services.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  int currentPage;
+  HomeScreen({Key? key, required this.currentPage}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _paginaActual = 1;
+  late int _paginaActual;
   final List<Widget> _paginas = [
     NotificationScreen(),
     DashboardScreen(),
     ProfileScreen()
   ];
+
+  @override
+  void initState() {
+    _paginaActual = widget.currentPage;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               activeColor: Color(0xFF84BD00),
               backgroundColor: Color(0XFF3A3D5F),
               color: Colors.white,
-              initialActiveIndex: 1,
+              initialActiveIndex: _paginaActual,
               items: [
                 TabItem(
                   icon: const ImageIcon(

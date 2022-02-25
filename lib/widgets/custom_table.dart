@@ -1,5 +1,7 @@
 import 'package:app_cre/models/invoice_detail.dart';
 import 'package:app_cre/screens/invoice_detail_screen.dart';
+import 'package:app_cre/ui/box_decoration.dart';
+import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,19 +16,10 @@ class CustomTable extends StatelessWidget {
       children: [
         Container(
             padding: EdgeInsets.only(left: 16, right: 16),
-            margin: EdgeInsets.only(bottom: 16),
+            margin: EdgeInsets.only(bottom: 4),
             height: 50,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 6,
-                ),
-              ],
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
+            decoration: customBoxDecoration(10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -112,79 +105,81 @@ class CustomTable extends StatelessWidget {
   }
 
   Widget row(data, context) {
-    return GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => InvoiceDetailScreen(
-                        invoiceDetail: InvoiceDetail(
-                            data["DocumentNumber"], data["CompanyNumber"]),
-                      )));
-        },
-        child: Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            height: 40,
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      children: [
+        GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => InvoiceDetailScreen(
+                            invoiceDetail: InvoiceDetail(
+                                data["DocumentNumber"], data["CompanyNumber"]),
+                          )));
+            },
+            child: Container(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                height: 40,
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                        flex: 0,
-                        child: Container(
-                          child: Text(
-                            data["DateGestion"],
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0XFF999999)),
-                          ),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            data["Valuekwh"].toString(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0XFF999999)),
-                          ),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            data["TotalInvoice"].toString(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0XFF999999)),
-                          ),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                            alignment: Alignment.center,
-                            child: Row(
-                              children: [
-                                Text(
-                                  data["DateInvoice"],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0XFF999999)),
-                                ),
-                                Icon(Icons.keyboard_arrow_right)
-                              ],
-                            ))),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            flex: 0,
+                            child: Container(
+                              child: Text(
+                                data["DateGestion"],
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0XFF999999)),
+                              ),
+                            )),
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                data["Valuekwh"].toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0XFF999999)),
+                              ),
+                            )),
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                data["TotalInvoice"].toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0XFF999999)),
+                              ),
+                            )),
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      data["DateInvoice"],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color(0XFF999999)),
+                                    ),
+                                    Icon(Icons.keyboard_arrow_right)
+                                  ],
+                                ))),
+                      ],
+                    ),
                   ],
-                ),
-                const Divider(
-                  color: Colors.black,
-                  height: 10,
-                )
-              ],
-            )));
+                ))),
+        CustomDivider()
+      ],
+    );
   }
 }

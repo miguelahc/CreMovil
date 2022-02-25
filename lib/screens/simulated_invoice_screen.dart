@@ -88,21 +88,9 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                                       ? e["Concept"]
                                       : e["Value"].toInt().toString()))
                               .toList()),
-                      // rowData("Titular: ", invoiceDetail.titularName),
-                      // rowData("Categoria: ", invoiceDetail.categoryName),
-                      // rowData(
-                      //     "Última lectura: ", reading.lastReading.toString()),
-                      // rowData(
-                      //     "Fecha última lectura: ", reading.lastReadingDate),
-                      // rowData("Lectura actual: ",
-                      //     reading.currentReading.toString()),
-                      // rowData(
-                      //     "Fecha lectura actual: ", reading.currentReadingDate),
-                      // rowData("Días de consumo: ", reading.currentReadingDate),
-                      // rowData("Consumo kWh: ", reading.currentReadingDate),
-                      const Divider(
-                        height: 19,
-                        color: Color(0XFFC9C9C9),
+                      const CustomDivider(),
+                      const SizedBox(
+                        height: 8,
                       ),
                       Expanded(
                           child: ListView(
@@ -149,13 +137,10 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
   Widget rowData(String key, String value) {
     return Column(
       children: [
-        const Divider(
-          height: 15,
-          color: Color(0XFFC9C9C9),
-        ),
+        const CustomDivider(),
         Container(
           padding: EdgeInsets.only(left: 16),
-          height: 30,
+          height: 40,
           child: Row(
             children: [
               Text(
@@ -181,7 +166,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
       children: [
         Container(
           padding: EdgeInsets.only(left: 16, right: 16),
-          height: 35,
+          height: 40,
           child: Row(
             children: [
               Expanded(
@@ -208,10 +193,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
             ],
           ),
         ),
-        const Divider(
-          height: 9,
-          color: Colors.black,
-        )
+        const CustomDivider()
       ],
     );
   }
@@ -233,7 +215,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
           ),
           alignment: Alignment.center,
           padding: EdgeInsets.only(left: 16, right: 16),
-          margin: EdgeInsets.only(bottom: 4),
+          margin: EdgeInsets.only(left: 1.5, right: 1.5, top: 1, bottom: 1),
           height: 40,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

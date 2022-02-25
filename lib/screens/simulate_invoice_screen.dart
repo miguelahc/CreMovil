@@ -5,6 +5,7 @@ import 'package:app_cre/models/reading.dart';
 import 'package:app_cre/providers/reading_form_provider.dart';
 import 'package:app_cre/screens/simulated_invoice_screen.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/input_decorations.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,18 +57,10 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                   ),
                   Container(
                       padding: EdgeInsets.only(left: 16),
+                      margin: EdgeInsets.only(bottom: 8),
                       height: 80,
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
+                      decoration: customBoxDecoration(10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -114,25 +107,13 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                       )),
                   rowData("Titular: ", accountDetail.titularName),
                   rowData("Fecha última lectura: ", lastDate),
-                  const Divider(
-                    height: 18,
-                    color: Colors.black,
-                  ),
+                  const CustomDivider(),
                   Container(
                       height: 40,
                       margin: const EdgeInsets.only(
                           top: 32, bottom: 32, left: 64, right: 64),
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
+                      decoration: customBoxDecoration(10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -167,14 +148,11 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
   Widget rowData(String key, String value) {
     return Column(
       children: [
-        const Divider(
-          height: 20,
-          color: Colors.black,
-        ),
+        const CustomDivider(),
         Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(left: 16, right: 16),
-            height: 30,
+            height: 40,
             child: Row(
               children: [
                 Expanded(

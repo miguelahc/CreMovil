@@ -39,6 +39,7 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                         const ImageIcon(
                           AssetImage('assets/icons/vuesax-linear-mobileXL.png'),
                           color: Color(0XFF3A3D5F),
+                          size: 38,
                         ),
                         const SizedBox(width: 10),
                         Column(

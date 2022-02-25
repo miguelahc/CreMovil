@@ -76,8 +76,10 @@ class _MyAppState extends State<MyApp> {
               user: User("", "", ""),
             ),
         'register': (_) => const RegisterAccountScreen(),
-        'home': (_) => HomeScreen(),
-        'messange': (_) => NotificationScreen(),
+        'home': (_) => HomeScreen(
+              currentPage: 1,
+            ),
+        'messange': (_) => HomeScreen(currentPage: 0),
       },
       // scaffoldMessengerKey: NotificationsService.messengerKey,
       theme: ThemeData.light().copyWith(

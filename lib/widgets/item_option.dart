@@ -1,26 +1,24 @@
+import 'package:app_cre/ui/box_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget itemOption(String title, String icon, Function() function) {
-  return Container(
-    margin: const EdgeInsets.only(top: 5, bottom: 5),
-    decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-          ),
-        ],
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10))),
-    child: ListTile(
-        onTap: function,
-        leading: ImageIcon(
-          AssetImage("assets/icons/$icon"),
-          color: Color(0xFF3A3D5F),
-        ),
-        title: Row(
+  return GestureDetector(
+    onTap: function,
+    child: Container(
+        height: 50,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(top: 5, bottom: 5, left: 1.5, right: 1.5),
+        decoration: customBoxDecoration(10),
+        child: Row(
           children: [
+            Padding(
+              padding: EdgeInsets.only(left: 16, right: 12),
+              child: ImageIcon(
+                AssetImage("assets/icons/$icon"),
+                color: Color(0xFF3A3D5F),
+              ),
+            ),
             Text(
               title,
               style: const TextStyle(
@@ -30,7 +28,10 @@ Widget itemOption(String title, String icon, Function() function) {
                   fontWeight: FontWeight.w600),
             ),
             Spacer(),
-            Icon(Icons.keyboard_arrow_right)
+            const Padding(
+              padding: EdgeInsets.only(left: 4, right: 12),
+              child: Icon(Icons.keyboard_arrow_right),
+            )
           ],
         )),
   );

@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:app_cre/models/account_type.dart';
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/screens/register_reading_screen.dart';
 import 'package:app_cre/screens/simulate_invoice_screen.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:app_cre/screens/account_history_screen.dart';
 import 'package:app_cre/screens/edit_reference_screen.dart';
@@ -75,19 +77,11 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
               margin: EdgeInsets.only(left: 16, right: 16),
               child: Column(children: [
                 Container(
+                    margin: EdgeInsets.only(bottom: 8),
                     padding: EdgeInsets.only(left: 16),
                     height: 60,
                     alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 6,
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
+                    decoration: customBoxDecoration(10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -158,12 +152,10 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                     "Usuario: ", "Asociado", "Estado: ", accountDetail.state),
                 doubleRowData("Distrito: ", accountDetail.dist, "Sección: ",
                     accountDetail.secc),
-                const Divider(
-                  height: 20,
-                  color: Colors.black,
-                ),
+                const CustomDivider(),
                 accountDetail.totalDebt > 0.0
                     ? Container(
+                        margin: EdgeInsets.only(top: 8),
                         padding: EdgeInsets.only(left: 16, right: 16),
                         height: 110,
                         alignment: Alignment.center,
@@ -245,7 +237,9 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                           ))
                         ]),
                       )
-                    : SizedBox(),
+                    : const SizedBox(
+                        height: 8,
+                      ),
                 Container(
                   padding: EdgeInsets.all(16),
                   alignment: Alignment.centerLeft,
@@ -266,7 +260,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                           ? itemOption("Comprar Energia",
                               "vuesax-linear-trend-up.png", () {})
                           : SizedBox(),
-                      (accountDetail.accountType == "Pospago PD")
+                      (permitAccount(AccountType.PD))
                           ? itemOption("Simular Factura",
                               "vuesax-linear-document-cloud.png", () {
                               Navigator.push(
@@ -291,7 +285,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                           )));
                             })
                           : SizedBox(),
-                      (accountDetail.accountType == "Pospago PD")
+                      (permitAccount(AccountType.PD))
                           ? itemOption("Registrar Lectura del Medidor",
                               "vuesax-linear-watch-status.png", () {
                               Navigator.push(
@@ -311,17 +305,18 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
     );
   }
 
+  bool permitAccount(AccountType accountType) {
+    return accountDetail.accountType == accountType.toShortString();
+  }
+
   Widget rowData(String key, String value) {
     return Column(
       children: [
-        const Divider(
-          height: 20,
-          color: Colors.black,
-        ),
+        const CustomDivider(),
         Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(left: 16, right: 16),
-            height: 30,
+            height: 40,
             child: Row(
               children: [
                 Expanded(
@@ -356,13 +351,10 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
   Widget doubleRowData(String key, String value, String key2, String value2) {
     return Column(
       children: [
-        const Divider(
-          height: 22,
-          color: Colors.black,
-        ),
+        const CustomDivider(),
         Container(
           padding: EdgeInsets.only(left: 16),
-          height: 30,
+          height: 40,
           child: Row(
             children: [
               Expanded(

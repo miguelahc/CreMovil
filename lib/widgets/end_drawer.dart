@@ -1,3 +1,4 @@
+import 'package:app_cre/screens/service_requirement_screen.dart';
 import 'package:app_cre/services/auth_service.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/widgets.dart';
@@ -29,8 +30,13 @@ Widget endDrawer(AuthService authService, BuildContext context) {
               )),
           itemOption(
               "Puntos de atención y pago", "vuesax-linear-location.png", () {}),
-          itemOption(
-              "Requisitos de servicio", "vuesax-linear-verify.png", () {}),
+          itemOption("Requisitos de servicio", "vuesax-linear-verify.png", () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ServiceRequirementScreen(),
+                ));
+          }),
           itemOption("Información de ayuda y soporte",
               "vuesax-linear-info-circle.png", () {}),
           itemOption(

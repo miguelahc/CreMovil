@@ -1,5 +1,6 @@
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,16 +46,7 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
               padding: EdgeInsets.only(left: 16),
               height: 60,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 6,
-                  ),
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
+              decoration: customBoxDecoration(10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
