@@ -15,7 +15,7 @@ BoxDecoration customButtonDecoration(double radius) {
 }
 
 List<BoxShadow> customBoxShadow() {
-  return [
+  return const [
     BoxShadow(
       color: Colors.black12,
       blurRadius: 6,

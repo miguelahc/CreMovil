@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class InvoiceDetailScreen extends StatefulWidget {
   final InvoiceDetail invoiceDetail;
-  InvoiceDetailScreen({Key? key, required this.invoiceDetail})
+  const InvoiceDetailScreen({Key? key, required this.invoiceDetail})
       : super(key: key);
 
   @override
@@ -69,7 +69,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
     return Scaffold(
         appBar: appBar(context, true),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
-        backgroundColor: Color(0XFFF7F7F7),
+        backgroundColor: const Color(0XFFF7F7F7),
         body: onLoad
             ? circularProgress()
             : SafeArea(
@@ -80,8 +80,8 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                     ),
                     child: Column(children: [
                       Container(
-                        margin: EdgeInsets.only(bottom: 8),
-                        padding: EdgeInsets.only(left: 16, right: 16),
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
                         height: 70,
                         alignment: Alignment.center,
                         decoration: customBoxDecoration(10),
@@ -147,13 +147,13 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                             ],
                           )),
                           MaterialButton(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               disabledColor: Colors.black87,
                               elevation: 0,
                               child: Container(
-                                  constraints: BoxConstraints(
+                                  constraints: const BoxConstraints(
                                       minWidth: 110, maxHeight: 25),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
@@ -226,12 +226,12 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                           section(
                               "Total facturado Bs.",
                               invoiceDetail.totalInvoice.toString(),
-                              Color(0XFF393E5E)),
+                              const Color(0XFF393E5E)),
                           const SizedBox(
                             height: 16,
                           ),
                           MaterialButton(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               disabledColor: Colors.black87,
@@ -327,7 +327,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
           Align(
             alignment: Alignment.center,
             child: MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
@@ -344,7 +344,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                           colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
                     'Regresar',
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {
@@ -378,7 +378,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       children: [
         const CustomDivider(),
         Container(
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           height: 40,
           child: Row(
             children: [
@@ -386,12 +386,12 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 key,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: const Color(0XFF3A3D5F),
+                    color: Color(0XFF3A3D5F),
                     fontSize: 14),
               ),
               Text(
                 value,
-                style: TextStyle(color: const Color(0XFF999999), fontSize: 14),
+                style: const TextStyle(color: Color(0XFF999999), fontSize: 14),
               )
             ],
           ),
@@ -404,7 +404,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           height: 40,
           child: Row(
             children: [
@@ -415,13 +415,13 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                     key,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0XFF3A3D5F),
+                        color: Color(0XFF3A3D5F),
                         fontSize: 14),
                   ),
                   Text(
                     value,
                     style:
-                        TextStyle(color: const Color(0XFF999999), fontSize: 14),
+                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )),
@@ -432,13 +432,13 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                     key2,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0XFF3A3D5F),
+                        color: Color(0XFF3A3D5F),
                         fontSize: 14),
                   ),
                   Text(
                     value2,
                     style:
-                        TextStyle(color: const Color(0XFF999999), fontSize: 14),
+                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )
@@ -456,7 +456,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       children: [
         const CustomDivider(),
         Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           height: 40,
           child: Row(
             children: [
@@ -467,24 +467,24 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                     key,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0XFF3A3D5F),
+                        color: Color(0XFF3A3D5F),
                         fontSize: 14),
                   ),
                   Text(
                     value,
                     style:
-                        TextStyle(color: const Color(0XFF999999), fontSize: 14),
+                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )),
               MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
                   elevation: 0,
                   child: Container(
-                      constraints: BoxConstraints(minWidth: 110, maxHeight: 25),
+                      constraints: const BoxConstraints(minWidth: 110, maxHeight: 25),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
@@ -518,7 +518,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           height: 40,
           child: Row(
             children: [
@@ -527,7 +527,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                   key,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: const Color(0XFF999999),
+                      color: Color(0XFF999999),
                       fontSize: 14),
                 ),
               ),
@@ -538,7 +538,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                     key2,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0XFF999999),
+                        color: Color(0XFF999999),
                         fontSize: 14),
                   )
                 ],
@@ -556,16 +556,16 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
       children: [
         Container(
           decoration: BoxDecoration(
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
                 blurRadius: 6,
               ),
             ],
             color: color,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
-          padding: EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           height: 40,
           child: Row(
             children: [

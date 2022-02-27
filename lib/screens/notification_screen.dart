@@ -5,7 +5,7 @@ import 'package:app_cre/widgets/item_option.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
-  NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({Key? key}) : super(key: key);
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -19,7 +19,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     setState(() {
       _selectedPage = pageNumber;
       _pageController.animateToPage(pageNumber,
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.fastLinearToSlowEaseIn);
     });
   }
@@ -43,7 +43,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
         body: Container(
       color: const Color(0XFFF7F7F7),
-      padding: EdgeInsets.only(left: 16, right: 16),
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +80,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               controller: _pageController,
               children: [
                 Container(
-                    padding: EdgeInsets.only(top: 16, left: 1, right: 1),
+                    padding: const EdgeInsets.only(top: 16, left: 1, right: 1),
                     child: Column(
                       children: [
                         itemOption(
@@ -116,7 +116,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ],
                     )),
                 Container(
-                    padding: EdgeInsets.only(top: 16, left: 8, right: 8),
+                    padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
                     child: Column(
                       children: [
                         itemOption("Asistencia social cooperativa",
@@ -155,19 +155,19 @@ class TabButtom extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: selectedPage == pageNumber
-                ? Color(0XFF3A3D5F)
-                : Color(0XFFF7F7F7),
-            border: Border.all(color: Color(0XFF3A3D5F), width: 1.5),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+                ? const Color(0XFF3A3D5F)
+                : const Color(0XFFF7F7F7),
+            border: Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
+            borderRadius: const BorderRadius.all(Radius.circular(30))),
         height: 50,
         width: MediaQuery.of(context).size.width * 0.44,
-        margin: EdgeInsets.only(top: 20),
+        margin: const EdgeInsets.only(top: 20),
         child: Text(
           title,
           style: TextStyle(
               color: selectedPage == pageNumber
                   ? Colors.white
-                  : Color(0XFF3A3D5F)),
+                  : const Color(0XFF3A3D5F)),
         ),
       ),
     );

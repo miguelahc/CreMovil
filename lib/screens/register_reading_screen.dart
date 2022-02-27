@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:app_cre/models/models.dart';
-import 'package:app_cre/models/reading.dart';
 import 'package:app_cre/providers/reading_form_provider.dart';
 import 'package:app_cre/screens/simulated_invoice_screen.dart';
 import 'package:app_cre/services/services.dart';
@@ -16,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class RegisterReadingScreen extends StatefulWidget {
   final AccountDetail accountDetail;
-  RegisterReadingScreen({Key? key, required this.accountDetail})
+  const RegisterReadingScreen({Key? key, required this.accountDetail})
       : super(key: key);
 
   @override
@@ -31,8 +28,8 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
   @override
   void initState() {
     accountDetail = widget.accountDetail;
-    var now = new DateTime.now();
-    var formatter = new DateFormat('dd/MM/yyyy');
+    var now = DateTime.now();
+    var formatter = DateFormat('dd/MM/yyyy');
     lastDate = formatter.format(now);
     super.initState();
   }
@@ -41,15 +38,15 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-        backgroundColor: Color(0XFFF7F7F7),
+        backgroundColor: const Color(0XFFF7F7F7),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
         body: SafeArea(
             child: Container(
-                margin: EdgeInsets.only(left: 16, right: 16),
+                margin: const EdgeInsets.only(left: 16, right: 16),
                 child: Column(children: [
                   Container(
-                    padding: EdgeInsets.only(left: 16, bottom: 16),
+                    padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("Registro de lectura de medidor",
                         style: TextStyle(
@@ -57,8 +54,8 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                             fontWeight: FontWeight.bold)),
                   ),
                   Container(
-                      padding: EdgeInsets.only(left: 16),
-                      margin: EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.only(left: 16),
+                      margin: const EdgeInsets.only(bottom: 8),
                       height: 80,
                       alignment: Alignment.center,
                       decoration: customBoxDecoration(10),
@@ -72,7 +69,7 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                           ),
                           Expanded(
                               child: Padding(
-                            padding: EdgeInsets.only(left: 16),
+                            padding: const EdgeInsets.only(left: 16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -90,13 +87,13 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                                       "Código fijo: ",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: const Color(0XFF3A3D5F),
+                                          color: Color(0XFF3A3D5F),
                                           fontSize: 14),
                                     ),
                                     Text(
                                       accountDetail.accountNumber,
                                       style: const TextStyle(
-                                          color: const Color(0XFF999999),
+                                          color: Color(0XFF999999),
                                           fontSize: 14),
                                     )
                                   ],
@@ -152,7 +149,7 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
         const CustomDivider(),
         Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             height: 40,
             child: Row(
               children: [
@@ -166,13 +163,13 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                             key,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: const Color(0XFF3A3D5F),
+                                color: Color(0XFF3A3D5F),
                                 fontSize: 14),
                           ),
                           Text(
                             value,
                             style: const TextStyle(
-                                color: const Color(0XFF999999), fontSize: 14),
+                                color: Color(0XFF999999), fontSize: 14),
                           )
                         ],
                       )
@@ -201,24 +198,24 @@ class FormCurrentReadingState extends StatelessWidget {
   Widget build(BuildContext context) {
     final readingForm = Provider.of<ReadingFormProvider>(context);
     return Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
         child: Form(
           key: readingForm.formKey,
           child: Column(children: [
-            _CurrentReading(),
+            const _CurrentReading(),
             const SizedBox(
               height: 16,
             ),
-            _ImageReading(),
+            const _ImageReading(),
             Expanded(
                 child: Padding(
-              padding: EdgeInsets.only(bottom: 24),
+              padding: const EdgeInsets.only(bottom: 24),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   MaterialButton(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       disabledColor: Colors.black87,
@@ -264,7 +261,7 @@ class FormCurrentReadingState extends StatelessWidget {
                         FocusScope.of(context).unfocus();
                       }),
                   MaterialButton(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       disabledColor: Colors.black87,
@@ -279,12 +276,12 @@ class FormCurrentReadingState extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(30),
                           border:
-                              Border.all(color: Color(0XFF3A3D5F), width: 1.5),
+                              Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
                         ),
                         child: const Text(
                           'Cancelar',
                           style:
-                              TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
+                              TextStyle(color:  Color(0XFF3A3D5F), fontSize: 16),
                         ),
                       ),
                       onPressed: () {
@@ -316,7 +313,7 @@ class FormCurrentReadingState extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
@@ -333,7 +330,7 @@ class FormCurrentReadingState extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Regresar',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -446,7 +443,7 @@ class _ImageReading extends StatelessWidget {
                         )
                       ]),
                 ),
-                Text(
+                const Text(
                   "Adjuntar",
                   style:
                       TextStyle(color: DarkColor, fontWeight: FontWeight.bold),

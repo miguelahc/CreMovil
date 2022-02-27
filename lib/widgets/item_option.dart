@@ -13,21 +13,21 @@ Widget itemOption(String title, String icon, Function() function) {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 16, right: 12),
+              padding: const EdgeInsets.only(left: 16, right: 12),
               child: ImageIcon(
                 AssetImage("assets/icons/$icon"),
-                color: Color(0xFF3A3D5F),
+                color: const Color(0XFF3A3D5F),
               ),
             ),
             Text(
               title,
               style: const TextStyle(
-                  color: Color(0xFF3A3D5F),
+                  color: Color(0XFF3A3D5F),
                   fontSize: 14,
                   fontFamily: "Mulish",
                   fontWeight: FontWeight.w600),
             ),
-            Spacer(),
+            const Spacer(),
             const Padding(
               padding: EdgeInsets.only(left: 4, right: 12),
               child: Icon(Icons.keyboard_arrow_right),

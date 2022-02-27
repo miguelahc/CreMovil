@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
+import 'package:app_cre/ui/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/providers/login_form_provider.dart';
@@ -17,23 +19,57 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Form(
-        //Activando el validador de formulario
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Stack(
-          children: [
-            const LoginBackground(),
-            Column(
-              children: [
-                ChangeNotifierProvider(
-                  create: (_) => LoginFormProvider(),
-                  child: _FormLogin(),
-                ),
-              ],
-            )
-          ],
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          gradient: DarkGradient
         ),
-      ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                      color:  Color(0XFFF7F7F7),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.27,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                            gradient: DarkGradient
+                          ),
+                          child: CustomTitle(
+                              title: "Ingresar",
+                              subtitle: const [
+                            "Digite su nombre y número de",
+                            "teléfono para continuar"]
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: ChangeNotifierProvider(
+                              create: (_) => LoginFormProvider(),
+                              child: _FormLogin(),
+                            ),
+                          )
+                        )
+                      ],
+                    ),
+                  )
+              ),
+              Container(
+                height: 70,
+                alignment: Alignment.center,
+                child: Footer(dark: true),
+              )
+            ],
+          ),
+        )
+      )
     );
   }
 }
@@ -42,20 +78,20 @@ class _FormLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
-    TokenService().generateToken();
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.height * 0.04),
       child: Form(
           key: loginForm.formKey,
-          child: Column(children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.45),
+          child: Column(
+              mainAxisAlignment: WidgetsBinding.instance.window.viewInsets.bottom > 0.0? MainAxisAlignment.start: MainAxisAlignment.center,
+              children: [
             const _Nombres(),
             const SizedBox(height: 15),
             const _Telefono(),
             const SizedBox(height: 30),
             MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
@@ -66,10 +102,7 @@ class _FormLogin extends StatelessWidget {
                         maxWidth: MediaQuery.of(context).size.width * 0.75,
                         maxHeight: 50),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: const LinearGradient(
-                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    decoration: customButtonDecoration(30),
                     child: loginForm.isLoading
                         ? circularProgress()
                         : const Text(
@@ -118,7 +151,7 @@ class _FormLogin extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
@@ -135,7 +168,7 @@ class _FormLogin extends StatelessWidget {
                           colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
                     'Ingresar PIN',
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {
@@ -172,7 +205,7 @@ class _FormLogin extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
@@ -189,7 +222,7 @@ class _FormLogin extends StatelessWidget {
                           colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
                     'Volver a Intentar',
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {
@@ -215,7 +248,7 @@ class _Nombres extends StatelessWidget {
       decoration: InputDecorations.authInputDecoration(
           hintText: 'Nombres',
           labelText: 'Nombres del usuario',
-          prefixIcon: Icons.account_circle),
+          prefixIcon: Icons.person_outline),
       style: const TextStyle(fontSize: 14),
       initialValue: '',
       textCapitalization: TextCapitalization.words,
@@ -271,10 +304,10 @@ class _Telefono extends StatelessWidget {
               ],
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF84BD00)),
+                  borderSide: BorderSide(color: Color(0XFF84BD00)),
                 ),
                 focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
+                    borderSide: BorderSide(color: Color(0XFF84BD00), width: 2)),
               ),
               onChanged: (value) {
                 loginForm.setPrefixPhone(value.toString());

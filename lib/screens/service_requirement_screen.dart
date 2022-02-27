@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ServiceRequirementScreen extends StatefulWidget {
-  ServiceRequirementScreen({Key? key}) : super(key: key);
+  const ServiceRequirementScreen({Key? key}) : super(key: key);
 
   @override
   State<ServiceRequirementScreen> createState() =>
@@ -19,7 +19,7 @@ class ServiceRequirementScreen extends StatefulWidget {
 class _ServiceRequirementScreenState extends State<ServiceRequirementScreen> {
   navigateServiceContent() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => ServiceRequirementContentScreen(),
+      builder: (context) => const ServiceRequirementContentScreen(),
     ));
   }
 
@@ -27,15 +27,15 @@ class _ServiceRequirementScreenState extends State<ServiceRequirementScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-        backgroundColor: Color(0XFFF7F7F7),
+        backgroundColor: const Color(0XFFF7F7F7),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
         body: SafeArea(
             child: Container(
-                margin: EdgeInsets.only(left: 16, right: 16),
+                margin: const EdgeInsets.only(left: 16, right: 16),
                 child: Column(children: [
                   Container(
-                    padding: EdgeInsets.only(left: 16, bottom: 16),
+                    padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("Requisitos de Servicio",
                         style: TextStyle(

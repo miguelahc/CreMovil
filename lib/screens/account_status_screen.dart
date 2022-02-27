@@ -1,14 +1,10 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/account_type.dart';
 import 'package:app_cre/models/models.dart';
-import 'package:app_cre/screens/register_reading_screen.dart';
-import 'package:app_cre/screens/simulate_invoice_screen.dart';
+import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/widgets/widgets.dart';
-import 'package:app_cre/screens/account_history_screen.dart';
-import 'package:app_cre/screens/edit_reference_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +13,7 @@ class AccountStatusScreen extends StatefulWidget {
   final String accountNumber;
   final String companyNumber;
 
-  AccountStatusScreen(
+  const AccountStatusScreen(
       {Key? key, required this.accountNumber, required this.companyNumber})
       : super(key: key);
 
@@ -58,7 +54,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
       accountDetail.secc = message["SectionCode"];
       accountDetail.totalDebt = message["TotalDebt"];
       accountDetail.accountHistory = message["estadocuenta"];
-      this.onLoad = false;
+      onLoad = false;
     });
   }
 
@@ -66,7 +62,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-      backgroundColor: Color(0XFFF7F7F7),
+      backgroundColor: const Color(0XFFF7F7F7),
       endDrawer: SafeArea(child: endDrawer(authService, context)),
       appBar: appBar(context, true),
       body: onLoad
@@ -74,11 +70,11 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
           : SafeArea(
               child: Container(
               width: double.infinity,
-              margin: EdgeInsets.only(left: 16, right: 16),
+              margin: const EdgeInsets.only(left: 16, right: 16),
               child: Column(children: [
                 Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    padding: EdgeInsets.only(left: 16),
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(left: 16),
                     height: 60,
                     alignment: Alignment.center,
                     decoration: customBoxDecoration(10),
@@ -92,7 +88,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                         ),
                         Expanded(
                             child: Padding(
-                          padding: EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +96,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                               Text(
                                 accountDetail.aliasName,
                                 style: const TextStyle(
-                                    color: const Color(0XFF3A3D5F),
+                                    color: Color(0XFF3A3D5F),
                                     fontSize: 16,
                                     fontFamily: "Mulish"),
                               ),
@@ -110,13 +106,13 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                     "Código fijo: ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: const Color(0XFF3A3D5F),
+                                        color: Color(0XFF3A3D5F),
                                         fontSize: 14),
                                   ),
                                   Text(
                                     accountDetail.accountNumber,
                                     style: const TextStyle(
-                                        color: const Color(0XFF999999),
+                                        color: Color(0XFF999999),
                                         fontSize: 14),
                                   )
                                 ],
@@ -126,10 +122,6 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                         )),
                         IconButton(
                           onPressed: () {
-                            Account account = Account(
-                                accountDetail.accountNumber,
-                                widget.companyNumber,
-                                accountDetail.aliasName);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -155,8 +147,8 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                 const CustomDivider(),
                 accountDetail.totalDebt > 0.0
                     ? Container(
-                        margin: EdgeInsets.only(top: 8),
-                        padding: EdgeInsets.only(left: 16, right: 16),
+                        margin: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
                         height: 110,
                         alignment: Alignment.center,
                         decoration: const BoxDecoration(
@@ -222,7 +214,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                           ),
                           Expanded(
                               child: Container(
-                            padding: EdgeInsets.only(left: 40),
+                            padding: const EdgeInsets.only(left: 40),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -241,7 +233,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                         height: 8,
                       ),
                 Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   alignment: Alignment.centerLeft,
                   child: const Text("Opciones",
                       style: TextStyle(
@@ -254,12 +246,12 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                       (accountDetail.totalDebt > 0.0)
                           ? itemOption(
                               "Pagar Deuda", "money-send-pay.png", () {})
-                          : SizedBox(),
+                          : const SizedBox(),
                       (accountDetail.accountType == "Prepago" &&
                               accountDetail.totalDebt == 0.0)
                           ? itemOption("Comprar Energia",
                               "vuesax-linear-trend-up.png", () {})
-                          : SizedBox(),
+                          : const SizedBox(),
                       (permitAccount(AccountType.PD))
                           ? itemOption("Simular Factura",
                               "vuesax-linear-document-cloud.png", () {
@@ -271,7 +263,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                             accountDetail: accountDetail,
                                           )));
                             })
-                          : SizedBox(),
+                          : const SizedBox(),
                       (accountDetail.accountType != "Pago Extraordinario")
                           ? itemOption(
                               "Historico de Cuenta", "vuesax-linear-note.png",
@@ -284,7 +276,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                             accountDetail: accountDetail,
                                           )));
                             })
-                          : SizedBox(),
+                          : const SizedBox(),
                       (permitAccount(AccountType.PD))
                           ? itemOption("Registrar Lectura del Medidor",
                               "vuesax-linear-watch-status.png", () {
@@ -296,7 +288,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                             accountDetail: accountDetail,
                                           )));
                             })
-                          : SizedBox()
+                          : const SizedBox()
                     ],
                   ),
                 )
@@ -315,7 +307,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
         const CustomDivider(),
         Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             height: 40,
             child: Row(
               children: [
@@ -329,13 +321,13 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                             key,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: const Color(0XFF3A3D5F),
+                                color: Color(0XFF3A3D5F),
                                 fontSize: 14),
                           ),
                           Text(
                             value,
                             style: const TextStyle(
-                                color: const Color(0XFF999999), fontSize: 14),
+                                color: Color(0XFF999999), fontSize: 14),
                           )
                         ],
                       )
@@ -353,7 +345,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
       children: [
         const CustomDivider(),
         Container(
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           height: 40,
           child: Row(
             children: [
@@ -364,13 +356,13 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                     key,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0XFF3A3D5F),
+                        color: Color(0XFF3A3D5F),
                         fontSize: 14),
                   ),
                   Text(
                     value,
                     style:
-                        TextStyle(color: const Color(0XFF999999), fontSize: 14),
+                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )),
@@ -381,13 +373,13 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                     key2,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0XFF3A3D5F),
+                        color: Color(0XFF3A3D5F),
                         fontSize: 14),
                   ),
                   Text(
                     value2,
                     style:
-                        TextStyle(color: const Color(0XFF999999), fontSize: 14),
+                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               ))

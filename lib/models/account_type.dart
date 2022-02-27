@@ -6,6 +6,6 @@ enum AccountType {
 
 extension ParseToString on AccountType {
   String toShortString() {
-    return this.toString().split('.').last;
+    return toString().split('.').last;
   }
 }

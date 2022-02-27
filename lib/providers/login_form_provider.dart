@@ -37,6 +37,6 @@ class LoginFormProvider extends ChangeNotifier {
   }
 
   User getValues() {
-    return User(this.name, this.phone, this.prefixPhone);
+    return User(name, phone, prefixPhone);
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/providers/register_account_form_provider.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/ui/input_decorations.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RegisterAccountSession extends StatefulWidget {
-  RegisterAccountSession({Key? key}) : super(key: key);
+  const RegisterAccountSession({Key? key}) : super(key: key);
 
   @override
   State<RegisterAccountSession> createState() => _RegisterAccountSession();
@@ -21,24 +22,66 @@ class _RegisterAccountSession extends State<RegisterAccountSession> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0XFFF7F7F7),
-        body: Form(
-          //Activando el validador de formulario
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Stack(
-            children: [
-              const RegisterAccountSessionBackground(),
-              Column(
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              gradient: DarkGradient
+            ),
+            child: SafeArea(
+              child: Column(
                 children: [
-                  ChangeNotifierProvider(
-                    create: (_) => RegisterAccountFormProvider(),
-                    child: _FormRegisterAccount(),
+                  Expanded(
+                      child: Container(
+                        color:  const Color(0XFFF7F7F7),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.27,
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                                  gradient: DarkGradient
+                              ),
+                              child:Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(context);
+                                        },
+                                        icon: const Icon(Icons.keyboard_arrow_left, color: Colors.white,)
+                                    ),
+                                  ),
+                                  CustomTitle(title: "Registro", 
+                                  subtitle: const ["Ingresa los datos solicitados", 
+                                  "para registrar tu Código Fijo o Servicio"]),
+                                ],
+                              )
+                            ),
+                            Expanded(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: ChangeNotifierProvider(
+                                    create: (_) => RegisterAccountFormProvider(),
+                                    child: _FormRegisterAccount(),
+                                  ),
+                                )
+                            )
+                          ],
+                        ),
+                      )
                   ),
+                  Container(
+                    color: const Color(0XFFF7F7F7),
+                    height: 150,
+                    alignment: Alignment.center,
+                    child: Footer(dark: false),
+                  )
                 ],
-              )
-            ],
-          ),
-        ));
+              ),
+            )
+        )
+    );
   }
 }
 
@@ -51,16 +94,17 @@ class _FormRegisterAccount extends StatelessWidget {
           horizontal: MediaQuery.of(context).size.height * 0.04),
       child: Form(
           key: registerForm.formKey,
-          child: Column(children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.40),
+          child: Column(
+              mainAxisAlignment: WidgetsBinding.instance.window.viewInsets.bottom > 0.0? MainAxisAlignment.start: MainAxisAlignment.center,
+              children: [
             const _AccountNumber(),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             const _IdentificationNumber(),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             const _AliasName(),
             const SizedBox(height: 30),
             MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
@@ -73,8 +117,7 @@ class _FormRegisterAccount extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                      gradient: PrimaryGradient),
                   child: registerForm.isLoading
                       ? circularProgress()
                       : const Text(
@@ -146,7 +189,7 @@ class _FormRegisterAccount extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
@@ -163,7 +206,7 @@ class _FormRegisterAccount extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -194,7 +237,7 @@ class _FormRegisterAccount extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
@@ -211,7 +254,7 @@ class _FormRegisterAccount extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Regresar',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {

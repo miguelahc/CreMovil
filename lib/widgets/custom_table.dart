@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class CustomTable extends StatelessWidget {
   final List<dynamic> data;
-  CustomTable({required this.data});
+  const CustomTable({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class CustomTable extends StatelessWidget {
         child: Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            margin: EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            margin: const EdgeInsets.only(bottom: 4),
             height: 50,
             alignment: Alignment.center,
             decoration: customBoxDecoration(10),
@@ -30,7 +30,7 @@ class CustomTable extends StatelessWidget {
                         "Periodo",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: const Color(0XFF3A3D5F)),
+                            color: Color(0XFF3A3D5F)),
                       ),
                     )),
                 Expanded(
@@ -44,13 +44,13 @@ class CustomTable extends StatelessWidget {
                           "Consumo",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: const Color(0XFF3A3D5F)),
+                              color: Color(0XFF3A3D5F)),
                         ),
                         Text(
                           "KWh",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: const Color(0XFF3A3D5F)),
+                              color: Color(0XFF3A3D5F)),
                         ),
                       ],
                     ))),
@@ -65,13 +65,13 @@ class CustomTable extends StatelessWidget {
                           "Importe",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: const Color(0XFF3A3D5F)),
+                              color: Color(0XFF3A3D5F)),
                         ),
                         Text(
                           "Bs.",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: const Color(0XFF3A3D5F)),
+                              color: Color(0XFF3A3D5F)),
                         ),
                       ],
                     ))),
@@ -85,13 +85,13 @@ class CustomTable extends StatelessWidget {
                           "Fecha",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: const Color(0XFF3A3D5F)),
+                              color: Color(0XFF3A3D5F)),
                         ),
                         Text(
                           "Pago",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: const Color(0XFF3A3D5F)),
+                              color: Color(0XFF3A3D5F)),
                         ),
                       ],
                     ))),
@@ -118,7 +118,7 @@ class CustomTable extends StatelessWidget {
                           )));
             },
             child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 height: 40,
                 alignment: Alignment.center,
                 child: Column(
@@ -134,7 +134,7 @@ class CustomTable extends StatelessWidget {
                                 data["DateGestion"],
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: const Color(0XFF999999)),
+                                    color: Color(0XFF999999)),
                               ),
                             )),
                         Expanded(
@@ -145,7 +145,7 @@ class CustomTable extends StatelessWidget {
                                 data["Valuekwh"].toString(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: const Color(0XFF999999)),
+                                    color: Color(0XFF999999)),
                               ),
                             )),
                         Expanded(
@@ -156,7 +156,7 @@ class CustomTable extends StatelessWidget {
                                 data["TotalInvoice"].toString(),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: const Color(0XFF999999)),
+                                    color: Color(0XFF999999)),
                               ),
                             )),
                         Expanded(
@@ -169,16 +169,16 @@ class CustomTable extends StatelessWidget {
                                       data["DateInvoice"],
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: const Color(0XFF999999)),
+                                          color: Color(0XFF999999)),
                                     ),
-                                    Icon(Icons.keyboard_arrow_right)
+                                    const Icon(Icons.keyboard_arrow_right)
                                   ],
                                 ))),
                       ],
                     ),
                   ],
                 ))),
-        CustomDivider()
+        const CustomDivider()
       ],
     );
   }

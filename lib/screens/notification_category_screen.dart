@@ -1,5 +1,5 @@
 import 'package:app_cre/models/notification.dart';
-import 'package:app_cre/screens/notification_content_screen.dart';
+import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
@@ -40,15 +40,15 @@ class _NotificationCategoryScreenState
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-        backgroundColor: Color(0XFFF7F7F7),
+        backgroundColor: const Color(0XFFF7F7F7),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
         body: SafeArea(
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 16, right: 16, bottom: 12),
-                padding: EdgeInsets.only(left: 16),
+                margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+                padding: const EdgeInsets.only(left: 16),
                 width: MediaQuery.of(context).size.width,
                 height: 70,
                 decoration: customBoxDecoration(10),
@@ -68,10 +68,10 @@ class _NotificationCategoryScreenState
                     ]),
               ),
               Container(
-                margin: EdgeInsets.only(right: 16, bottom: 8),
+                margin: const EdgeInsets.only(right: 16, bottom: 8),
                 alignment: Alignment.centerRight,
                 child: MaterialButton(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     disabledColor: Colors.black87,
@@ -100,7 +100,7 @@ class _NotificationCategoryScreenState
               ),
               Expanded(
                   child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: ListView(
                   children: [
                     item("Nueva factura emitida 05 de ene. 2022", true),
@@ -125,7 +125,7 @@ class _NotificationCategoryScreenState
           },
           child: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: 16, right: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               height: 40,
               child: Row(
                 children: [
@@ -140,8 +140,8 @@ class _NotificationCategoryScreenState
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: tick
-                                      ? Color(0XFF3A3D5F)
-                                      : Color(0XFF666666),
+                                      ? const Color(0XFF3A3D5F)
+                                      : const Color(0XFF666666),
                                   fontSize: 14),
                             ),
                           ],
@@ -149,7 +149,7 @@ class _NotificationCategoryScreenState
                       ],
                     ),
                   ),
-                  Icon(Icons.keyboard_arrow_right)
+                  const Icon(Icons.keyboard_arrow_right)
                 ],
               )),
         ),

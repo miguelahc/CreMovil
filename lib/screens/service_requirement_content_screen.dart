@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ServiceRequirementContentScreen extends StatefulWidget {
-  ServiceRequirementContentScreen({Key? key}) : super(key: key);
+  const ServiceRequirementContentScreen({Key? key}) : super(key: key);
 
   @override
   State<ServiceRequirementContentScreen> createState() =>
@@ -12,6 +12,6 @@ class _ServiceRequirementContentScreenState
     extends State<ServiceRequirementContentScreen> {
   @override
   Widget build(BuildContext context) {
-    return Text("Content");
+    return const Text("Content");
   }
 }

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class SimulatedInvoiceScreen extends StatefulWidget {
   final Reading reading;
-  SimulatedInvoiceScreen({Key? key, required this.reading}) : super(key: key);
+  const SimulatedInvoiceScreen({Key? key, required this.reading}) : super(key: key);
 
   @override
   State<SimulatedInvoiceScreen> createState() => _SimulatedInvoiceScreenState();
@@ -48,16 +48,16 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
     return Scaffold(
         appBar: appBar(context, true),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
-        backgroundColor: Color(0XFFF7F7F7),
+        backgroundColor: const Color(0XFFF7F7F7),
         body: onLoad
             ? circularProgress()
             : SafeArea(
                 child: Container(
-                    margin: EdgeInsets.only(left: 16, right: 16),
+                    margin: const EdgeInsets.only(left: 16, right: 16),
                     child: Column(children: [
                       Container(
                           padding:
-                              EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                              const EdgeInsets.only(left: 16, bottom: 16, right: 16),
                           alignment: Alignment.centerLeft,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +75,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                                           fontWeight: FontWeight.bold)),
                                   Text(reading.accountNumber,
                                       style:
-                                          TextStyle(color: Color(0XFF666666)))
+                                          const TextStyle(color: Color(0XFF666666)))
                                 ],
                               )
                             ],
@@ -124,8 +124,8 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                           section(
                               "Total facturado Bs.",
                               invoiceDetail.totalInvoice.toString(),
-                              Color(0XFF393E5E)),
-                          SizedBox(
+                              const Color(0XFF393E5E)),
+                        const SizedBox(
                             height: 16,
                           )
                         ],
@@ -139,7 +139,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
       children: [
         const CustomDivider(),
         Container(
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           height: 40,
           child: Row(
             children: [
@@ -147,12 +147,12 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                 key,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: const Color(0XFF3A3D5F),
+                    color: Color(0XFF3A3D5F),
                     fontSize: 14),
               ),
               Text(
                 value,
-                style: TextStyle(color: const Color(0XFF999999), fontSize: 14),
+                style: const TextStyle(color: Color(0XFF999999), fontSize: 14),
               )
             ],
           ),
@@ -165,7 +165,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           height: 40,
           child: Row(
             children: [
@@ -174,7 +174,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                   key,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: const Color(0XFF999999),
+                      color: Color(0XFF999999),
                       fontSize: 14),
                 ),
               ),
@@ -185,7 +185,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                     key2,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: const Color(0XFF999999),
+                        color: Color(0XFF999999),
                         fontSize: 14),
                   )
                 ],
@@ -211,11 +211,11 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
               ),
             ],
             color: color,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           alignment: Alignment.center,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          margin: EdgeInsets.only(left: 1.5, right: 1.5, top: 1, bottom: 1),
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(left: 1.5, right: 1.5, top: 1, bottom: 1),
           height: 40,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

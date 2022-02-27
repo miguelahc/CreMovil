@@ -1,4 +1,3 @@
-import 'package:app_cre/ui/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class CustomCard extends StatelessWidget {
           height: 170,
           decoration: BoxDecoration(
               gradient: gradient,
-              borderRadius: BorderRadius.all(Radius.circular(15))),
+              borderRadius: const BorderRadius.all(Radius.circular(15))),
           child: Column(children: [
             ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -44,7 +43,7 @@ class CustomCard extends StatelessWidget {
                       children: [
                         Expanded(
                             child: Container(
-                          padding: EdgeInsets.only(left: 24),
+                          padding: const EdgeInsets.only(left: 24),
                           child: Text(
                             title,
                             style: const TextStyle(

@@ -1,4 +1,4 @@
-import 'package:app_cre/screens/service_requirement_screen.dart';
+import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/auth_service.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/widgets.dart';
@@ -11,10 +11,9 @@ Widget endDrawer(AuthService authService, BuildContext context) {
     child: Drawer(
       backgroundColor: const Color(0xFFF7F7F7),
       child: ListView(
-        padding: EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         children: <Widget>[
           DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xF003A3D5F)),
               child: Column(
                 children: [
                   const SizedBox(height: 20),
@@ -24,7 +23,7 @@ Widget endDrawer(AuthService authService, BuildContext context) {
                   const Text(
                     'Menú de Opciones',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xFF84BD00), fontSize: 16),
+                    style: TextStyle(color: Color(0XFF84BD00), fontSize: 16),
                   )
                 ],
               )),
@@ -34,7 +33,7 @@ Widget endDrawer(AuthService authService, BuildContext context) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ServiceRequirementScreen(),
+                  builder: (context) => const ServiceRequirementScreen(),
                 ));
           }),
           itemOption("Información de ayuda y soporte",

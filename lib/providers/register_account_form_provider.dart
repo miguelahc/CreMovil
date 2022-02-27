@@ -22,22 +22,22 @@ class RegisterAccountFormProvider extends ChangeNotifier {
   }
 
   set accountNumber(String accountNumber) {
-    this._accountNumber = accountNumber;
+    _accountNumber = accountNumber;
     notifyListeners();
   }
 
   set identificationNumber(String identificationNumber) {
-    this._identificationNumber = identificationNumber;
+    _identificationNumber = identificationNumber;
     notifyListeners();
   }
 
   set aliasName(String aliasName) {
-    this._aliasName = aliasName;
+    _aliasName = aliasName;
     notifyListeners();
   }
 
   Account getValues() {
     return Account(
-        this._accountNumber, this._identificationNumber, this._aliasName);
+        _accountNumber, _identificationNumber, _aliasName);
   }
 }

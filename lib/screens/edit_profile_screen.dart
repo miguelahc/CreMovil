@@ -3,16 +3,14 @@ import 'package:app_cre/services/auth_service.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/ui/input_decorations.dart';
-import 'package:app_cre/widgets/app_bar.dart';
-import 'package:app_cre/widgets/circular_progress.dart';
-import 'package:app_cre/widgets/end_drawer.dart';
+import 'package:app_cre/widgets/widgets.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  EditProfileScreen({Key? key}) : super(key: key);
+  const EditProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -23,7 +21,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-        backgroundColor: Color(0XFFF7F7F7),
+        backgroundColor: const Color(0XFFF7F7F7),
         resizeToAvoidBottomInset: false,
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
@@ -32,8 +30,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.35,
-              margin: EdgeInsets.only(bottom: 4, right: 16, left: 16),
-              padding: EdgeInsets.only(top: 24, bottom: 24),
+              margin: const EdgeInsets.only(bottom: 4, right: 16, left: 16),
+              padding: const EdgeInsets.only(top: 24, bottom: 24),
               decoration: customBoxDecoration(10),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -52,15 +50,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               height: 124,
                               width: 124,
                               child: DottedBorder(
-                                padding: EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(4),
                                 borderType: BorderType.Circle,
-                                dashPattern: [10, 5, 10, 5, 10, 5],
+                                dashPattern: const [10, 5, 10, 5, 10, 5],
                                 child: CircleAvatar(
                                   radius: MediaQuery.of(context).size.width,
                                   backgroundColor: Colors.black,
                                   child: CircleAvatar(
                                     radius: MediaQuery.of(context).size.width,
-                                    backgroundImage:
+                                    backgroundImage: const
                                         AssetImage('assets/foto.png'),
                                   ),
                                 ),
@@ -84,14 +82,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             ChangeNotifierProvider(
                 create: (_) => EditProfileFormProvider(),
-                child: FormEditProfile())
+                child: const FormEditProfile())
           ]),
         ));
   }
 }
 
 class FormEditProfile extends StatefulWidget {
-  FormEditProfile({Key? key}) : super(key: key);
+  const FormEditProfile({Key? key}) : super(key: key);
 
   @override
   State<FormEditProfile> createState() => _FormEditProfileState();
@@ -105,12 +103,12 @@ class _FormEditProfileState extends State<FormEditProfile> {
         child: Form(
       key: editForm.formKey,
       child: Container(
-          margin: EdgeInsets.only(top: 24),
-          padding: EdgeInsets.only(left: 16, right: 16),
+          margin: const EdgeInsets.only(top: 24),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           child: Column(children: [
             Container(
-              padding: EdgeInsets.only(left: 24, right: 24),
-              margin: EdgeInsets.only(bottom: 24),
+              padding: const EdgeInsets.only(left: 24, right: 24),
+              margin: const EdgeInsets.only(bottom: 24),
               child: Column(children: const [
                 _Name(),
                 SizedBox(
@@ -120,7 +118,7 @@ class _FormEditProfileState extends State<FormEditProfile> {
               ]),
             ),
             MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,

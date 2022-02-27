@@ -35,17 +35,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
+          backgroundColor: Color(0XFFF7F7F7),
             endDrawer: SafeArea(child: endDrawer(authService, context)),
             appBar: appBar(context, false),
             body: _paginas[_paginaActual],
-            bottomNavigationBar: bottomAppBar()));
+            bottomNavigationBar: SafeArea( child: bottomAppBar())),
+    );
   }
 
   Widget bottomAppBar() {
     return Container(
-      color: Color(0XFF3A3D5F),
-      height: 120,
-      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      color: const Color(0XFF3A3D5F),
+      height: 110,
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
           height: 30,
           decoration: const BoxDecoration(
@@ -57,12 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Container(
           alignment: Alignment.center,
-          height: 90,
+          height: 80,
           child: ConvexAppBar(
-              height: 70,
+            elevation: 0,
+              height: 60,
               top: 0,
-              activeColor: Color(0xFF84BD00),
-              backgroundColor: Color(0XFF3A3D5F),
+              activeColor: const Color(0XFF84BD00),
+              backgroundColor: const Color(0XFF3A3D5F),
               color: Colors.white,
               initialActiveIndex: _paginaActual,
               items: [
@@ -77,11 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Stack(
                         children: [
                           Container(
-                            width: 70,
-                            height: 70,
+                            width: 60,
+                            height: 60,
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(35)),
+                                    BorderRadius.all(Radius.circular(30)),
                                 color: Color.fromARGB(80, 132, 189, 0)),
                             child: const ImageIcon(
                               AssetImage(
@@ -103,11 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Stack(
                         children: [
                           Container(
-                            width: 70,
-                            height: 70,
+                            width: 60,
+                            height: 60,
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(35)),
+                                    BorderRadius.all(Radius.circular(30)),
                                 color: Color.fromARGB(80, 132, 189, 0)),
                             child: const ImageIcon(
                               AssetImage(
@@ -129,11 +132,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Stack(
                         children: [
                           Container(
-                            width: 70,
-                            height: 70,
+                            width: 60,
+                            height: 60,
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(35)),
+                                    BorderRadius.all(Radius.circular(30)),
                                 color: Color.fromARGB(80, 132, 189, 0)),
                             child: const ImageIcon(
                               AssetImage(

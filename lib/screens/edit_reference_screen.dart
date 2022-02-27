@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/account.dart';
 import 'package:app_cre/models/account_detail.dart';
 import 'package:app_cre/providers/edit_refrence_form_provider.dart';
 import 'package:app_cre/screens/home_screen.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
+import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/ui/input_decorations.dart';
-import 'package:app_cre/widgets/circular_progress.dart';
-import 'package:app_cre/widgets/edit_reference_background.dart';
+import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditReferenceScreen extends StatefulWidget {
   final AccountDetail account;
-  EditReferenceScreen({Key? key, required this.account}) : super(key: key);
+  const EditReferenceScreen({Key? key, required this.account}) : super(key: key);
 
   @override
   State<EditReferenceScreen> createState() => _EditReferenceScreen();
@@ -34,34 +34,72 @@ class _EditReferenceScreen extends State<EditReferenceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0XFFF7F7F7),
-        body: Form(
-          //Activando el validador de formulario
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Stack(
-            children: [
-              const EditRefrenceBackground(),
-              Column(
+        // resizeToAvoidBottomInset: false,
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+                gradient: DarkGradient
+            ),
+            child: SafeArea(
+              child: Column(
                 children: [
-                  ChangeNotifierProvider(
-                    create: (_) => EditRefrenceFormProvider(account.aliasName),
-                    child: _FormRegisterAccount(
-                      account: account,
-                    ),
-                  ),
+                  Expanded(
+                      child: Container(
+                          color:  const Color(0XFFF7F7F7),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.27,
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                                  gradient: DarkGradient
+                              ),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(context);
+                                        },
+                                        icon: const Icon(Icons.keyboard_arrow_left, color: Colors.white,)
+                                    ),
+                                  ),
+                                  CustomTitle(
+                                    title: "Editar Referencia", 
+                                    subtitle: const [
+                                    "Ingresa la información solicitada", 
+                                    "para modificar la referencia", 
+                                    "de su servicio"
+                                    ]),
+                                ],
+                              )
+                            ),
+                            Expanded(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: ChangeNotifierProvider(
+                                    create: (_) => EditRefrenceFormProvider(account.aliasName),
+                                    child: _FormEditReference(account: account,),
+                                  ),
+                                )
+                            )
+                          ],
+                        ),
+                      )
+                  )
                 ],
-              )
-            ],
-          ),
-        ));
+              ),
+            )
+        )
+    );
   }
 }
 
-class _FormRegisterAccount extends StatelessWidget {
+class _FormEditReference  extends StatelessWidget {
   final AccountDetail account;
 
-  _FormRegisterAccount({required this.account});
+  const _FormEditReference({required this.account});
   @override
   Widget build(BuildContext context) {
     final referenceForm = Provider.of<EditRefrenceFormProvider>(context);
@@ -70,108 +108,118 @@ class _FormRegisterAccount extends StatelessWidget {
           horizontal: MediaQuery.of(context).size.height * 0.04),
       child: Form(
           key: referenceForm.formKey,
-          child: Column(children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.40),
-            const SizedBox(height: 15),
+          child: Column(
+              children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             _AliasName(
               reference: account.aliasName,
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 16),
             Container(
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
+              height: 40,
+              decoration: customBoxDecoration(10),
               width: MediaQuery.of(context).size.width - 32,
               alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 24, bottom: 24),
-              child: Text("Minimo 4 y máximo 20 carateres"),
+              margin: const EdgeInsets.only(top: 24, bottom: 24),
+              child: Row(
+                children: const [
+                  Padding(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      child:Icon(Icons.error_outline, color: DarkColor,)
+                  ),
+                  Text("Minimo 4 y máximo 20 carateres", style: TextStyle(color: DarkColor),),],
+              )
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                MaterialButton(
-                    padding: EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    disabledColor: Colors.black87,
-                    elevation: 0,
+                Expanded(
                     child: Container(
-                      constraints: BoxConstraints(
-                          minWidth: MediaQuery.of(context).size.width * 0.4,
-                          maxWidth: MediaQuery.of(context).size.width * 0.4,
-                          maxHeight: 50),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          gradient: const LinearGradient(
-                              colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
-                      child: referenceForm.isLoading
-                          ? circularProgress()
-                          : const Text(
-                              'Guardar',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
+                      padding: const EdgeInsets.only(bottom: 32),
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        MaterialButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            disabledColor: Colors.black87,
+                            elevation: 0,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  minWidth: MediaQuery.of(context).size.width * 0.4,
+                                  maxWidth: MediaQuery.of(context).size.width * 0.4,
+                                  maxHeight: 50),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  gradient: const LinearGradient(
+                                      colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                              child: referenceForm.isLoading
+                                  ? circularProgress()
+                                  : const Text(
+                                'Guardar',
+                                style:
+                                TextStyle(color: Colors.white, fontSize: 16),
+                              ),
                             ),
-                    ),
-                    onPressed: () {
-                      if (referenceForm.isValidForm() &&
-                          !referenceForm.isLoading) {
-                        referenceForm.isLoading = true;
-                        TokenService().readToken().then((token) {
-                          UserService().readUserData().then((data) {
-                            var userData = jsonDecode(data);
-                            AccountService()
-                                .modifyAlias(
-                                    token,
-                                    userData,
-                                    account.accountNumber,
-                                    account.companyNumber,
-                                    referenceForm.reference)
-                                .then((value) {
-                              var code = jsonDecode(value)["Code"];
-                              if (code == 0) {
-                                referenceForm.isLoading = false;
-                                _showDialogExit(context);
+                            onPressed: () {
+                              if (referenceForm.isValidForm() &&
+                                  !referenceForm.isLoading) {
+                                referenceForm.isLoading = true;
+                                TokenService().readToken().then((token) {
+                                  UserService().readUserData().then((data) {
+                                    var userData = jsonDecode(data);
+                                    AccountService()
+                                        .modifyAlias(
+                                        token,
+                                        userData,
+                                        account.accountNumber,
+                                        account.companyNumber,
+                                        referenceForm.reference)
+                                        .then((value) {
+                                      var code = jsonDecode(value)["Code"];
+                                      if (code == 0) {
+                                        referenceForm.isLoading = false;
+                                        _showDialogExit(context);
+                                      }
+                                    });
+                                  });
+                                });
                               }
-                            });
-                          });
-                        });
-                      }
-                      FocusScope.of(context).unfocus();
-                      // //Todo Login Forms
-                      if (!referenceForm.isValidForm()) return;
-                    }),
-                MaterialButton(
-                    padding: EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    disabledColor: Colors.black87,
-                    elevation: 0,
-                    child: Container(
-                      constraints: BoxConstraints(
-                          minWidth: MediaQuery.of(context).size.width * 0.4,
-                          maxWidth: MediaQuery.of(context).size.width * 0.4,
-                          maxHeight: 50),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        border:
-                            Border.all(color: Color(0XFF3A3D5F), width: 1.5),
-                      ),
-                      child: const Text(
-                        'Cancelar',
-                        style:
-                            TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-              ],
-            )
+                              FocusScope.of(context).unfocus();
+                              // //Todo Login Forms
+                              if (!referenceForm.isValidForm()) return;
+                            }),
+                        MaterialButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            disabledColor: Colors.black87,
+                            elevation: 0,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                  minWidth: MediaQuery.of(context).size.width * 0.4,
+                                  maxWidth: MediaQuery.of(context).size.width * 0.4,
+                                  maxHeight: 50),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                                border:
+                                Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
+                              ),
+                              child: const Text(
+                                'Cancelar',
+                                style:
+                                TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                      ],
+                  )
+                ))
+
           ])),
     );
   }
@@ -195,7 +243,7 @@ class _FormRegisterAccount extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
@@ -212,7 +260,7 @@ class _FormRegisterAccount extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {

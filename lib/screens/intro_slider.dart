@@ -91,7 +91,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
                       currentSlide.title.toString(),
                       //style: currentSlide.styleTitle,
                       style: const TextStyle(
-                        color: Color(0xFF3A3D5F),
+                        color: Color(0XFF3A3D5F),
                         fontFamily: 'SF Pro Display',
                         fontWeight: FontWeight.bold,
                         fontSize: 24.0,
@@ -127,7 +127,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF3A3D5F),
+      backgroundColor: const Color(0XFF3A3D5F),
       body: Stack(children: [
         Container(
           width: double.infinity,
@@ -143,14 +143,14 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
           slides: slides,
           renderSkipBtn: const Text(
             "Saltar intro",
-            style: TextStyle(color: Color(0xFF84BD00)),
+            style: TextStyle(color: Color(0XFF84BD00)),
           ),
           renderNextBtn: const Text(
             "Siguiente",
             style: TextStyle(color: Colors.black),
           ),
           renderDoneBtn: const Text("Continuar",
-              style: TextStyle(color: Color(0xFF84BD00))),
+              style: TextStyle(color: Color(0XFF84BD00))),
           // // colorDoneBtn: Colors.white,
           colorActiveDot: const Color(0xFF84BD00),
           sizeDot: 8.0,
@@ -166,7 +166,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
           ),
         )
       ]),
-      bottomNavigationBar: const CustomBar(),
+      bottomNavigationBar: const SafeArea(child: CustomBar())
     );
   }
 }
@@ -185,7 +185,7 @@ class CustomBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 30),
+          const SizedBox(height: 30),
             //Icon(Icons.info_outline, color: Colors.white),
             //Text(
             //  "  Recuerde pagar sus facturas a tiempo para evitar cortes de energía",

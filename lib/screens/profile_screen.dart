@@ -17,14 +17,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
         body: Container(
             color: const Color(0XFFF7F7F7),
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             child: Column(
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.35,
-                  margin: EdgeInsets.only(bottom: 4),
-                  padding: EdgeInsets.only(top: 24, bottom: 24),
+                  margin: const EdgeInsets.only(bottom: 4),
+                  padding: const EdgeInsets.only(top: 24, bottom: 24),
                   decoration: customBoxDecoration(10),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,9 +46,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     height: 124,
                                     width: 124,
                                     child: DottedBorder(
-                                      padding: EdgeInsets.all(4),
+                                      padding: const EdgeInsets.all(4),
                                       borderType: BorderType.Circle,
-                                      dashPattern: [10, 5, 10, 5, 10, 5],
+                                      dashPattern: const [10, 5, 10, 5, 10, 5],
                                       child: CircleAvatar(
                                         radius:
                                             MediaQuery.of(context).size.width,
@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           radius:
                                               MediaQuery.of(context).size.width,
                                           backgroundImage:
-                                              AssetImage('assets/foto.png'),
+                                              const AssetImage('assets/foto.png'),
                                         ),
                                       ),
                                     )),
@@ -94,12 +94,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     itemOption("Editar Perfil", "vuesax-linear-edit-blue.png",
                         () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => EditProfileScreen()));
+                          builder: (context) => const EditProfileScreen()));
                     }),
                     Container(
                       height: 50,
-                      margin: EdgeInsets.only(top: 4, right: 1.5, left: 1.5),
-                      padding: EdgeInsets.only(left: 16, right: 4),
+                      margin: const EdgeInsets.only(top: 4, right: 1.5, left: 1.5),
+                      padding: const EdgeInsets.only(left: 16, right: 4),
                       decoration: customBoxDecoration(10),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

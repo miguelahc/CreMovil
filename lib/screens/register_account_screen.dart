@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/providers/register_account_form_provider.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/ui/input_decorations.dart';
+import 'package:app_cre/widgets/title.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,23 +17,57 @@ class RegisterAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Form(
-        //Activando el validador de formulario
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Stack(
-          children: [
-            const RegisterAccountBackground(),
-            Column(
+      body: Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+              gradient: DarkGradient
+          ),
+          child: SafeArea(
+            child: Column(
               children: [
-                ChangeNotifierProvider(
-                  create: (_) => RegisterAccountFormProvider(),
-                  child: _FormRegisterAccount(),
+                Expanded(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                          color:  Color(0XFFF7F7F7),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.27,
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                                gradient: DarkGradient
+                            ),
+                            child: CustomTitle(
+                              title: "Registro", 
+                              subtitle: const ["Bienvenido a CRE Móvil,", 
+                              "necesitamos el registro de tu", 
+                              "Código Fijo o Servicio para continuar"]
+                            ),
+                          ),
+                          Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: ChangeNotifierProvider(
+                                  create: (_) => RegisterAccountFormProvider(),
+                                  child: _FormRegisterAccount(),
+                                ),
+                              )
+                          )
+                        ],
+                      ),
+                    )
                 ),
+                Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  child: Footer(dark: true),
+                )
               ],
-            )
-          ],
-        ),
-      ),
+            ),
+          )
+      )
     );
   }
 }
@@ -45,16 +81,17 @@ class _FormRegisterAccount extends StatelessWidget {
           horizontal: MediaQuery.of(context).size.height * 0.04),
       child: Form(
           key: registerForm.formKey,
-          child: Column(children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.40),
+          child: Column(
+              mainAxisAlignment: WidgetsBinding.instance.window.viewInsets.bottom > 0.0? MainAxisAlignment.start: MainAxisAlignment.center,
+              children: [
             const _AccountNumber(),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             const _IdentificationNumber(),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             const _AliasName(),
             const SizedBox(height: 30),
             MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 disabledColor: Colors.black87,
@@ -67,13 +104,12 @@ class _FormRegisterAccount extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                      gradient: PrimaryGradient),
                   child: registerForm.isLoading
                       ? circularProgress()
                       : const Text(
                           'Registrar',
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: Colors.white, fontSize: 16),
                         ),
                 ),
@@ -118,6 +154,8 @@ class _FormRegisterAccount extends StatelessWidget {
                   // //Todo Login Forms
                   if (!registerForm.isValidForm()) return;
                 }),
+
+                const SizedBox(height: 30),
           ])),
     );
   }
@@ -141,7 +179,7 @@ class _FormRegisterAccount extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
@@ -158,7 +196,7 @@ class _FormRegisterAccount extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Ingresar',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -188,7 +226,7 @@ class _FormRegisterAccount extends StatelessWidget {
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,

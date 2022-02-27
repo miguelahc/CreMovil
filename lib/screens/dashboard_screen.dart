@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/account.dart';
-import 'package:app_cre/models/account_detail.dart';
-import 'package:app_cre/screens/edit_reference_screen.dart';
+import 'package:app_cre/models/models.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
@@ -44,7 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 .where(
                     (element) => element["AccountTypeRegister"] == "Servicio")
                 .toList();
-            this.onLoad = false;
+            onLoad = false;
           });
         });
       });
@@ -56,19 +54,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return SafeArea(
         bottom: false,
         child: Column(children: [
-          _CajaSuperiorDatos(),
+          const _CajaSuperiorDatos(),
           Container(
-            margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+            margin: const EdgeInsets.only(left: 16, right: 16, top: 8),
             child: Column(children: [
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 MaterialButton(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     disabledColor: Colors.black87,
                     elevation: 0,
                     child: Container(
-                        constraints:
+                        constraints: const
                             BoxConstraints(minWidth: 100, maxHeight: 30),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -106,7 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: ListView(
                   children: [
                     Container(
-                        padding: EdgeInsets.only(left: 16, right: 16),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -157,11 +155,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget item(context, data) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 8),
       height: 52,
       decoration: BoxDecoration(
           boxShadow: customBoxShadow(),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           gradient: PrimaryGradient),
       child: Row(children: [
         Expanded(
@@ -244,7 +242,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         MaterialButton(
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
                             disabledColor: Colors.black87,
@@ -327,14 +325,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           'El registro $aliasName\nse ha eliminado',
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
@@ -351,7 +349,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -375,7 +373,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           '¿Está seguro que desea\neliminar $aliasName \nde la Aplicación Móvil?',
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -385,7 +383,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Align(
                   alignment: Alignment.center,
                   child: MaterialButton(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       disabledColor: Colors.black87,
@@ -440,7 +438,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Align(
                   alignment: Alignment.center,
                   child: MaterialButton(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       disabledColor: Colors.black87,
@@ -455,7 +453,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(30),
                           border:
-                              Border.all(color: Color(0XFF3A3D5F), width: 1.5),
+                              Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
                         ),
                         child: const Text(
                           'Cancelar',
@@ -475,7 +473,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 }
 
 class _CajaSuperiorDatos extends StatefulWidget {
-  _CajaSuperiorDatos({Key? key}) : super(key: key);
+  const _CajaSuperiorDatos({Key? key}) : super(key: key);
 
   @override
   State<_CajaSuperiorDatos> createState() => __CajaSuperiorDatosState();
@@ -512,21 +510,21 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
       margin: const EdgeInsets.only(left: 8, top: 8),
       decoration: customBoxDecoration(10),
       child: Container(
-        padding: EdgeInsets.only(left: 12, right: 12),
+        padding: const EdgeInsets.only(left: 12, right: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             DottedBorder(
-              padding: EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
               borderType: BorderType.Circle,
-              dashPattern: [6, 3, 6, 3, 6, 3],
+              dashPattern: const [6, 3, 6, 3, 6, 3],
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.width / 13,
                 backgroundColor: Colors.black,
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 10,
-                  backgroundImage: AssetImage('assets/foto.png'),
+                  backgroundImage: const AssetImage('assets/foto.png'),
                 ),
               ),
             ),
@@ -540,11 +538,11 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                     children: [
                       Text("Hola, $name",
                           style: const TextStyle(
-                              color: Color(0xFF3A3D5F),
+                              color: Color(0XFF3A3D5F),
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'SF Pro Display')),
-                      SizedBox(
+                    SizedBox(
                           width: 24,
                           height: 24,
                           child: IconButton(
@@ -566,14 +564,14 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                   ),
                   const Text("miguel.cre@gmail.com",
                       style: TextStyle(
-                          color: Color(0xFFA39F9F),
+                          color: Color(0XFFA39F9F),
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'SF Pro Display'))
                 ],
               ),
             ),
-            const sabiasQue(),
+            const SabiasQue(),
           ],
         ),
       ),
@@ -581,20 +579,20 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
   }
 }
 
-class sabiasQue extends StatelessWidget {
-  const sabiasQue({
+class SabiasQue extends StatelessWidget {
+  const SabiasQue({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 8, bottom: 8),
+        margin: const EdgeInsets.only(top: 8, bottom: 8),
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width * 0.22,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
-            color: Color(0XFFF7F7F7),
+            borderRadius: const BorderRadius.all(Radius.elliptical(20, 10)),
+            color: const Color(0XFFF7F7F7),
             boxShadow: customBoxShadow()),
         child: Column(
           children: [
@@ -608,7 +606,7 @@ class sabiasQue extends StatelessWidget {
             ),
             const Text(
               " ¿Sabías que?",
-              style: TextStyle(color: Color(0xFF3A3D5F), fontSize: 12),
+              style: TextStyle(color: Color(0XFF3A3D5F), fontSize: 12),
             )
           ],
         ));

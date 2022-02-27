@@ -30,15 +30,15 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-        backgroundColor: Color(0XFFF7F7F7),
+        backgroundColor: const Color(0XFFF7F7F7),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
         body: SafeArea(
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                padding: EdgeInsets.only(left: 16),
+                margin: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                padding: const EdgeInsets.only(left: 16),
                 width: MediaQuery.of(context).size.width,
                 height: 70,
                 decoration: customBoxDecoration(10),
@@ -72,7 +72,7 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 16, bottom: 16),
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
                       alignment: Alignment.centerLeft,
                       child: const Text(
                         "Titulo de la notificacion",
@@ -83,7 +83,7 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 16, bottom: 16),
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
                       alignment: Alignment.centerLeft,
                       child: const Text(
                         "Ya está disponibles su factura de consumo correspondiente al periodo 25 de dic. 2021 hasta el 01 de ene. 2022.",
@@ -93,8 +93,8 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(bottom: 8),
-                        padding: EdgeInsets.only(left: 16),
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(left: 16),
                         height: 50,
                         alignment: Alignment.center,
                         decoration: customBoxDecoration(10),
@@ -104,7 +104,7 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
                             ImageIcon(
                               AssetImage(
                                   'assets/icons/vuesax-linear-keyboard-open-blue.png'),
-                              color: Color(0XFF3A3D5F),
+                              color:  Color(0XFF3A3D5F),
                             ),
                             SizedBox(
                               width: 16,
@@ -120,8 +120,8 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
                           ],
                         )),
                     Container(
-                        margin: EdgeInsets.only(bottom: 8),
-                        padding: EdgeInsets.only(left: 16),
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(left: 16),
                         height: 50,
                         alignment: Alignment.center,
                         decoration: customBoxDecoration(10),
