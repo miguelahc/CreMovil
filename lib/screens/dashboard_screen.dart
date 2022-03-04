@@ -571,7 +571,7 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                 ],
               ),
             ),
-            const SabiasQue(),
+            const DidYouKnow(),
           ],
         ),
       ),
@@ -579,8 +579,8 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
   }
 }
 
-class SabiasQue extends StatelessWidget {
-  const SabiasQue({
+class DidYouKnow extends StatelessWidget {
+  const DidYouKnow({
     Key? key,
   }) : super(key: key);
 
@@ -602,7 +602,9 @@ class SabiasQue extends StatelessWidget {
                 AssetImage('assets/icons/vuesax-linear-lamp-charge.png'),
                 color: Color(0XFF84BD00),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DidYouKnowScreen()));
+              },
             ),
             const Text(
               " ¿Sabías que?",

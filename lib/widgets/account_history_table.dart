@@ -1,13 +1,13 @@
 import 'package:app_cre/models/invoice_detail.dart';
-import 'package:app_cre/screens/invoice_detail_screen.dart';
+import 'package:app_cre/screens/account/invoice_detail_screen.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomTable extends StatelessWidget {
+class AccountHistoryTable extends StatelessWidget {
   final List<dynamic> data;
-  const CustomTable({required this.data});
+  const AccountHistoryTable({required this.data});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,4 @@
-import 'package:app_cre/screens/edit_profile_screen.dart';
+import 'package:app_cre/screens/profile/edit_profile_screen.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/widgets/item_option.dart';

@@ -39,7 +39,9 @@ Widget endDrawer(AuthService authService, BuildContext context) {
           itemOption("Información de ayuda y soporte",
               "vuesax-linear-info-circle.png", () {}),
           itemOption(
-              "Sabías que?", "vuesax-linear-lamp-charge-blue.png", () {}),
+              "Sabías que?", "vuesax-linear-lamp-charge-blue.png", () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DidYouKnowScreen()));
+          }),
           itemOption("Salir", "vuesax-linear-logout.png", () {
             authService.logout();
             Navigator.pushReplacementNamed(context, 'login');

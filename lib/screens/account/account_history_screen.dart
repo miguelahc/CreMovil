@@ -181,7 +181,7 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                 style: TextStyle(
                     color: Color(0XFF3A3D5F), fontWeight: FontWeight.normal)),
           ),
-          Expanded(child: CustomTable(data: accountDetail.accountHistory))
+          Expanded(child: AccountHistoryTable(data: accountDetail.accountHistory))
         ]),
       )),
     );

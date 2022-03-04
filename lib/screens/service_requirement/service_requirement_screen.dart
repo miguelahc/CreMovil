@@ -1,4 +1,4 @@
-import 'package:app_cre/screens/service_requirement_content_screen.dart';
+import 'package:app_cre/screens/service_requirement/service_requirement_content_screen.dart';
 import 'package:app_cre/services/auth_service.dart';
 import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/widgets/app_bar.dart';

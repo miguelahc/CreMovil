@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_cre/models/models.dart';
+import 'package:app_cre/screens/account/payments/payment_screen.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
@@ -245,7 +246,15 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                     children: <Widget>[
                       (accountDetail.totalDebt > 0.0)
                           ? itemOption(
-                              "Pagar Deuda", "money-send-pay.png", () {})
+                              "Pagar Deuda", "money-send-pay.png", () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    PaymentScreen(
+                                      accountDetail: accountDetail,
+                                    )));
+                      })
                           : const SizedBox(),
                       (accountDetail.accountType == "Prepago" &&
                               accountDetail.totalDebt == 0.0)

@@ -1,7 +1,7 @@
 export 'package:app_cre/widgets/app_bar.dart';
 export 'package:app_cre/widgets/auth_background.dart';
 export 'package:app_cre/widgets/circular_progress.dart';
-export 'package:app_cre/widgets/custom_table.dart';
+export 'package:app_cre/widgets/account_history_table.dart';
 export 'package:app_cre/widgets/footer.dart';
 export 'package:app_cre/widgets/custom_divider.dart';
 export 'package:app_cre/widgets/end_drawer.dart';

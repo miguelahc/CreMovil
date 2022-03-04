@@ -1,9 +1,10 @@
+import 'dart:convert';
+
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/providers/reading_form_provider.dart';
-import 'package:app_cre/screens/simulated_invoice_screen.dart';
+import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
-import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/ui/input_decorations.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,16 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class RegisterReadingScreen extends StatefulWidget {
+class SimulateInvoiceScreen extends StatefulWidget {
   final AccountDetail accountDetail;
-  const RegisterReadingScreen({Key? key, required this.accountDetail})
+  const SimulateInvoiceScreen({Key? key, required this.accountDetail})
       : super(key: key);
 
   @override
-  State<RegisterReadingScreen> createState() => _RegisterReadingScreenState();
+  State<SimulateInvoiceScreen> createState() => _SimulateInvoiceScreenState();
 }
 
-class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
+class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
   late AccountDetail accountDetail;
   String lastDate = "";
   int lastReading = 15102;
@@ -48,7 +49,7 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                   Container(
                     padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
-                    child: const Text("Registro de lectura de medidor",
+                    child: const Text("Simular Factura",
                         style: TextStyle(
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold)),
@@ -134,7 +135,7 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                   Expanded(
                       child: ChangeNotifierProvider(
                     create: (_) => ReadingFormProvider(),
-                    child: FormCurrentReadingState(
+                    child: FormCurrentReadingSimulateState(
                       lastReading: lastReading,
                       accountDetail: accountDetail,
                       lastDate: lastDate,
@@ -183,11 +184,11 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
   }
 }
 
-class FormCurrentReadingState extends StatelessWidget {
+class FormCurrentReadingSimulateState extends StatelessWidget {
   final int lastReading;
   final String lastDate;
   final AccountDetail accountDetail;
-  const FormCurrentReadingState(
+  const FormCurrentReadingSimulateState(
       {Key? key,
       required this.lastReading,
       required this.accountDetail,
@@ -203,13 +204,9 @@ class FormCurrentReadingState extends StatelessWidget {
           key: readingForm.formKey,
           child: Column(children: [
             const _CurrentReading(),
-            const SizedBox(
-              height: 16,
-            ),
-            const _ImageReading(),
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.only(bottom: 24),
+              padding: const EdgeInsets.only(bottom: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -235,7 +232,7 @@ class FormCurrentReadingState extends StatelessWidget {
                         child: readingForm.isLoading
                             ? circularProgress()
                             : const Text(
-                                'Registrar',
+                                'Simular Factura',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 16),
                               ),
@@ -281,7 +278,7 @@ class FormCurrentReadingState extends StatelessWidget {
                         child: const Text(
                           'Cancelar',
                           style:
-                              TextStyle(color:  Color(0XFF3A3D5F), fontSize: 16),
+                              TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
                         ),
                       ),
                       onPressed: () {
@@ -369,88 +366,6 @@ class _CurrentReading extends StatelessWidget {
           return "Solo se aceptan carateres numéricos";
         }
       },
-    );
-  }
-}
-
-class _ImageReading extends StatelessWidget {
-  const _ImageReading({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final readingForm = Provider.of<ReadingFormProvider>(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          height: 148,
-          width: 160,
-          decoration: customBoxDecoration(10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: 80,
-                  width: 80,
-                  decoration: customButtonDecoration(15),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        ImageIcon(
-                          AssetImage('assets/icons/camera.png'),
-                          color: Colors.white,
-                          size: 39,
-                        ),
-                        Text(
-                          "Cámara",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )
-                      ]),
-                ),
-                const Text(
-                  "Tomar foto",
-                  style:
-                      TextStyle(color: DarkColor, fontWeight: FontWeight.bold),
-                )
-              ]),
-        ),
-        Container(
-          height: 148,
-          width: 160,
-          decoration: customBoxDecoration(10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: 80,
-                  width: 80,
-                  decoration: customButtonDecoration(15),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        ImageIcon(
-                          AssetImage('assets/icons/gallery.png'),
-                          color: Colors.white,
-                          size: 39,
-                        ),
-                        Text(
-                          "Galería",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )
-                      ]),
-                ),
-                const Text(
-                  "Adjuntar",
-                  style:
-                      TextStyle(color: DarkColor, fontWeight: FontWeight.bold),
-                )
-              ]),
-        ),
-      ],
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:app_cre/models/notification.dart';
-import 'package:app_cre/screens/notification_category_screen.dart';
+import 'package:app_cre/screens/notifications/notification_category_screen.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/widgets/item_option.dart';
 import 'package:flutter/material.dart';
