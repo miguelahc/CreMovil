@@ -1,5 +1,6 @@
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class AccountHistoryScreen extends StatefulWidget {
   final AccountDetail accountDetail;
-  AccountHistoryScreen({Key? key, required this.accountDetail})
+  const AccountHistoryScreen({Key? key, required this.accountDetail})
       : super(key: key);
 
   @override
@@ -27,34 +28,25 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-      backgroundColor: Color(0XFFF7F7F7),
+      backgroundColor: const Color(0XFFF7F7F7),
       endDrawer: SafeArea(child: endDrawer(authService, context)),
       appBar: appBar(context, true),
       body: SafeArea(
           child: Container(
-        margin: EdgeInsets.only(left: 16, right: 16),
+        margin: const EdgeInsets.only(left: 16, right: 16),
         child: Column(children: [
           Container(
-            padding: EdgeInsets.only(left: 16, bottom: 16),
+            padding: const EdgeInsets.only(left: 16, bottom: 16),
             alignment: Alignment.centerLeft,
             child: const Text("Histórico de Cuenta",
                 style: TextStyle(
                     color: Color(0XFF82BA00), fontWeight: FontWeight.bold)),
           ),
           Container(
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               height: 60,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 6,
-                  ),
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
+              decoration: customBoxDecoration(10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -65,7 +57,7 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                   ),
                   Expanded(
                       child: Padding(
-                    padding: EdgeInsets.only(left: 16),
+                    padding: const EdgeInsets.only(left: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -83,13 +75,13 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                               "Código fijo: ",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: const Color(0XFF3A3D5F),
+                                  color: Color(0XFF3A3D5F),
                                   fontSize: 14),
                             ),
                             Text(
                               accountDetail.accountNumber,
                               style: const TextStyle(
-                                  color: const Color(0XFF999999), fontSize: 14),
+                                  color: Color(0XFF999999), fontSize: 14),
                             )
                           ],
                         )
@@ -102,7 +94,7 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
             height: 16,
           ),
           Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16),
             height: 110,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
@@ -162,18 +154,18 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                 ),
               ),
               const Divider(
-                height: 0,
+                height: 1,
                 color: Colors.white,
               ),
               Expanded(
                   child: Container(
-                padding: EdgeInsets.only(left: 40),
+                padding: const EdgeInsets.only(left: 40),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text("Facturas impagas: ",
                         style: TextStyle(color: Colors.white)),
-                    Text(accountDetail.invoiceIp,
+                    Text(accountDetail.numberInvoicesDue.toString(),
                         style: const TextStyle(
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold))
@@ -183,13 +175,13 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
             ]),
           ),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             alignment: Alignment.centerLeft,
             child: const Text("Facturas:",
                 style: TextStyle(
                     color: Color(0XFF3A3D5F), fontWeight: FontWeight.normal)),
           ),
-          Expanded(child: CustomTable(data: accountDetail.accountHistory))
+          Expanded(child: AccountHistoryTable(data: accountDetail.accountHistory))
         ]),
       )),
     );

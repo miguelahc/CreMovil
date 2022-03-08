@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:app_cre/models/account.dart';
-import 'package:app_cre/models/account_detail.dart';
-import 'package:app_cre/screens/edit_reference_screen.dart';
+import 'package:app_cre/models/models.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/ui/box_decoration.dart';
+import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/widgets/widgets.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -16,8 +17,6 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   var accounts = [];
   var services = [];
-  var general = [];
-
   bool onLoad = true;
   bool onLoadDialog = false;
 
@@ -37,7 +36,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             accounts = all
                 .where((element) => element["AccountTypeRegister"] == "Cuenta")
                 .toList();
-            this.onLoad = false;
+            services = all
+                .where(
+                    (element) => element["AccountTypeRegister"] == "Servicio")
+                .toList();
+            onLoad = false;
           });
         });
       });
@@ -49,19 +52,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return SafeArea(
         bottom: false,
         child: Column(children: [
-          _CajaSuperiorDatos(),
+          const _CajaSuperiorDatos(),
           Container(
-            margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+            margin: const EdgeInsets.only(left: 16, right: 16, top: 8),
             child: Column(children: [
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 MaterialButton(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     disabledColor: Colors.black87,
                     elevation: 0,
                     child: Container(
-                        constraints:
+                        constraints: const
                             BoxConstraints(minWidth: 100, maxHeight: 30),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -99,7 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: ListView(
                   children: [
                     Container(
-                        padding: EdgeInsets.only(left: 16, right: 16),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -116,30 +119,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .map((e) => item(context, e))
                                   .toList(),
                             ),
-                            const Text(
-                              "Servicios",
-                              style: TextStyle(color: Color(0XFF3A3D5F)),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            // i
-                            Column(
-                              children: services
-                                  .map((e) => item(context, e))
-                                  .toList(),
-                            ),
-                            const Text(
-                              "General",
-                              style: TextStyle(color: Color(0XFF3A3D5F)),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            // i
-                            Column(
-                              children:
-                                  general.map((e) => item(context, e)).toList(),
+                            services.isEmpty
+                            ?   const SizedBox()
+                            :   Column(
+                              children: [
+                                const Text(
+                                  "Servicios",
+                                  style: TextStyle(color: Color(0XFF3A3D5F)),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                // i
+                                Column(
+                                  children: services
+                                      .map((e) => item(context, e))
+                                      .toList(),
+                                ),
+                              ],
                             )
                           ],
                         ))
@@ -150,19 +147,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget item(context, data) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 8),
       height: 52,
-      decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 6,
-            ),
-          ],
-          color: Colors.amber,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          gradient:
-              LinearGradient(colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+      decoration: BoxDecoration(
+          boxShadow: customBoxShadow(),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          gradient: PrimaryGradient),
       child: Row(children: [
         Expanded(
           child: ListView(
@@ -177,7 +167,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           MaterialPageRoute(
                               builder: (context) => AccountStatusScreen(
                                   accountNumber: data["AccountNumber"],
-                                  companyNumber: data["CompanyNumber"])));
+                                  companyNumber: data["CompanyNumber"],
+                                  numberInvoicesDue: data["NumberInvoicesDue"])));
                     },
                     child: Container(
                       decoration: const BoxDecoration(
@@ -231,44 +222,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text("Deuda",
+                            children: [
+                              const Text("Deuda",
                                   style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0XFF393D5E),
                                       fontWeight: FontWeight.w500)),
-                              Text("Bs. 3.125.10",
-                                  style: TextStyle(
+                              Text("Bs. "+ data["AmountDebt"].toString(),
+                                  style: const TextStyle(
                                       fontSize: 12, color: Color(0XFF999999)))
                             ],
                           ),
                         ),
-                        MaterialButton(
-                            padding: EdgeInsets.all(0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                            disabledColor: Colors.black87,
-                            elevation: 0,
-                            child: Container(
-                                constraints: const BoxConstraints(
-                                    minWidth: 80, maxHeight: 30),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    gradient: const LinearGradient(colors: [
-                                      Color(0XFF618A02),
-                                      Color(0XFF84BD00)
-                                    ])),
-                                child: Row(
-                                  children: const [
-                                    Text(
-                                      'Pagar',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
-                                    ),
-                                  ],
-                                )),
-                            onPressed: () {}),
+                        data["AmountDebt"] == 0.0
+                          ?   const SizedBox(width: 70)
+                          :  MaterialButton(
+                              padding: const EdgeInsets.all(0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              disabledColor: Colors.black87,
+                              elevation: 0,
+                              child: Container(
+                                  constraints: const BoxConstraints(
+                                      minWidth: 60, maxHeight: 30),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      gradient: const LinearGradient(colors: [
+                                        Color(0XFF618A02),
+                                        Color(0XFF84BD00)
+                                      ])),
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        'Pagar',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 12),
+                                      ),
+                                    ],
+                                  )),
+                              onPressed: () {}),
                         const ImageIcon(
                           AssetImage('assets/icons/vuesax-linear-more.png'),
                           color: Colors.black,
@@ -327,14 +320,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           'El registro $aliasName\nse ha eliminado',
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
           Align(
               alignment: Alignment.center,
               child: MaterialButton(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   disabledColor: Colors.black87,
@@ -351,7 +344,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -375,7 +368,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           '¿Está seguro que desea\neliminar $aliasName \nde la Aplicación Móvil?',
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -385,7 +378,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Align(
                   alignment: Alignment.center,
                   child: MaterialButton(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       disabledColor: Colors.black87,
@@ -440,7 +433,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Align(
                   alignment: Alignment.center,
                   child: MaterialButton(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       disabledColor: Colors.black87,
@@ -455,7 +448,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(30),
                           border:
-                              Border.all(color: Color(0XFF3A3D5F), width: 1.5),
+                              Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
                         ),
                         child: const Text(
                           'Cancelar',
@@ -475,7 +468,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 }
 
 class _CajaSuperiorDatos extends StatefulWidget {
-  _CajaSuperiorDatos({Key? key}) : super(key: key);
+  const _CajaSuperiorDatos({Key? key}) : super(key: key);
 
   @override
   State<_CajaSuperiorDatos> createState() => __CajaSuperiorDatosState();
@@ -510,28 +503,24 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
       width: MediaQuery.of(context).size.width * 0.96,
       height: 100,
       margin: const EdgeInsets.only(left: 8, top: 8),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-          ),
-        ],
-      ),
+      decoration: customBoxDecoration(10),
       child: Container(
-        padding: EdgeInsets.only(left: 12, right: 12),
+        padding: const EdgeInsets.only(left: 12, right: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: MediaQuery.of(context).size.width / 13,
-              backgroundColor: Colors.black,
+            DottedBorder(
+              padding: const EdgeInsets.all(2),
+              borderType: BorderType.Circle,
+              dashPattern: const [6, 3, 6, 3, 6, 3],
               child: CircleAvatar(
-                radius: MediaQuery.of(context).size.width / 10,
-                backgroundImage: AssetImage('assets/foto.png'),
+                radius: MediaQuery.of(context).size.width / 13,
+                backgroundColor: Colors.black,
+                child: CircleAvatar(
+                  radius: MediaQuery.of(context).size.width / 10,
+                  backgroundImage: const AssetImage('assets/foto.png'),
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -544,11 +533,11 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                     children: [
                       Text("Hola, $name",
                           style: const TextStyle(
-                              color: Color(0xFF3A3D5F),
+                              color: Color(0XFF3A3D5F),
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'SF Pro Display')),
-                      SizedBox(
+                    SizedBox(
                           width: 24,
                           height: 24,
                           child: IconButton(
@@ -559,20 +548,25 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                               AssetImage('assets/icons/vuesax-linear-edit.png'),
                               color: Color(0XFF84BD00),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HomeScreen(currentPage: 2)));
+                            },
                           ))
                     ],
                   ),
                   const Text("miguel.cre@gmail.com",
                       style: TextStyle(
-                          color: Color(0xFFA39F9F),
+                          color: Color(0XFFA39F9F),
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'SF Pro Display'))
                 ],
               ),
             ),
-            const sabiasQue(),
+            const DidYouKnow(),
           ],
         ),
       ),
@@ -580,27 +574,21 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
   }
 }
 
-class sabiasQue extends StatelessWidget {
-  const sabiasQue({
+class DidYouKnow extends StatelessWidget {
+  const DidYouKnow({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 8, bottom: 8),
+        margin: const EdgeInsets.only(top: 8, bottom: 8),
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width * 0.22,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.elliptical(20, 10)),
-          color: Color(0XFFF7F7F7),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 6,
-            ),
-          ],
-        ),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.elliptical(20, 10)),
+            color: const Color(0XFFF7F7F7),
+            boxShadow: customBoxShadow()),
         child: Column(
           children: [
             IconButton(
@@ -609,11 +597,13 @@ class sabiasQue extends StatelessWidget {
                 AssetImage('assets/icons/vuesax-linear-lamp-charge.png'),
                 color: Color(0XFF84BD00),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DidYouKnowScreen()));
+              },
             ),
             const Text(
               " ¿Sabías que?",
-              style: TextStyle(color: Color(0xFF3A3D5F), fontSize: 12),
+              style: TextStyle(color: Color(0XFF3A3D5F), fontSize: 12),
             )
           ],
         ));

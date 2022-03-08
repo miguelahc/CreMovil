@@ -1,12 +1,8 @@
 import 'package:app_cre/models/models.dart';
-import 'package:app_cre/screens/notification_category_screen.dart';
-import 'package:app_cre/screens/register_account_screen.dart';
-import 'package:app_cre/screens/splash.dart';
+import 'package:app_cre/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/screens/login_screen.dart';
 import 'package:provider/provider.dart';
-
-import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 
 void main() async {
@@ -37,10 +33,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GlobalKey<NavigatorState> navigatorKey =
-      new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final GlobalKey<ScaffoldMessengerState> messengerKey =
-      new GlobalKey<ScaffoldMessengerState>();
+      GlobalKey<ScaffoldMessengerState>();
 
   @override
   void initState() {
@@ -76,8 +71,10 @@ class _MyAppState extends State<MyApp> {
               user: User("", "", ""),
             ),
         'register': (_) => const RegisterAccountScreen(),
-        'home': (_) => HomeScreen(),
-        'messange': (_) => NotificationScreen(),
+        'home': (_) => HomeScreen(
+              currentPage: 1,
+            ),
+        'messange': (_) => HomeScreen(currentPage: 0),
       },
       // scaffoldMessengerKey: NotificationsService.messengerKey,
       theme: ThemeData.light().copyWith(

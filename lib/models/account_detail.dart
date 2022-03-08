@@ -2,7 +2,7 @@ class AccountDetail {
   String companyNumber = "";
   String aliasName = "";
   String accountNumber = "";
-  String accountType = "Pospago PD";
+  String accountType = "PD";
   String titularName = "";
   String category = "Domiciliaria-PC-BT";
   String address = "";
@@ -11,5 +11,5 @@ class AccountDetail {
   String secc = "";
   List<dynamic> accountHistory = [];
   double totalDebt = 0.0;
-  String invoiceIp = "1";
+  int numberInvoicesDue = 0;
 }

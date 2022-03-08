@@ -12,9 +12,10 @@ class TokenService extends ChangeNotifier {
   };
 
   generateToken() async {
-    final response =
-        await http.get(Uri.parse(url + 'GetToken'), headers: headers);
-    storage.write(key: 'token', value: response.body);
+    //final response = await http.get(Uri.parse(url + 'GetToken'), headers: headers);
+    // String tocken = response.body;
+    String tockenApp = "Q1JFfCp8QHBwbTB2MTF8KnxtMHYxMWNyM3wqfDIwMjIwMzAx";
+    storage.write(key: 'token', value: tockenApp);
   }
 
   Future<String> readToken() async {

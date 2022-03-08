@@ -21,7 +21,7 @@ class AuthService extends ChangeNotifier {
     };
 
     final url =
-        Uri.https(_baseUrl, '/v1/accounts:signUp', {'key': _firebaseToken});
+    Uri.https(_baseUrl, '/v1/accounts:signUp', {'key': _firebaseToken});
 
     final resp = await http.post(url, body: json.encode(authData));
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
@@ -36,6 +36,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+/*
   Future<String?> login(String email, String password) async {
     final Map<String, dynamic> authData = {
       "usuario": "apolo",
@@ -73,7 +74,7 @@ class AuthService extends ChangeNotifier {
     }
     return null;
   }
-
+*/
   Future logout() async {
     await storage.delete(key: 'user_data');
     return;

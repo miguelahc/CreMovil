@@ -37,7 +37,7 @@ class _CajaSuperior extends StatelessWidget {
         height: MediaQuery.of(context).size.height -
             MediaQuery.of(context).padding.top -
             186,
-        padding: EdgeInsets.only(bottom: 80),
+        padding: const EdgeInsets.only(bottom: 80),
         decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
           Color(0xFF3A3D5F),
@@ -55,7 +55,7 @@ class _CajaMedia extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height - 180 - 80,
-        padding: EdgeInsets.only(bottom: 80),
+        padding: const EdgeInsets.only(bottom: 80),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
             gradient: LinearGradient(colors: [
