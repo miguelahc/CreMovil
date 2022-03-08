@@ -17,8 +17,6 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   var accounts = [];
   var services = [];
-  var general = [];
-
   bool onLoad = true;
   bool onLoadDialog = false;
 
@@ -121,30 +119,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .map((e) => item(context, e))
                                   .toList(),
                             ),
-                            const Text(
-                              "Servicios",
-                              style: TextStyle(color: Color(0XFF3A3D5F)),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            // i
-                            Column(
-                              children: services
-                                  .map((e) => item(context, e))
-                                  .toList(),
-                            ),
-                            const Text(
-                              "General",
-                              style: TextStyle(color: Color(0XFF3A3D5F)),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            // i
-                            Column(
-                              children:
-                                  general.map((e) => item(context, e)).toList(),
+                            services.isEmpty
+                            ?   const SizedBox()
+                            :   Column(
+                              children: [
+                                const Text(
+                                  "Servicios",
+                                  style: TextStyle(color: Color(0XFF3A3D5F)),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                // i
+                                Column(
+                                  children: services
+                                      .map((e) => item(context, e))
+                                      .toList(),
+                                ),
+                              ],
                             )
                           ],
                         ))
@@ -175,7 +167,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           MaterialPageRoute(
                               builder: (context) => AccountStatusScreen(
                                   accountNumber: data["AccountNumber"],
-                                  companyNumber: data["CompanyNumber"])));
+                                  companyNumber: data["CompanyNumber"],
+                                  numberInvoicesDue: data["NumberInvoicesDue"])));
                     },
                     child: Container(
                       decoration: const BoxDecoration(
@@ -229,44 +222,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text("Deuda",
+                            children: [
+                              const Text("Deuda",
                                   style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0XFF393D5E),
                                       fontWeight: FontWeight.w500)),
-                              Text("Bs. 3.125.10",
-                                  style: TextStyle(
+                              Text("Bs. "+ data["AmountDebt"].toString(),
+                                  style: const TextStyle(
                                       fontSize: 12, color: Color(0XFF999999)))
                             ],
                           ),
                         ),
-                        MaterialButton(
-                            padding: const EdgeInsets.all(0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                            disabledColor: Colors.black87,
-                            elevation: 0,
-                            child: Container(
-                                constraints: const BoxConstraints(
-                                    minWidth: 80, maxHeight: 30),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    gradient: const LinearGradient(colors: [
-                                      Color(0XFF618A02),
-                                      Color(0XFF84BD00)
-                                    ])),
-                                child: Row(
-                                  children: const [
-                                    Text(
-                                      'Pagar',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 12),
-                                    ),
-                                  ],
-                                )),
-                            onPressed: () {}),
+                        data["AmountDebt"] == 0.0
+                          ?   const SizedBox(width: 70)
+                          :  MaterialButton(
+                              padding: const EdgeInsets.all(0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              disabledColor: Colors.black87,
+                              elevation: 0,
+                              child: Container(
+                                  constraints: const BoxConstraints(
+                                      minWidth: 60, maxHeight: 30),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      gradient: const LinearGradient(colors: [
+                                        Color(0XFF618A02),
+                                        Color(0XFF84BD00)
+                                      ])),
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        'Pagar',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 12),
+                                      ),
+                                    ],
+                                  )),
+                              onPressed: () {}),
                         const ImageIcon(
                           AssetImage('assets/icons/vuesax-linear-more.png'),
                           color: Colors.black,

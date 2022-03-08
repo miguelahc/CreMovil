@@ -45,25 +45,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
         body: onLoad
             ? circularProgress()
             : SafeArea(
-                child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(left: 16, right: 16),
-                    child: Column(children: [
-                      header(),
-                      Container(
-                        padding:const EdgeInsets.only(bottom: 4, top: 24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomDot(page: 0, currentPage: _currentPage),
-                            CustomDot(page: 1, currentPage: _currentPage),
-                            CustomDot(page: 2, currentPage: _currentPage)
-                          ],
-                        ),
-                      ),
-                      pages(),
-                      actions()
-                    ]))));
+            child: Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(left: 16, right: 16),
+                child: Column(children: [
+                  header(),
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 4, top: 24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomDot(page: 0, currentPage: _currentPage),
+                        CustomDot(page: 1, currentPage: _currentPage),
+                        CustomDot(page: 2, currentPage: _currentPage)
+                      ],
+                    ),
+                  ),
+                  pages(),
+                  actions()
+                ]))));
   }
 
   Widget header() {
@@ -85,37 +85,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        accountDetail.aliasName,
-                        style: const TextStyle(
-                            color: Color(0XFF3A3D5F),
-                            fontSize: 16,
-                            fontFamily: "Mulish"),
-                      ),
-                      Row(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            "Código fijo: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0XFF3A3D5F),
-                                fontSize: 14),
-                          ),
                           Text(
-                            accountDetail.accountNumber,
+                            accountDetail.aliasName,
                             style: const TextStyle(
-                                color: Color(0XFF999999), fontSize: 14),
+                                color: Color(0XFF3A3D5F),
+                                fontSize: 16,
+                                fontFamily: "Mulish"),
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Código fijo: ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0XFF3A3D5F),
+                                    fontSize: 14),
+                              ),
+                              Text(
+                                accountDetail.accountNumber,
+                                style: const TextStyle(
+                                    color: Color(0XFF999999), fontSize: 14),
+                              )
+                            ],
                           )
                         ],
-                      )
-                    ],
-                  ),
-                )),
+                      ),
+                    )),
               ],
             )),
         rowData("Titular: ", accountDetail.titularName),
@@ -125,7 +125,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget pages(){
+  Widget pages() {
     return Expanded(
         child: PageView(
           controller: _pageController,
@@ -143,7 +143,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 8, bottom: 16),
                         child: const Text("Selecciona las Facturas a Pagar",
-                          style: TextStyle(color: SecondaryColor, fontWeight: FontWeight.w600),
+                          style: TextStyle(color: SecondaryColor,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                       PaymentsTable(pay: true),
@@ -164,11 +165,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 8, bottom: 16),
                         child: const Text("Selecciona el Método de Pago",
-                          style: TextStyle(color: SecondaryColor, fontWeight: FontWeight.w600),
+                          style: TextStyle(color: SecondaryColor,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                       Container(
-                          margin: const EdgeInsets.only(bottom: 8, left: 1.5, right: 1.5),
+                          margin: const EdgeInsets.only(
+                              bottom: 8, left: 1.5, right: 1.5),
                           padding: const EdgeInsets.only(left: 16),
                           height: 35,
                           alignment: Alignment.center,
@@ -196,7 +199,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           )
                       ),
                       Container(
-                          margin: const EdgeInsets.only(bottom: 8, left: 1.5, right: 1.5),
+                          margin: const EdgeInsets.only(
+                              bottom: 8, left: 1.5, right: 1.5),
                           padding: const EdgeInsets.only(left: 16),
                           height: 35,
                           alignment: Alignment.center,
@@ -224,7 +228,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           )
                       ),
                       Container(
-                        padding: const EdgeInsets.only(left: 16, top: 12, bottom: 8),
+                        padding: const EdgeInsets.only(
+                            left: 16, top: 12, bottom: 8),
                         alignment: Alignment.centerLeft,
                         child: const Text(
                           "Facturas seleccionadas:",
@@ -270,20 +275,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               Expanded(
                   child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Total de facturas a pagar: ",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Text(
-                    invoices.toString(),
-                    style: const TextStyle(
-                        color: SecondaryColor, fontWeight: FontWeight.bold),
-                  )
-                ],
-              )),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Total de facturas a pagar: ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        invoices.toString(),
+                        style: const TextStyle(
+                            color: SecondaryColor, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  )),
             ],
           ),
         ),
@@ -293,17 +298,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
         Expanded(
             child: Container(
-          padding: const EdgeInsets.only(left: 40),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("Monto Bs. ", style: TextStyle(color: Colors.white)),
-              Text(mount.toString(),
-                  style: const TextStyle(
-                      color: Color(0XFF82BA00), fontWeight: FontWeight.bold))
-            ],
-          ),
-        ))
+              padding: const EdgeInsets.only(left: 40),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                      "Monto Bs. ", style: TextStyle(color: Colors.white)),
+                  Text(mount.toString(),
+                      style: const TextStyle(
+                          color: Color(0XFF82BA00),
+                          fontWeight: FontWeight.bold))
+                ],
+              ),
+            ))
       ]),
     );
   }
@@ -359,8 +366,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
           elevation: 0,
           child: Container(
             constraints: BoxConstraints(
-                minWidth: MediaQuery.of(context).size.width * 0.75,
-                maxWidth: MediaQuery.of(context).size.width * 0.75,
+                minWidth: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.75,
+                maxWidth: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.75,
                 maxHeight: 50),
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -374,7 +387,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
           ),
           onPressed: () {
-            _pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+            _pageController.nextPage(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeIn);
             setState(() {
               _currentPage = 1;
             });

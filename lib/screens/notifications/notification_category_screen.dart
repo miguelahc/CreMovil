@@ -25,6 +25,7 @@ class _NotificationCategoryScreenState
   @override
   void initState() {
     notification = widget.notification;
+    print(widget.notification.notifications);
     super.initState();
   }
 

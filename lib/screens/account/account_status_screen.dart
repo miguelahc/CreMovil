@@ -13,9 +13,13 @@ import 'package:provider/provider.dart';
 class AccountStatusScreen extends StatefulWidget {
   final String accountNumber;
   final String companyNumber;
+  final int numberInvoicesDue;
 
   const AccountStatusScreen(
-      {Key? key, required this.accountNumber, required this.companyNumber})
+      {Key? key,
+      required this.accountNumber,
+      required this.companyNumber,
+      required this.numberInvoicesDue})
       : super(key: key);
 
   @override
@@ -55,6 +59,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
       accountDetail.secc = message["SectionCode"];
       accountDetail.totalDebt = message["TotalDebt"];
       accountDetail.accountHistory = message["estadocuenta"];
+      accountDetail.numberInvoicesDue = widget.numberInvoicesDue;
       onLoad = false;
     });
   }
@@ -113,8 +118,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                   Text(
                                     accountDetail.accountNumber,
                                     style: const TextStyle(
-                                        color: Color(0XFF999999),
-                                        fontSize: 14),
+                                        color: Color(0XFF999999), fontSize: 14),
                                   )
                                 ],
                               )
@@ -221,7 +225,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                               children: [
                                 const Text("Facturas impagas: ",
                                     style: TextStyle(color: Colors.white)),
-                                Text(accountDetail.invoiceIp,
+                                Text(accountDetail.numberInvoicesDue.toString(),
                                     style: const TextStyle(
                                         color: Color(0XFF82BA00),
                                         fontWeight: FontWeight.bold))
@@ -245,16 +249,14 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                   child: ListView(
                     children: <Widget>[
                       (accountDetail.totalDebt > 0.0)
-                          ? itemOption(
-                              "Pagar Deuda", "money-send-pay.png", () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    PaymentScreen(
-                                      accountDetail: accountDetail,
-                                    )));
-                      })
+                          ? itemOption("Pagar Deuda", "money-send-pay.png", () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PaymentScreen(
+                                            accountDetail: accountDetail,
+                                          )));
+                            })
                           : const SizedBox(),
                       (accountDetail.accountType == "Prepago" &&
                               accountDetail.totalDebt == 0.0)

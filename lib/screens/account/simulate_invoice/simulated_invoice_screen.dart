@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 
 class SimulatedInvoiceScreen extends StatefulWidget {
   final Reading reading;
-  const SimulatedInvoiceScreen({Key? key, required this.reading}) : super(key: key);
+  const SimulatedInvoiceScreen({Key? key, required this.reading})
+      : super(key: key);
 
   @override
   State<SimulatedInvoiceScreen> createState() => _SimulatedInvoiceScreenState();
@@ -31,7 +32,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
         var userData = jsonDecode(data);
         InvoiceService()
             .simulateInvoice(token, userData, reading.accountNumber,
-                reading.companyNumber, reading.currentReading)
+            reading.companyNumber, reading.currentReading)
             .then((dataS) {
           setState(() {
             InvoiceService().parseData(invoiceDetail, dataS);
@@ -52,88 +53,89 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
         body: onLoad
             ? circularProgress()
             : SafeArea(
-                child: Container(
-                    margin: const EdgeInsets.only(left: 16, right: 16),
-                    child: Column(children: [
-                      Container(
-                          padding:
-                              const EdgeInsets.only(left: 16, bottom: 16, right: 16),
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Factura Simulada",
-                                  style: TextStyle(
-                                      color: Color(0XFF82BA00),
-                                      fontWeight: FontWeight.bold)),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const Text("Código Fijo: ",
-                                      style: TextStyle(
-                                          color: Color(0XFF3A3D5F),
-                                          fontWeight: FontWeight.bold)),
-                                  Text(reading.accountNumber,
-                                      style:
-                                          const TextStyle(color: Color(0XFF666666)))
-                                ],
-                              )
-                            ],
-                          )),
-                      Column(
-                          children: invoiceDetail.others
-                              .map((e) => rowData(
-                                  e["Description"] + ": ",
-                                  e["Concept"] != null
-                                      ? e["Concept"]
-                                      : e["Value"].toInt().toString()))
-                              .toList()),
-                      const CustomDivider(),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Expanded(
-                          child: ListView(
-                        children: [
-                          // Seccion energia y potencia
-                          section(
-                              "Energía y potencia", "Monto Bs.", Colors.white),
-                          Column(
-                              children: invoiceDetail.energyPower
-                                  .map((e) => doubleSimpleRowData(
-                                      e["Description"], e["Value"].toString()))
-                                  .toList()),
-                          // Seccion tasas municipales
-                          section(
-                              "Tasas municipales", "Monto Bs.", Colors.white),
-                          Column(
-                              children: invoiceDetail.municipalFees
-                                  .map((e) => doubleSimpleRowData(
-                                      e["Description"], e["Value"].toString()))
-                                  .toList()),
-                          // Seccion Cargos y abonos
-                          section("Cargos / abonos", "Monto Bs.", Colors.white),
-                          Column(
-                              children: invoiceDetail.chargesPayments
-                                  .map((e) => doubleSimpleRowData(
-                                      e["Description"], e["Value"].toString()))
-                                  .toList()),
+          child: Container(
+              margin: const EdgeInsets.only(left: 16, right: 16),
+              child: Column(children: [
+                Container(
+                    padding: const EdgeInsets.only(
+                        left: 16, bottom: 16, right: 16),
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Factura Simulada",
+                            style: TextStyle(
+                                color: Color(0XFF82BA00),
+                                fontWeight: FontWeight.bold)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text("Código Fijo: ",
+                                style: TextStyle(
+                                    color: Color(0XFF3A3D5F),
+                                    fontWeight: FontWeight.bold)),
+                            Text(reading.accountNumber,
+                                style: const TextStyle(
+                                    color: Color(0XFF666666)))
+                          ],
+                        )
+                      ],
+                    )),
+                rowData("Titular: ", invoiceDetail.titularName),
+                rowData("categoria: ", invoiceDetail.categoryName),
+                Column(
+                    children: invoiceDetail.others
+                        .map((e) => rowData(
+                        e["Description"] + ": ",
+                        e["Concept"] != ""
+                            ? e["Concept"]
+                            : e["Value"].toString()))
+                        .toList()),
+                const CustomDivider(),
+                const SizedBox(
+                  height: 8,
+                ),
+                Expanded(
+                    child: ListView(
+                      children: [
+                        // Seccion energia y potencia
+                        section(
+                            "Energía y potencia", "Monto Bs.", Colors.white),
+                        Column(
+                            children: invoiceDetail.energyPower
+                                .map((e) => doubleSimpleRowData(
+                                e["Description"], e["Value"].toString()))
+                                .toList()),
+                        // Seccion tasas municipales
+                        section(
+                            "Tasas municipales", "Monto Bs.", Colors.white),
+                        Column(
+                            children: invoiceDetail.municipalFees
+                                .map((e) => doubleSimpleRowData(
+                                e["Description"], e["Value"].toString()))
+                                .toList()),
+                        // Seccion Cargos y abonos
+                        section("Cargos / abonos", "Monto Bs.", Colors.white),
+                        Column(
+                            children: invoiceDetail.chargesPayments
+                                .map((e) => doubleSimpleRowData(
+                                e["Description"], e["Value"].toString()))
+                                .toList()),
 
-                          doubleSimpleRowData("Base p/cred. fiscal Bs.",
-                              invoiceDetail.baseTaxCredit.toString()),
-                          section(
-                              "Total facturado Bs.",
-                              invoiceDetail.totalInvoice.toString(),
-                              const Color(0XFF393E5E)),
+                        doubleSimpleRowData("Base p/cred. fiscal Bs.",
+                          invoiceDetail.baseTaxCredit.toString()),
+                        section(
+                            "Total facturado Bs.",
+                            invoiceDetail.totalInvoice.toString(),
+                            const Color(0XFF393E5E)),
                         const SizedBox(
-                            height: 16,
-                          )
-                        ],
-                      ))
-                    ])),
-              ));
+                          height: 16,
+                        )
+                      ],
+                    ))
+              ])),
+        ));
   }
-
   Widget rowData(String key, String value) {
     return Column(
       children: [

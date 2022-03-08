@@ -154,7 +154,7 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                 ),
               ),
               const Divider(
-                height: 0,
+                height: 1,
                 color: Colors.white,
               ),
               Expanded(
@@ -165,7 +165,7 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                   children: [
                     const Text("Facturas impagas: ",
                         style: TextStyle(color: Colors.white)),
-                    Text(accountDetail.invoiceIp,
+                    Text(accountDetail.numberInvoicesDue.toString(),
                         style: const TextStyle(
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold))

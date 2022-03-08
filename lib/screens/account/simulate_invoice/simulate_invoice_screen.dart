@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/providers/reading_form_provider.dart';
-import 'package:app_cre/screens/screens.dart';
+import 'package:app_cre/screens/account/simulate_invoice/simulated_invoice_screen.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/input_decorations.dart';
@@ -70,38 +70,38 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                           ),
                           Expanded(
                               child: Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  accountDetail.aliasName,
-                                  style: const TextStyle(
-                                      color: Color(0XFF3A3D5F),
-                                      fontSize: 16,
-                                      fontFamily: "Mulish"),
-                                ),
-                                Row(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
-                                      "Código fijo: ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0XFF3A3D5F),
-                                          fontSize: 14),
-                                    ),
                                     Text(
-                                      accountDetail.accountNumber,
+                                      accountDetail.aliasName,
                                       style: const TextStyle(
-                                          color: Color(0XFF999999),
-                                          fontSize: 14),
+                                          color: Color(0XFF3A3D5F),
+                                          fontSize: 16,
+                                          fontFamily: "Mulish"),
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          "Código fijo: ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0XFF3A3D5F),
+                                              fontSize: 14),
+                                        ),
+                                        Text(
+                                          accountDetail.accountNumber,
+                                          style: const TextStyle(
+                                              color: Color(0XFF999999),
+                                              fontSize: 14),
+                                        )
+                                      ],
                                     )
                                   ],
-                                )
-                              ],
-                            ),
-                          )),
+                                ),
+                              )),
                         ],
                       )),
                   rowData("Titular: ", accountDetail.titularName),
@@ -134,13 +134,13 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                   ),
                   Expanded(
                       child: ChangeNotifierProvider(
-                    create: (_) => ReadingFormProvider(),
-                    child: FormCurrentReadingSimulateState(
-                      lastReading: lastReading,
-                      accountDetail: accountDetail,
-                      lastDate: lastDate,
-                    ),
-                  ))
+                        create: (_) => ReadingFormProvider(),
+                        child: FormCurrentReadingSimulateState(
+                          lastReading: lastReading,
+                          accountDetail: accountDetail,
+                          lastDate: lastDate,
+                        ),
+                      ))
                 ]))));
   }
 
@@ -190,9 +190,9 @@ class FormCurrentReadingSimulateState extends StatelessWidget {
   final AccountDetail accountDetail;
   const FormCurrentReadingSimulateState(
       {Key? key,
-      required this.lastReading,
-      required this.accountDetail,
-      required this.lastDate})
+        required this.lastReading,
+        required this.accountDetail,
+        required this.lastDate})
       : super(key: key);
 
   @override
@@ -206,87 +206,87 @@ class FormCurrentReadingSimulateState extends StatelessWidget {
             const _CurrentReading(),
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.only(bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  MaterialButton(
-                      padding: const EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      disabledColor: Colors.black87,
-                      elevation: 0,
-                      child: Container(
-                        constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width * 0.4,
-                            maxWidth: MediaQuery.of(context).size.width * 0.4,
-                            maxHeight: 50),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            gradient: const LinearGradient(colors: [
-                              Color(0XFF618A02),
-                              Color(0XFF84BD00)
-                            ])),
-                        child: readingForm.isLoading
-                            ? circularProgress()
-                            : const Text(
-                                'Simular Factura',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
-                      ),
-                      onPressed: () {
-                        if (readingForm.isValidForm() &&
-                            !readingForm.isLoading) {
-                          if (int.parse(readingForm.reading) <= lastReading) {
-                            _showDialogError(context);
-                          } else {
-                            Reading reading = Reading(
-                                accountDetail.accountNumber,
-                                accountDetail.companyNumber,
-                                int.parse(readingForm.reading));
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SimulatedInvoiceScreen(
-                                            reading: reading)));
-                          }
-                        }
-                        FocusScope.of(context).unfocus();
-                      }),
-                  MaterialButton(
-                      padding: const EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      disabledColor: Colors.black87,
-                      elevation: 0,
-                      child: Container(
-                        constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width * 0.4,
-                            maxWidth: MediaQuery.of(context).size.width * 0.4,
-                            maxHeight: 50),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          border:
-                              Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
-                        ),
-                        child: const Text(
-                          'Cancelar',
-                          style:
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      MaterialButton(
+                          padding: const EdgeInsets.all(0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          disabledColor: Colors.black87,
+                          elevation: 0,
+                          child: Container(
+                            constraints: BoxConstraints(
+                                minWidth: MediaQuery.of(context).size.width * 0.4,
+                                maxWidth: MediaQuery.of(context).size.width * 0.4,
+                                maxHeight: 50),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                gradient: const LinearGradient(colors: [
+                                  Color(0XFF618A02),
+                                  Color(0XFF84BD00)
+                                ])),
+                            child: readingForm.isLoading
+                                ? circularProgress()
+                                : const Text(
+                              'Simular Factura',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                          ),
+                          onPressed: () {
+                            if (readingForm.isValidForm() &&
+                                !readingForm.isLoading) {
+                              if (int.parse(readingForm.reading) <= lastReading) {
+                                _showDialogError(context);
+                              } else {
+                                Reading reading = Reading(
+                                    accountDetail.accountNumber,
+                                    accountDetail.companyNumber,
+                                    int.parse(readingForm.reading));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SimulatedInvoiceScreen(
+                                                reading: reading)));
+                              }
+                            }
+                            FocusScope.of(context).unfocus();
+                          }),
+                      MaterialButton(
+                          padding: const EdgeInsets.all(0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          disabledColor: Colors.black87,
+                          elevation: 0,
+                          child: Container(
+                            constraints: BoxConstraints(
+                                minWidth: MediaQuery.of(context).size.width * 0.4,
+                                maxWidth: MediaQuery.of(context).size.width * 0.4,
+                                maxHeight: 50),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                  color: const Color(0XFF3A3D5F), width: 1.5),
+                            ),
+                            child: const Text(
+                              'Cancelar',
+                              style:
                               TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                ],
-              ),
-            ))
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ],
+                  ),
+                ))
           ]),
         ));
   }
@@ -297,7 +297,7 @@ class FormCurrentReadingSimulateState extends StatelessWidget {
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
-            const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+        const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
         actionsPadding: const EdgeInsets.only(bottom: 30),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),

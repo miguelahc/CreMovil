@@ -236,7 +236,7 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                 )
               ),
               Container(
-                height: 70,
+                height: 95,
                 alignment: Alignment.center,
                 child:  Footer(dark: true),
               )

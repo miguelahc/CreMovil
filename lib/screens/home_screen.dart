@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget bottomAppBar() {
     return Container(
       color: const Color(0XFF3A3D5F),
-      height: 110,
+      height: 120,
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
           height: 30,
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Container(
           alignment: Alignment.center,
-          height: 80,
+          height: 90,
           child: ConvexAppBar(
             elevation: 0,
               height: 60,

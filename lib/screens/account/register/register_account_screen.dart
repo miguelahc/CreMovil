@@ -60,7 +60,7 @@ class RegisterAccountScreen extends StatelessWidget {
                     )
                 ),
                 Container(
-                  height: 70,
+                  height: 95,
                   alignment: Alignment.center,
                   child: Footer(dark: true),
                 )
@@ -128,19 +128,9 @@ class _FormRegisterAccount extends StatelessWidget {
                                   token, userData, account, phonePushId)
                               .then((data) {
                             var code = jsonDecode(data)["Code"];
-                            if (code == 0) {
-                              var message = jsonDecode(data)["Message"];
-                              var companyName =
-                                  jsonDecode(message)["CompanyName"];
-                              var clientName =
-                                  jsonDecode(message)["ClientName"];
-                              if (companyName != null && clientName != null) {
-                                registerForm.isLoading = false;
-                                _showDialogExit(context);
-                              } else {
-                                registerForm.isLoading = false;
-                                _showDialogError(context);
-                              }
+                            if ( code == 0) {
+                              registerForm.isLoading = false;
+                              _showDialogExit(context);
                             } else {
                               registerForm.isLoading = false;
                               _showDialogError(context);

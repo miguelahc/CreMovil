@@ -139,24 +139,14 @@ class _FormRegisterAccount extends StatelessWidget {
                               .registerAccount(
                                   token, userData, account, phonePushId)
                               .then((data) {
-                            var code = jsonDecode(data)["Code"];
-                            if (code == 0) {
-                              var message = jsonDecode(data)["Message"];
-                              var companyName =
-                                  jsonDecode(message)["CompanyName"];
-                              var clientName =
-                                  jsonDecode(message)["ClientName"];
-                              if (companyName != null && clientName != null) {
+                              var code = jsonDecode(data)["Code"];
+                              if (code == 0) {
                                 registerForm.isLoading = false;
                                 _showDialogExit(context);
                               } else {
                                 registerForm.isLoading = false;
                                 _showDialogError(context);
                               }
-                            } else {
-                              registerForm.isLoading = false;
-                              _showDialogError(context);
-                            }
                           });
                         });
                       });

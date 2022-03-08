@@ -181,7 +181,7 @@ class CustomBar extends StatelessWidget {
     return Container(
         color: const Color(0xff3A3D5F),
         width: double.infinity,
-        height: 70,
+        height: 95,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

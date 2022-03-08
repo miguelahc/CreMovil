@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:app_cre/models/notification.dart';
 import 'package:app_cre/screens/notifications/notification_category_screen.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:app_cre/widgets/circular_progress.dart';
 import 'package:app_cre/widgets/item_option.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/category.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -13,7 +18,10 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   int _selectedPage = 0;
+  bool isLoad = true;
+  late List<dynamic> notifications;
   late PageController _pageController;
+  late Iterable<Category> serviceCategories;
 
   void changePage(int pageNumber) {
     setState(() {
@@ -35,6 +43,28 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     _pageController = PageController();
+    TokenService().readToken().then((token) {
+      UserService().readUserData().then((data) {
+        var userData = jsonDecode(data);
+        NotificationsService().getCategories(token, userData).then((value) {
+          if (jsonDecode(value)["Code"] == 0) {
+            var message = jsonDecode(value)["Message"];
+            serviceCategories = NotificationsService()
+                .parseToListCategories(jsonDecode(message));
+            NotificationsService()
+                .getNotifications(token, userData)
+                .then((notificationsData) {
+              notifications =
+                  jsonDecode(jsonDecode(notificationsData)["Message"]);
+
+              setState(() {
+                isLoad = false;
+              });
+            });
+          }
+        });
+      });
+    });
     super.initState();
   }
 
@@ -70,65 +100,50 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 },
               )
             ]),
-            Expanded(
-                child: PageView(
-              onPageChanged: (page) {
-                setState(() {
-                  _selectedPage = page;
-                });
-              },
-              controller: _pageController,
-              children: [
-                Container(
-                    padding: const EdgeInsets.only(top: 16, left: 1, right: 1),
-                    child: Column(
-                      children: [
-                        itemOption(
-                            "Mantenimiento preventivo",
-                            "calendar.png",
-                            () => openNotificationCategory(
-                                Notifications("Mantenimiento preventivo"))),
-                        itemOption(
-                            "Suspensión de servicio por mora",
-                            "lamp-slash.png",
-                            () => openNotificationCategory(Notifications(
-                                "Suspensión de servicio por mora"))),
-                        itemOption(
-                            "Facturacion",
-                            "vuesax-linear-clipboard-text.png",
-                            () => openNotificationCategory(
-                                Notifications("Facturacion"))),
-                        itemOption(
-                            "Relaciones públicas",
-                            "vuesax-linear-people.png",
-                            () => openNotificationCategory(
-                                Notifications("Relaciones públicas"))),
-                        itemOption(
-                            "Servicio Técnico",
-                            "vuesax-linear-judge.png",
-                            () => openNotificationCategory(
-                                Notifications("Servicio Técnico"))),
-                        itemOption(
-                            "Nueva conexión",
-                            "vuesax-linear-lamp-charge-blue.png",
-                            () => openNotificationCategory(
-                                Notifications("Nueva conexión")))
-                      ],
-                    )),
-                Container(
-                    padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
-                    child: Column(
-                      children: [
-                        itemOption("Asistencia social cooperativa",
-                            "vuesax-linear-star.png", () => null),
-                        itemOption(
-                            "Medco", "vuesax-linear-story.png", () => null),
-                        itemOption("Crece", "vuesax-linear-send-square.png",
-                            () => null),
-                      ],
-                    )),
-              ],
-            ))
+            isLoad
+                ? Padding(
+                    padding: EdgeInsets.only(top: 36),
+                    child: circularProgress())
+                : Expanded(
+                    child: PageView(
+                    onPageChanged: (page) {
+                      setState(() {
+                        _selectedPage = page;
+                      });
+                    },
+                    controller: _pageController,
+                    children: [
+                      Container(
+                          padding:
+                              const EdgeInsets.only(top: 16, left: 1, right: 1),
+                          child: Column(
+                              children: serviceCategories
+                                  .map((e) => itemOptionWithImage(
+                                      e.descriptionCategory,
+                                      e.imageCategory,
+                                      () => openNotificationCategory(
+                                          Notifications(
+                                              e.descriptionCategory,
+                                              NotificationsService()
+                                                  .filterOnlyCategory(
+                                                      notifications,
+                                                      e.numberCategory)))))
+                                  .toList())),
+                      Container(
+                          padding:
+                              const EdgeInsets.only(top: 16, left: 8, right: 8),
+                          child: Column(
+                            children: [
+                              itemOption("Asistencia social cooperativa",
+                                  "vuesax-linear-star.png", () => null),
+                              itemOption("Medco", "vuesax-linear-story.png",
+                                  () => null),
+                              itemOption("Crece",
+                                  "vuesax-linear-send-square.png", () => null),
+                            ],
+                          )),
+                    ],
+                  ))
           ]),
     ));
   }
@@ -139,6 +154,7 @@ class TabButtom extends StatelessWidget {
   final int pageNumber;
   final int selectedPage;
   final Function() onPressed;
+
   const TabButtom(
       {Key? key,
       required this.title,

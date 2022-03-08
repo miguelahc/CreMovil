@@ -11,5 +11,5 @@ class AccountDetail {
   String secc = "";
   List<dynamic> accountHistory = [];
   double totalDebt = 0.0;
-  String invoiceIp = "1";
+  int numberInvoicesDue = 0;
 }

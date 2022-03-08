@@ -1,4 +1,5 @@
 class Notifications {
   String category;
-  Notifications(this.category);
+  List<dynamic> notifications;
+  Notifications(this.category, this.notifications);
 }
