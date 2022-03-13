@@ -4,77 +4,112 @@ import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/providers/login_form_provider.dart';
 import 'package:app_cre/ui/input_decorations.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:app_cre/models/models.dart';
+import 'package:app_cre/providers/conection_status.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
+  // static Widget create() {
+  //   return MultiProvider(
+  //     providers: [
+  //       ChangeNotifierProvider(create: (_) => ConnectionStatus()),
+  //     ],
+  //     child: Consumer<ConnectionStatus>(
+  //         builder: (_, model, __) => const LoginScreen()),
+  //     // child: const LoginScreen(),
+  //   );
+  // }
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: DarkGradient
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-                      color:  Color(0XFFF7F7F7),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.27,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-                            gradient: DarkGradient
-                          ),
-                          child: CustomTitle(
-                              title: "Ingresar",
-                              subtitle: const [
-                            "Digite su nombre y número de",
-                            "teléfono para continuar"]
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: ChangeNotifierProvider(
-                              create: (_) => LoginFormProvider(),
-                              child: _FormLogin(),
-                            ),
-                          )
-                        )
-                      ],
-                    ),
-                  )
-              ),
-              Container(
-                height: 95,
-                alignment: Alignment.center,
-                child: Footer(dark: true),
-              )
-            ],
-          ),
-        )
-      )
+    // return newLogin(dynamicModel: model);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ConnectionStatus()),
+      ],
+      child: Consumer<ConnectionStatus>(
+          builder: (_, model, __) => newLogin(dynamicModel: model)),
+      // child: const LoginScreen(),
     );
   }
 }
 
+class newLogin extends StatelessWidget {
+  ConnectionStatus dynamicModel;
+
+  newLogin({Key? key, required this.dynamicModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(gradient: DarkGradient),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30)),
+                        color: Color(0XFFF7F7F7),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.27,
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30)),
+                                gradient: DarkGradient),
+                            child: CustomTitle(
+                                title: "Ingresar",
+                                subtitle: const [
+                                  "Digite su nombre y número de",
+                                  "teléfono para continuar"
+                                ]),
+                          ),
+                          Expanded(
+                              child: Container(
+                            alignment: Alignment.center,
+                            child: ChangeNotifierProvider(
+                              create: (_) => LoginFormProvider(),
+                              child: _FormLogin(dynamicModel: dynamicModel),
+                            ),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 95,
+                    alignment: Alignment.center,
+                    child: Footer(dark: true),
+                  )
+                ],
+              ),
+            )));
+  }
+}
+
 class _FormLogin extends StatelessWidget {
+  _FormLogin({Key? key, required this.dynamicModel}) : super(key: key);
+  ConnectionStatus dynamicModel;
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
@@ -82,53 +117,100 @@ class _FormLogin extends StatelessWidget {
       margin: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.height * 0.04),
       child: Form(
-          key: loginForm.formKey,
-          child: Column(
-              mainAxisAlignment: WidgetsBinding.instance.window.viewInsets.bottom > 0.0? MainAxisAlignment.start: MainAxisAlignment.center,
-              children: [
-            const _Nombres(),
-            const SizedBox(height: 15),
-            const _Telefono(),
-            const SizedBox(height: 30),
-            MaterialButton(
-                padding: const EdgeInsets.all(0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                disabledColor: Colors.black87,
-                elevation: 0,
-                child: Container(
-                    constraints: BoxConstraints(
-                        minWidth: MediaQuery.of(context).size.width * 0.75,
-                        maxWidth: MediaQuery.of(context).size.width * 0.75,
-                        maxHeight: 50),
-                    alignment: Alignment.center,
-                    decoration: customButtonDecoration(30),
-                    child: loginForm.isLoading
-                        ? circularProgress()
-                        : const Text(
-                            'Ingresar',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )),
-                onPressed: () {
-                  if (loginForm.isValidForm() && !loginForm.isLoading) {
-                    loginForm.isLoading = true;
-                    var user = loginForm.getValues();
-                    TokenService().readToken().then((value) {
-                      UserService().sendPin(value, user.phone).then((value) {
-                        var code = jsonDecode(value)["Code"];
-                        if (code == 0) {
-                          _showDialogExit(context, user, loginForm);
-                        } else {
-                          _showDialogError(context, loginForm);
-                        }
+        key: loginForm.formKey,
+        child: Column(
+            mainAxisAlignment:
+                WidgetsBinding.instance.window.viewInsets.bottom > 0.0
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.center,
+            children: [
+              const _Nombres(),
+              const SizedBox(height: 15),
+              const _Telefono(),
+              const SizedBox(height: 30),
+              MaterialButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  disabledColor: Colors.black87,
+                  elevation: 0,
+                  child: Container(
+                      constraints: BoxConstraints(
+                          minWidth: MediaQuery.of(context).size.width * 0.75,
+                          maxWidth: MediaQuery.of(context).size.width * 0.75,
+                          maxHeight: 50),
+                      alignment: Alignment.center,
+                      decoration: customButtonDecoration(30),
+                      child: loginForm.isLoading
+                          ? circularProgress()
+                          : const Text(
+                              'Ingresar',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            )),
+                  onPressed: () {
+                    if (loginForm.isValidForm() && !loginForm.isLoading) {
+                      loginForm.isLoading = true;
+                      var user = loginForm.getValues();
+                      TokenService().readToken().then((value) {
+                        UserService().sendPin(value, user.phone).then((value) {
+                          var code = jsonDecode(value)["Code"];
+                          if (code == 0) {
+                            _showDialogExit(context, user, loginForm);
+                          } else {
+                            _showDialogError(context, loginForm);
+                          }
+                        });
                       });
-                    });
-                  }
-                  FocusScope.of(context).unfocus();
-                  // //Todo Login Forms
-                  if (!loginForm.isValidForm()) return;
-                }),
-          ])),
+                    }
+                    FocusScope.of(context).unfocus();
+                    // //Todo Login Forms
+                    if (!loginForm.isValidForm()) return;
+                  }),
+              Column(
+                children: [
+                  // if(dynamicModel.isOnline==false){
+                  //   return Text("conección");
+                  // }
+
+                  dynamicModel.isOnline
+                      ? Text("Conectado")
+                      : Text("Sin conectar"),
+                  // Consumer<ConnectionStatus>(builder: (_, model, __) {
+                  //   if (model.isOnline == false) {
+                  //     return AlertDialog(
+                  //       content: const Text('AlertDialog sin conección'),
+                  //       actions: <Widget>[
+                  //         TextButton(
+                  //           onPressed: () => Navigator.pop(context, 'Cancel'),
+                  //           child: const Text('Cancel'),
+                  //         ),
+                  //         TextButton(
+                  //           onPressed: () => Navigator.pop(context, 'OK'),
+                  //           child: const Text('OK'),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   } else {
+                  //     return AlertDialog(
+                  //       content: const Text('AlertDialog con conección'),
+                  //       actions: <Widget>[
+                  //         TextButton(
+                  //           onPressed: () => Navigator.pop(context, 'Cancel'),
+                  //           child: const Text('Cancel'),
+                  //         ),
+                  //         TextButton(
+                  //           onPressed: () => Navigator.pop(context, 'OK'),
+                  //           child: const Text('OK'),
+                  //         ),
+                  //       ],
+                  //     );
+                  //   }
+                  // }),
+                ],
+              )
+            ]),
+      ),
     );
   }
 

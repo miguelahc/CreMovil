@@ -1,4 +1,5 @@
 import 'package:app_cre/models/models.dart';
+import 'package:app_cre/providers/conection_status.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/screens/login_screen.dart';
@@ -19,6 +20,7 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => ConnectionStatus()),
       ],
       child: const MyApp(),
     );
@@ -57,7 +59,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Reto Api',
-      initialRoute: 'splash',
+      initialRoute: 'home',
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: messengerKey,
       routes: {
