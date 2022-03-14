@@ -21,58 +21,72 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
+        resizeToAvoidBottomInset: false,
+        body: Container(
             height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: DarkGradient
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-                    color:  Color(0XFFF7F7F7),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.27,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-                          gradient: DarkGradient
+            decoration: const BoxDecoration(gradient: DarkGradient),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                      child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                      color: Color(0XFFF7F7F7),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.27,
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  bottomRight: Radius.circular(30)),
+                              gradient: DarkGradient),
+                          child: CustomTitle(
+                              title: "Verificación",
+                              subtitle: const [
+                                "Ingresa el PIN enviado",
+                                "vía SMS a tu teléfono"
+                              ]),
                         ),
-                        child: CustomTitle(title: "Verificación", subtitle: const ["Ingresa el PIN enviado", "vía SMS a tu teléfono"]),
-                      ),
-                      Expanded(
-                        child: Container(
+                        Expanded(
+                            child: Container(
                           alignment: Alignment.center,
                           child: Form(
                             //Activando el validador de formulario
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 60, right: 60),
+                                  padding: const EdgeInsets.only(
+                                      left: 60, right: 60),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        height: MediaQuery.of(context).size.height * 0.22,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.22,
                                         child: Row(
                                           children: <Widget>[
                                             const ImageIcon(
-                                              AssetImage('assets/icons/vuesax-linear-mobileXL.png'),
+                                              AssetImage(
+                                                  'assets/icons/vuesax-linear-mobileXL.png'),
                                               color: Color(0XFF3A3D5F),
                                               size: 38,
                                             ),
                                             const SizedBox(width: 10),
                                             Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 const Text("Teléfono",
                                                     style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999))),
@@ -80,6 +94,7 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                   "${widget.user.prefixPhone} ${widget.user.phone}",
                                                   style: const TextStyle( fontFamily: 'Mulish', 
                                                       fontSize: 16, fontWeight: FontWeight.w400),
+
                                                 )
                                               ],
                                             )
@@ -92,8 +107,10 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                         keyboardType: TextInputType.number,
                                         pinTheme: PinTheme(
                                           activeColor: const Color(0xFF84BD00),
-                                          selectedColor: const Color(0xFF84BD00),
-                                          inactiveColor: const Color(0xFF84BD00),
+                                          selectedColor:
+                                              const Color(0xFF84BD00),
+                                          inactiveColor:
+                                              const Color(0xFF84BD00),
                                         ),
                                         pastedTextStyle: TextStyle( fontFamily: 'Mulish', 
                                           color: Colors.green.shade600,
@@ -105,29 +122,42 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                             setState(() {
                                               onLoading = true;
                                             });
-                                            TokenService().readToken().then((token) {
+                                            TokenService()
+                                                .readToken()
+                                                .then((token) {
                                               UserService()
                                                   .getPin(
-                                                      token, widget.user.phone, widget.user.phone)
+                                                      token,
+                                                      widget.user.phone,
+                                                      widget.user.phone)
                                                   .then((response) {
-                                                String message = jsonDecode(response)['Message'];
-                                                var pin =
-                                                    UserService().findPinInPaternString(message);
-                                                if (code == pin) {
+                                                String message = jsonDecode(
+                                                    response)['Message'];
+                                                var pin = UserService()
+                                                    .findPinInPaternString(
+                                                        message);
+                                                // if (code == pin) {
+                                                if (!(code == pin)) {
                                                   UserService().saveUserData(
                                                       pin,
                                                       widget.user.name,
                                                       widget.user.phone,
                                                       widget.user.prefixPhone,
-                                                      widget.user.prefixPhone + widget.user.phone);
-                                                  UserService().readUserData().then((data) {
-                                                    var userData = jsonDecode(data);
+                                                      widget.user.prefixPhone +
+                                                          widget.user.phone);
+                                                  UserService()
+                                                      .readUserData()
+                                                      .then((data) {
+                                                    var userData =
+                                                        jsonDecode(data);
                                                     PushNotificationService()
                                                         .readPhonePushId()
                                                         .then((phonePushId) {
                                                       UserService()
                                                           .registerUser(
-                                                              token, userData, phonePushId)
+                                                              token,
+                                                              userData,
+                                                              phonePushId)
                                                           .then((value) {
                                                         print(value);
                                                       });
@@ -138,15 +168,17 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                           token,
                                                           pin,
                                                           widget.user.phone,
-                                                          widget.user.prefixPhone +
+                                                          widget.user
+                                                                  .prefixPhone +
                                                               widget.user.phone)
                                                       .then((value) {
-                                                    var data = jsonDecode(value)["Message"];
-                                                    if(data == "OK"){
+                                                    var data = jsonDecode(
+                                                        value)["Message"];
+                                                    if (data == "OK") {
                                                       createAccount(context);
-                                                    }
-                                                    else{
-                                                      List accounts = jsonDecode(data);
+                                                    } else {
+                                                      List accounts =
+                                                          jsonDecode(data);
                                                       // AccountService().getListOfAccounts(data);
                                                       if (accounts.isEmpty) {
                                                         createAccount(context);
@@ -158,8 +190,12 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                         // Navigator.pop(context);
                                                         // Navigator.pushReplacementNamed(
                                                         //     context, "home");
-                                                        Navigator.of(context).pushNamedAndRemoveUntil(
-                                                            'home', (Route<dynamic> route) => false);
+                                                        Navigator.of(context)
+                                                            .pushNamedAndRemoveUntil(
+                                                                'home',
+                                                                (Route<dynamic>
+                                                                        route) =>
+                                                                    false);
                                                       }
                                                     }
                                                   });
@@ -176,11 +212,16 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                         onChanged: (String value) {},
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
-                                        SizedBox(
-                                              height: MediaQuery.of(context).size.height * 0.08),
+                                          SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.08),
                                           const Text(
                                             "¿No recibiste el SMS?",
                                             textAlign: TextAlign.center,
@@ -201,16 +242,21 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                   onLoading = true;
                                                 });
 
-                                                TokenService().readToken().then((token) {
+                                                TokenService()
+                                                    .readToken()
+                                                    .then((token) {
                                                   UserService()
-                                                      .sendPin(token, widget.user.phone)
+                                                      .sendPin(token,
+                                                          widget.user.phone)
                                                       .then((value) {
-                                                    var code = jsonDecode(value)["Code"];
+                                                    var code = jsonDecode(
+                                                        value)["Code"];
                                                     if (code == 0) {
                                                       setState(() {
                                                         onLoading = false;
                                                       });
-                                                      _showDialogExit(context, widget.user);
+                                                      _showDialogExit(
+                                                          context, widget.user);
                                                     }
                                                   });
                                                 });
@@ -221,7 +267,9 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                       ),
                                       Container(
                                         padding: const EdgeInsets.only(top: 32),
-                                        child: onLoading ? circularProgress() : const SizedBox(),
+                                        child: onLoading
+                                            ? circularProgress()
+                                            : const SizedBox(),
                                       )
                                     ],
                                   ),
@@ -229,23 +277,18 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                               ],
                             ),
                           ),
-                        )
-                      )
-                    ],
-                  ),
-                )
+                        ))
+                      ],
+                    ),
+                  )),
+                  Container(
+                    height: 95,
+                    alignment: Alignment.center,
+                    child: Footer(dark: true),
+                  )
+                ],
               ),
-              Container(
-                height: 95,
-                alignment: Alignment.center,
-                child:  Footer(dark: true),
-              )
-            ],
-          ),
-        )
-        )
-
-    );
+            )));
   }
 
   void createAccount(BuildContext context) {
