@@ -8,7 +8,7 @@ class MessageScreen extends StatelessWidget {
       body: Center(
         child: Text(
           '$args',
-          style: const TextStyle(fontSize: 30),
+          style: const TextStyle( fontFamily: 'Mulish', fontSize: 30),
         ),
       ),
     );

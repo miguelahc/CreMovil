@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 
 class InvoiceDetailScreen extends StatefulWidget {
   final InvoiceDetail invoiceDetail;
-  const InvoiceDetailScreen({Key? key, required this.invoiceDetail})
+  final AccountDetail accountDetail;
+  const InvoiceDetailScreen({Key? key, required this.invoiceDetail, required this.accountDetail})
       : super(key: key);
 
   @override
@@ -94,37 +95,44 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                     Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  "Factura Nro: ",
-                                  style: TextStyle(
-                                      color: Color(0XFF3A3D5F),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                Text(
-                                  invoiceDetail.documentNumber.toString(),
-                                  style: const TextStyle(
-                                      color: Color(0XFF999999),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400),
-                                )
-                              ],
+                            Text(
+                              widget.accountDetail.aliasName,
+                              style: const TextStyle(
+                                  color: Color(0XFF3A3D5F),
+                                  fontSize: 16,
+                                  fontFamily: "Mulish"),
                             ),
                             Row(
                               children: [
                                 const Text(
+                                  "Código fijo: ",
+                                  style: TextStyle( fontFamily: 'Mulish', 
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0XFF3A3D5F),
+                                      fontSize: 14),
+                                ),
+                                Text(
+                                  widget.accountDetail.accountNumber,
+                                  style: const TextStyle( fontFamily: 'Mulish', 
+                                      color: Color(0XFF999999), fontSize: 14),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const Text(
                                   "Estado: ",
-                                  style: TextStyle(
+                                  style: TextStyle( fontFamily: 'Mulish', 
                                       color: Color(0XFF999999),
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   invoiceDetail.status,
-                                  style: const TextStyle(
+                                  style: const TextStyle( fontFamily: 'Mulish', 
                                       color: Color(0XFF84BD00),
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold),
@@ -135,14 +143,14 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                               children: [
                                 const Text(
                                   "Fecha de emisión: ",
-                                  style: TextStyle(
+                                  style: TextStyle( fontFamily: 'Mulish', 
                                       color: Color(0XFF999999),
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   invoiceDetail.dateIssue,
-                                  style: const TextStyle(
+                                  style: const TextStyle( fontFamily: 'Mulish', 
                                       color: Color(0XFF999999),
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold),
@@ -175,7 +183,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                 ),
                                 Text(
                                   'Descargar',
-                                  style: TextStyle(
+                                  style: TextStyle( fontFamily: 'Mulish', 
                                       color: Colors.white, fontSize: 12),
                                 ),
                               ],
@@ -263,7 +271,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                   ])),
                               child: const Text(
                                 'Pagar',
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     color: Colors.white, fontSize: 16),
                               ),
                             ),
@@ -289,7 +297,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             children: [
               const Text(
                 'Opciones de descarga:',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -308,7 +316,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                       ),
                       Text(
                         "Aviso cobranza",
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle( fontFamily: 'Mulish', fontSize: 12),
                       )
                     ],
                   ),
@@ -324,7 +332,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                       SizedBox(
                         height: 16,
                       ),
-                      Text("Factura", style: TextStyle(fontSize: 12))
+                      Text("Factura", style: TextStyle( fontFamily: 'Mulish', fontSize: 12))
                     ],
                   ),
                 ],
@@ -353,7 +361,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                           colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
                     'Regresar',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {
@@ -393,14 +401,14 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             children: [
               Text(
                 key,
-                style: const TextStyle(
+                style: const TextStyle( fontFamily: 'Mulish', 
                     fontWeight: FontWeight.bold,
                     color: Color(0XFF3A3D5F),
                     fontSize: 14),
               ),
               Text(
                 value,
-                style: const TextStyle(color: Color(0XFF999999), fontSize: 14),
+                style: const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
               )
             ],
           ),
@@ -422,7 +430,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 children: [
                   Text(
                     key,
-                    style: const TextStyle(
+                    style: const TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF3A3D5F),
                         fontSize: 14),
@@ -430,7 +438,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                   Text(
                     value,
                     style:
-                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
+                        const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )),
@@ -439,7 +447,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 children: [
                   Text(
                     key2,
-                    style: const TextStyle(
+                    style: const TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF3A3D5F),
                         fontSize: 14),
@@ -447,7 +455,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                   Text(
                     value2,
                     style:
-                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
+                        const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )
@@ -474,7 +482,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 children: [
                   Text(
                     key,
-                    style: const TextStyle(
+                    style: const TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF3A3D5F),
                         fontSize: 14),
@@ -482,7 +490,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                   Text(
                     value,
                     style:
-                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
+                        const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )),
@@ -507,7 +515,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                           ),
                           Text(
                             text,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 color: Colors.white, fontSize: 12),
                           ),
                         ],
@@ -534,7 +542,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
               Expanded(
                 child: Text(
                   key,
-                  style: const TextStyle(
+                  style: const TextStyle( fontFamily: 'Mulish', 
                       fontWeight: FontWeight.bold,
                       color: Color(0XFF999999),
                       fontSize: 14),
@@ -545,7 +553,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 children: [
                   Text(
                     key2,
-                    style: const TextStyle(
+                    style: const TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF999999),
                         fontSize: 14),
@@ -581,7 +589,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
               Expanded(
                   child: Text(
                 key,
-                style: TextStyle(
+                style: TextStyle( fontFamily: 'Mulish', 
                     fontWeight: FontWeight.bold,
                     color: (color == Colors.white)
                         ? const Color(0XFF3A3D5F)
@@ -593,7 +601,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 children: [
                   Text(
                     key2,
-                    style: TextStyle(
+                    style: TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: (color == Colors.white)
                             ? const Color(0XFF3A3D5F)

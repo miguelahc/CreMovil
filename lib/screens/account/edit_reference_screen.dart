@@ -127,7 +127,7 @@ class _FormEditReference  extends StatelessWidget {
                       padding: EdgeInsets.only(left: 16, right: 16),
                       child:Icon(Icons.error_outline, color: DarkColor,)
                   ),
-                  Text("Minimo 4 y máximo 20 carateres", style: TextStyle(color: DarkColor),),],
+                  Text("Minimo 4 y máximo 20 carateres", style: TextStyle( fontFamily: 'Mulish', color: DarkColor),),],
               )
             ),
                 Expanded(
@@ -158,7 +158,7 @@ class _FormEditReference  extends StatelessWidget {
                                   : const Text(
                                 'Guardar',
                                 style:
-                                TextStyle(color: Colors.white, fontSize: 16),
+                                TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                               ),
                             ),
                             onPressed: () {
@@ -210,7 +210,7 @@ class _FormEditReference  extends StatelessWidget {
                               child: const Text(
                                 'Cancelar',
                                 style:
-                                TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
+                                TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 16),
                               ),
                             ),
                             onPressed: () {
@@ -236,7 +236,7 @@ class _FormEditReference  extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           'La información se ha \nmodificado con éxito',
-          style: TextStyle(fontSize: 14),
+          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -260,7 +260,7 @@ class _FormEditReference  extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -294,7 +294,7 @@ class _AliasNameState extends State<_AliasName> {
         labelText: 'Referencia',
         prefixIcon: Icons.language,
       ),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       initialValue: widget.reference,
       textCapitalization: TextCapitalization.words,
       onChanged: (value) {

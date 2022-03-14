@@ -12,4 +12,6 @@ class AccountDetail {
   List<dynamic> accountHistory = [];
   double totalDebt = 0.0;
   int numberInvoicesDue = 0;
+  String dateLastReading = "";
+  int lastReading = -1;
 }

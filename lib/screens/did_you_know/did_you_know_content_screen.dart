@@ -78,7 +78,7 @@ class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
                                     Expanded(
                                         child: Text(
                                       "Ahora puedes pagar tus facturas en línea desde nuestra app CRE Móvil",
-                                      style: TextStyle(
+                                      style: TextStyle( fontFamily: 'Mulish', 
                                           color: DarkColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16),
@@ -97,7 +97,7 @@ class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
                                 children: [
                                   const Text(
                                     "Para pagar tu factura en línea realiza estos 3 simples pasos::",
-                                    style: TextStyle(color: Color(0XFF666666)),
+                                    style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF666666)),
                                   ),
                                   item(1,
                                       "En la pantalla principal elige el Servicio que tiene activo el botón PAGAR y presionalo"),
@@ -129,14 +129,14 @@ class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
             alignment: Alignment.center,
             child: Text(
               i.toString(),
-              style: const TextStyle(
+              style: const TextStyle( fontFamily: 'Mulish', 
                   color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
               child: Text(
             data,
-            style: TextStyle(color: Color(0XFF666666)),
+            style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF666666)),
           ))
         ],
       ),

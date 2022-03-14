@@ -23,15 +23,11 @@ class SimulateInvoiceScreen extends StatefulWidget {
 
 class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
   late AccountDetail accountDetail;
-  String lastDate = "";
-  int lastReading = 15102;
+  var formatter = DateFormat('dd/MM/yyyy');
 
   @override
   void initState() {
     accountDetail = widget.accountDetail;
-    var now = DateTime.now();
-    var formatter = DateFormat('dd/MM/yyyy');
-    lastDate = formatter.format(now);
     super.initState();
   }
 
@@ -50,7 +46,7 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                     padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("Simular Factura",
-                        style: TextStyle(
+                        style: TextStyle( fontFamily: 'Mulish', 
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold)),
                   ),
@@ -86,14 +82,14 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                                       children: [
                                         const Text(
                                           "Código fijo: ",
-                                          style: TextStyle(
+                                          style: TextStyle( fontFamily: 'Mulish', 
                                               fontWeight: FontWeight.bold,
                                               color: Color(0XFF3A3D5F),
                                               fontSize: 14),
                                         ),
                                         Text(
                                           accountDetail.accountNumber,
-                                          style: const TextStyle(
+                                          style: const TextStyle( fontFamily: 'Mulish', 
                                               color: Color(0XFF999999),
                                               fontSize: 14),
                                         )
@@ -105,7 +101,7 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                         ],
                       )),
                   rowData("Titular: ", accountDetail.titularName),
-                  rowData("Fecha última lectura: ", lastDate),
+                  rowData("Fecha última lectura: ", formatter.format(DateTime.parse(accountDetail.dateLastReading))),
                   const CustomDivider(),
                   Container(
                       height: 40,
@@ -118,12 +114,12 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                         children: [
                           const Text(
                             "Última lectura: ",
-                            style: TextStyle(
+                            style: TextStyle( fontFamily: 'Mulish', 
                                 fontSize: 16, color: Color(0XFF3A3D5F)),
                           ),
                           Text(
-                            "$lastReading Kwh",
-                            style: const TextStyle(
+                            accountDetail.lastReading.toString() + " Kwh",
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontSize: 16, color: Color(0XFF666666)),
                           )
                         ],
@@ -136,9 +132,8 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                       child: ChangeNotifierProvider(
                         create: (_) => ReadingFormProvider(),
                         child: FormCurrentReadingSimulateState(
-                          lastReading: lastReading,
+                          lastReading: accountDetail.lastReading,
                           accountDetail: accountDetail,
-                          lastDate: lastDate,
                         ),
                       ))
                 ]))));
@@ -162,14 +157,14 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
                         children: [
                           Text(
                             key,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F),
                                 fontSize: 14),
                           ),
                           Text(
                             value,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 color: Color(0XFF999999), fontSize: 14),
                           )
                         ],
@@ -186,13 +181,11 @@ class _SimulateInvoiceScreenState extends State<SimulateInvoiceScreen> {
 
 class FormCurrentReadingSimulateState extends StatelessWidget {
   final int lastReading;
-  final String lastDate;
   final AccountDetail accountDetail;
   const FormCurrentReadingSimulateState(
       {Key? key,
         required this.lastReading,
-        required this.accountDetail,
-        required this.lastDate})
+        required this.accountDetail})
       : super(key: key);
 
   @override
@@ -233,7 +226,7 @@ class FormCurrentReadingSimulateState extends StatelessWidget {
                                 ? circularProgress()
                                 : const Text(
                               'Simular Factura',
-                              style: TextStyle(
+                              style: TextStyle( fontFamily: 'Mulish', 
                                   color: Colors.white, fontSize: 16),
                             ),
                           ),
@@ -278,7 +271,7 @@ class FormCurrentReadingSimulateState extends StatelessWidget {
                             child: const Text(
                               'Cancelar',
                               style:
-                              TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
+                              TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 16),
                             ),
                           ),
                           onPressed: () {
@@ -303,7 +296,7 @@ class FormCurrentReadingSimulateState extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           'La Lectura Actual debe ser \nmayor a la Última Lectura',
-          style: TextStyle(fontSize: 14),
+          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -327,7 +320,7 @@ class FormCurrentReadingSimulateState extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Regresar',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -352,7 +345,7 @@ class _CurrentReading extends StatelessWidget {
           hintText: 'Digite la lectura actual de su medidor',
           labelText: 'Lectura actual',
           prefixIcon: Icons.watch_later_outlined),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       initialValue: '',
       keyboardType: TextInputType.number,
       textCapitalization: TextCapitalization.words,

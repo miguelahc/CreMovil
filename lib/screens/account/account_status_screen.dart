@@ -11,15 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AccountStatusScreen extends StatefulWidget {
-  final String accountNumber;
-  final String companyNumber;
-  final int numberInvoicesDue;
+  final AccountDetail account;
 
   const AccountStatusScreen(
       {Key? key,
-      required this.accountNumber,
-      required this.companyNumber,
-      required this.numberInvoicesDue})
+      required this.account})
       : super(key: key);
 
   @override
@@ -27,17 +23,18 @@ class AccountStatusScreen extends StatefulWidget {
 }
 
 class _AccountStatusScreenState extends State<AccountStatusScreen> {
-  AccountDetail accountDetail = AccountDetail();
+  late AccountDetail accountDetail;
   bool onLoad = true;
 
   @override
   void initState() {
+    accountDetail = widget.account;
     TokenService().readToken().then((token) {
       UserService().readUserData().then((data) {
         var userData = jsonDecode(data);
         AccountService()
             .getStatement(
-                token, userData, widget.accountNumber, widget.companyNumber)
+                token, userData, accountDetail.accountNumber, accountDetail.companyNumber)
             .then((data) {
           loadData(accountDetail, data);
         });
@@ -50,8 +47,6 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
     var message = jsonDecode(jsonDecode(data)["Message"]);
     setState(() {
       accountDetail.aliasName = message["AliasName"];
-      accountDetail.accountNumber = message["AccountNumber"];
-      accountDetail.companyNumber = widget.companyNumber;
       accountDetail.titularName = message["TitularName"];
       accountDetail.address = message["Address"];
       accountDetail.state = message["StateAccount"];
@@ -59,7 +54,6 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
       accountDetail.secc = message["SectionCode"];
       accountDetail.totalDebt = message["TotalDebt"];
       accountDetail.accountHistory = message["estadocuenta"];
-      accountDetail.numberInvoicesDue = widget.numberInvoicesDue;
       onLoad = false;
     });
   }
@@ -110,14 +104,14 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                 children: [
                                   const Text(
                                     "Código fijo: ",
-                                    style: TextStyle(
+                                    style: TextStyle( fontFamily: 'Mulish', 
                                         fontWeight: FontWeight.bold,
                                         color: Color(0XFF3A3D5F),
                                         fontSize: 14),
                                   ),
                                   Text(
                                     accountDetail.accountNumber,
-                                    style: const TextStyle(
+                                    style: const TextStyle( fontFamily: 'Mulish', 
                                         color: Color(0XFF999999), fontSize: 14),
                                   )
                                 ],
@@ -186,11 +180,11 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                   children: const [
                                     Text(
                                       "Deuda",
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white),
                                     ),
                                     Text(
                                       "Total facturado: ",
-                                      style: TextStyle(
+                                      style: TextStyle( fontFamily: 'Mulish', 
                                           color: Color(0XFF82BA00),
                                           fontWeight: FontWeight.bold),
                                     )
@@ -201,10 +195,10 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     const Text("Monto Bs.",
-                                        style: TextStyle(color: Colors.white)),
+                                        style: TextStyle( fontFamily: 'Mulish', color: Colors.white)),
                                     Text(
                                       accountDetail.totalDebt.toString(),
-                                      style: const TextStyle(
+                                      style: const TextStyle( fontFamily: 'Mulish', 
                                           color: Color(0XFF82BA00),
                                           fontWeight: FontWeight.bold),
                                     )
@@ -224,9 +218,9 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Text("Facturas impagas: ",
-                                    style: TextStyle(color: Colors.white)),
+                                    style: TextStyle( fontFamily: 'Mulish', color: Colors.white)),
                                 Text(accountDetail.numberInvoicesDue.toString(),
-                                    style: const TextStyle(
+                                    style: const TextStyle( fontFamily: 'Mulish', 
                                         color: Color(0XFF82BA00),
                                         fontWeight: FontWeight.bold))
                               ],
@@ -241,7 +235,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                   padding: const EdgeInsets.all(16),
                   alignment: Alignment.centerLeft,
                   child: const Text("Opciones",
-                      style: TextStyle(
+                      style: TextStyle( fontFamily: 'Mulish', 
                           color: Color(0XFF82BA00),
                           fontWeight: FontWeight.bold)),
                 ),
@@ -330,14 +324,14 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                         children: [
                           Text(
                             key,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F),
                                 fontSize: 14),
                           ),
                           Text(
                             value,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 color: Color(0XFF999999), fontSize: 14),
                           )
                         ],
@@ -365,7 +359,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                 children: [
                   Text(
                     key,
-                    style: const TextStyle(
+                    style: const TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF3A3D5F),
                         fontSize: 14),
@@ -373,7 +367,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                   Text(
                     value,
                     style:
-                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
+                        const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               )),
@@ -382,7 +376,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                 children: [
                   Text(
                     key2,
-                    style: const TextStyle(
+                    style: const TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF3A3D5F),
                         fontSize: 14),
@@ -390,7 +384,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                   Text(
                     value2,
                     style:
-                        const TextStyle(color: Color(0XFF999999), fontSize: 14),
+                        const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
                   )
                 ],
               ))

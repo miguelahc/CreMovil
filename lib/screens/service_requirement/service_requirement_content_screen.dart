@@ -68,7 +68,7 @@ class _ServiceRequirementContentScreenState
                               decoration: customBoxDecoration(15),
                               child: const Text(
                                 "Descuento a personas mayores a 60 años (Ley 1886)",
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     color: DarkColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18),
@@ -86,7 +86,7 @@ class _ServiceRequirementContentScreenState
                                 children: [
                                   const Text(
                                     "Requisitos:",
-                                    style: TextStyle(
+                                    style: TextStyle( fontFamily: 'Mulish', 
                                         color: SecondaryColor,
                                         fontWeight: FontWeight.w600),
                                   ),
@@ -116,7 +116,7 @@ class _ServiceRequirementContentScreenState
         ),
         child: Text(
           data,
-          style: const TextStyle(color: Color(0XFF666666)),
+          style: const TextStyle( fontFamily: 'Mulish', color: Color(0XFF666666)),
         ));
   }
 }

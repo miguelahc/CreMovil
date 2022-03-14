@@ -122,7 +122,7 @@ class _FormRegisterAccount extends StatelessWidget {
                       ? circularProgress()
                       : const Text(
                           'Registrar',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                         ),
                 ),
                 onPressed: () {
@@ -172,7 +172,7 @@ class _FormRegisterAccount extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           '¡Tus datos se han validado correctamente!\n\nEl registro se ha realizado con éxito',
-          style: TextStyle(fontSize: 14),
+          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -196,7 +196,7 @@ class _FormRegisterAccount extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -220,7 +220,7 @@ class _FormRegisterAccount extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           '¡No hemos podido validar la información proporcionada!\n\nFavor verifica que los datos estén correctos e intente nuevamente.',
-          style: TextStyle(fontSize: 14),
+          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -244,7 +244,7 @@ class _FormRegisterAccount extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Regresar',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -270,7 +270,7 @@ class _AccountNumber extends StatelessWidget {
           hintText: 'Código fijo / Servicio',
           labelText: 'Código fijo / Servicio',
           prefixIcon: Icons.tv),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       initialValue: '',
       textCapitalization: TextCapitalization.words,
       onChanged: (value) {
@@ -300,7 +300,7 @@ class _IdentificationNumber extends StatelessWidget {
           hintText: 'Carnet de identidad o NIT',
           labelText: 'Carnet de identidad o NIT',
           prefixIcon: Icons.switch_account),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       initialValue: '',
       textCapitalization: TextCapitalization.words,
       onChanged: (value) {
@@ -332,7 +332,7 @@ class _AliasName extends StatelessWidget {
         labelText: 'Referencia',
         prefixIcon: Icons.language,
       ),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       initialValue: '',
       textCapitalization: TextCapitalization.words,
       onChanged: (value) {

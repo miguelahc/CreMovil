@@ -20,7 +20,7 @@ class CustomTitle extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: const TextStyle( fontFamily: 'Mulish', 
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0XFF84BD00)),
@@ -36,7 +36,7 @@ class CustomTitle extends StatelessWidget {
   Widget _SubTitle(String subtitle){
     return Text(
       subtitle,
-      style: const TextStyle(
+      style: const TextStyle( fontFamily: 'Mulish', 
           fontSize: 14,
           color: Colors.white,
           fontWeight: FontWeight.normal),

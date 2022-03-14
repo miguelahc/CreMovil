@@ -83,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Text(
                               'Registrar',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
+                                  TextStyle(fontFamily: 'Mulish', color: Colors.white, fontSize: 12),
                             ),
                           ],
                         )),
@@ -108,7 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             const Text(
                               "Codigos Fijos",
-                              style: TextStyle(color: Color(0XFF3A3D5F)),
+                              style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F)),
                             ),
                             const SizedBox(
                               height: 8,
@@ -125,7 +125,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 const Text(
                                   "Servicios",
-                                  style: TextStyle(color: Color(0XFF3A3D5F)),
+                                  style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F)),
                                 ),
                                 const SizedBox(
                                   height: 8,
@@ -162,13 +162,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      AccountDetail account = AccountDetail();
+                      account.accountNumber = data["AccountNumber"];
+                      account.companyNumber = data["CompanyNumber"];
+                      account.numberInvoicesDue = data["NumberInvoicesDue"];
+                      account.dateLastReading = data["DateLastReading"];
+                      account.lastReading = data["LastReading"];
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => AccountStatusScreen(
-                                  accountNumber: data["AccountNumber"],
-                                  companyNumber: data["CompanyNumber"],
-                                  numberInvoicesDue: data["NumberInvoicesDue"])));
+                                  account: account)));
                     },
                     child: Container(
                       decoration: const BoxDecoration(
@@ -191,13 +195,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             children: [
                               const Text(
                                 "Nro.",
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     fontSize: 12,
                                     color: Color(0XFF393D5E),
                                     fontWeight: FontWeight.w500),
                               ),
                               Text(data["AccountNumber"],
-                                  style: const TextStyle(
+                                  style: const TextStyle( fontFamily: 'Mulish', 
                                       fontSize: 12, color: Color(0XFF999999)))
                             ],
                           ),
@@ -208,12 +212,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("Referencia",
-                                  style: TextStyle(
+                                  style: TextStyle( fontFamily: 'Mulish', 
                                       fontSize: 12,
                                       color: Color(0XFF393D5E),
                                       fontWeight: FontWeight.w500)),
                               Text(data["AliasName"],
-                                  style: const TextStyle(
+                                  style: const TextStyle( fontFamily: 'Mulish', 
                                       fontSize: 12, color: Color(0XFF999999)))
                             ],
                           ),
@@ -224,12 +228,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("Deuda",
-                                  style: TextStyle(
+                                  style: TextStyle( fontFamily: 'Mulish', 
                                       fontSize: 12,
                                       color: Color(0XFF393D5E),
                                       fontWeight: FontWeight.w500)),
                               Text("Bs. "+ data["AmountDebt"].toString(),
-                                  style: const TextStyle(
+                                  style: const TextStyle( fontFamily: 'Mulish', 
                                       fontSize: 12, color: Color(0XFF999999)))
                             ],
                           ),
@@ -256,7 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     children: const [
                                       Text(
                                         'Pagar',
-                                        style: TextStyle(
+                                        style: TextStyle( fontFamily: 'Mulish', 
                                             color: Colors.white, fontSize: 12),
                                       ),
                                     ],
@@ -320,7 +324,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           'El registro $aliasName\nse ha eliminado',
-          style: const TextStyle(fontSize: 14),
+          style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -344,7 +348,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -368,7 +372,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           '¿Está seguro que desea\neliminar $aliasName \nde la Aplicación Móvil?',
-          style: const TextStyle(fontSize: 14),
+          style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -399,7 +403,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ? circularProgress()
                             : const Text(
                                 'Eliminar',
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     color: Colors.white, fontSize: 16),
                               ),
                       ),
@@ -453,7 +457,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: const Text(
                           'Cancelar',
                           style:
-                              TextStyle(color: Color(0XFF3A3D5F), fontSize: 16),
+                              TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 16),
                         ),
                       ),
                       onPressed: () {
@@ -603,7 +607,7 @@ class DidYouKnow extends StatelessWidget {
             ),
             const Text(
               " ¿Sabías que?",
-              style: TextStyle(color: Color(0XFF3A3D5F), fontSize: 12),
+              style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 12),
             )
           ],
         ));

@@ -39,7 +39,7 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
             padding: const EdgeInsets.only(left: 16, bottom: 16),
             alignment: Alignment.centerLeft,
             child: const Text("Histórico de Cuenta",
-                style: TextStyle(
+                style: TextStyle( fontFamily: 'Mulish', 
                     color: Color(0XFF82BA00), fontWeight: FontWeight.bold)),
           ),
           Container(
@@ -73,14 +73,14 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                           children: [
                             const Text(
                               "Código fijo: ",
-                              style: TextStyle(
+                              style: TextStyle( fontFamily: 'Mulish', 
                                   fontWeight: FontWeight.bold,
                                   color: Color(0XFF3A3D5F),
                                   fontSize: 14),
                             ),
                             Text(
                               accountDetail.accountNumber,
-                              style: const TextStyle(
+                              style: const TextStyle( fontFamily: 'Mulish', 
                                   color: Color(0XFF999999), fontSize: 14),
                             )
                           ],
@@ -126,11 +126,11 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                       children: const [
                         Text(
                           "Deuda",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle( fontFamily: 'Mulish', color: Colors.white),
                         ),
                         Text(
                           "Total facturado: ",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               color: Color(0XFF82BA00),
                               fontWeight: FontWeight.bold),
                         )
@@ -141,10 +141,10 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         const Text("Monto Bs.",
-                            style: TextStyle(color: Colors.white)),
+                            style: TextStyle( fontFamily: 'Mulish', color: Colors.white)),
                         Text(
                           accountDetail.totalDebt.toString(),
-                          style: const TextStyle(
+                          style: const TextStyle( fontFamily: 'Mulish', 
                               color: Color(0XFF82BA00),
                               fontWeight: FontWeight.bold),
                         )
@@ -164,9 +164,9 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text("Facturas impagas: ",
-                        style: TextStyle(color: Colors.white)),
+                        style: TextStyle( fontFamily: 'Mulish', color: Colors.white)),
                     Text(accountDetail.numberInvoicesDue.toString(),
-                        style: const TextStyle(
+                        style: const TextStyle( fontFamily: 'Mulish', 
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold))
                   ],
@@ -178,10 +178,10 @@ class _AccountHistoryScreenState extends State<AccountHistoryScreen> {
             padding: const EdgeInsets.all(16),
             alignment: Alignment.centerLeft,
             child: const Text("Facturas:",
-                style: TextStyle(
+                style: TextStyle( fontFamily: 'Mulish', 
                     color: Color(0XFF3A3D5F), fontWeight: FontWeight.normal)),
           ),
-          Expanded(child: AccountHistoryTable(data: accountDetail.accountHistory))
+          Expanded(child: AccountHistoryTable(data: accountDetail.accountHistory, accountDetail: accountDetail,))
         ]),
       )),
     );

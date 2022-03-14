@@ -25,7 +25,7 @@ class Footer extends StatelessWidget {
               children: [
                 Text(
                   '¿No puedes ingresar?',
-                  style: TextStyle(
+                  style: TextStyle( fontFamily: 'Mulish', 
                       fontSize: 12,
                       color: dark? Colors.white: DarkColor,
                       fontWeight: FontWeight.bold),
@@ -33,7 +33,7 @@ class Footer extends StatelessWidget {
                 ),
                 Text(
                   'Comunícate con Soporte',
-                  style: TextStyle(
+                  style: TextStyle( fontFamily: 'Mulish', 
                       fontSize: 12,
                       color: dark? Colors.white: DarkColor,
                       fontWeight: FontWeight.bold),

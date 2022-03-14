@@ -46,7 +46,7 @@ class CustomCard extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 24),
                           child: Text(
                             title,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
