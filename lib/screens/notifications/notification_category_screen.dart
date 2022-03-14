@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 class NotificationCategoryScreen extends StatefulWidget {
   Notifications notification;
+
   NotificationCategoryScreen({Key? key, required this.notification})
       : super(key: key);
 
@@ -25,16 +26,15 @@ class _NotificationCategoryScreenState
   @override
   void initState() {
     notification = widget.notification;
-    print(widget.notification.notifications);
     super.initState();
   }
 
-  openNotificationContent(Notifications notification) {
+  openNotificationContent(Notifications notification, dynamic item) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                NotificationContentScreen(notification: notification)));
+                NotificationContentScreen(notification: notification, item: item)));
   }
 
   @override
@@ -59,70 +59,92 @@ class _NotificationCategoryScreenState
                     children: [
                       const Text(
                         "Notificaciones",
-                        style: TextStyle(fontSize: 18, color: DarkColor),
+                        style: TextStyle( fontFamily: 'Mulish', fontSize: 18, color: DarkColor),
                       ),
                       Text(notification.category,
-                          style: const TextStyle(
+                          style: const TextStyle( fontFamily: 'Mulish', 
                               fontSize: 12,
                               color: Color(0XFF666666),
                               fontWeight: FontWeight.bold))
                     ]),
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 16, bottom: 8),
-                alignment: Alignment.centerRight,
-                child: MaterialButton(
-                    padding: const EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    disabledColor: Colors.black87,
-                    elevation: 0,
-                    child: Container(
-                        constraints: const BoxConstraints(
-                            minWidth: 200, maxWidth: 200, maxHeight: 30),
-                        alignment: Alignment.center,
-                        decoration: customButtonDecoration(30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            ImageIcon(
-                              AssetImage(
-                                  'assets/icons/vuesax-linear-clipboard-tick.png'),
-                              color: Colors.white,
-                            ),
-                            Text(
-                              'Marcar todas como leida',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
-                          ],
-                        )),
-                    onPressed: () {}),
-              ),
+              notification.notifications.isEmpty
+                  ? const SizedBox()
+                  : Container(
+                      margin: const EdgeInsets.only(right: 16, bottom: 8),
+                      alignment: Alignment.centerRight,
+                      child: MaterialButton(
+                          padding: const EdgeInsets.all(0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          disabledColor: Colors.black87,
+                          elevation: 0,
+                          child: Container(
+                              constraints: const BoxConstraints(
+                                  minWidth: 200, maxWidth: 200, maxHeight: 30),
+                              alignment: Alignment.center,
+                              decoration: customButtonDecoration(30),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: const [
+                                  ImageIcon(
+                                    AssetImage(
+                                        'assets/icons/vuesax-linear-clipboard-tick.png'),
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Marcar todas como leida',
+                                    style: TextStyle( fontFamily: 'Mulish', 
+                                        color: Colors.white, fontSize: 12),
+                                  )
+                                ],
+                              )),
+                          onPressed: () {}),
+                    ),
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: ListView(
-                  children: [
-                    item("Nueva factura emitida 05 de ene. 2022", true),
-                    item("Su factura Nro. 526854 ha sido pagada", false),
-                    item("Nueva factura emitida 01 de nov. 2021", false),
-                    item("Su factura Nro. 784596 está IMPAGA", true),
-                    item("Nueva factura emitida 02 de dic. 2021", false),
-                  ],
-                ),
+                    children: notification.notifications.isEmpty
+                        ? [
+                            Center(
+                                child: Container(
+                                    height: 40,
+                                    margin: const EdgeInsets.only(
+                                        top: 32,
+                                        bottom: 32,
+                                        left: 64,
+                                        right: 64),
+                                    alignment: Alignment.center,
+                                    decoration: customBoxDecoration(10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Text(
+                                          "No existen notificaciones para visualizar",
+                                          style: TextStyle( fontFamily: 'Mulish', 
+                                              color: Color(0XFF3A3D5F)),
+                                        ),
+                                      ],
+                                    )))
+                          ]
+                        : notification.notifications
+                            .map((e) => item(e, e["leido"] == "SI"? false: true))
+                            .toList()),
               ))
             ],
           ),
         ));
   }
 
-  Widget item(String key, bool tick) {
+  Widget item(dynamic notificationItem, bool tick) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            openNotificationContent(notification);
+            openNotificationContent(notification, notificationItem);
           },
           child: Container(
               alignment: Alignment.center,
@@ -137,8 +159,8 @@ class _NotificationCategoryScreenState
                         Row(
                           children: [
                             Text(
-                              key,
-                              style: TextStyle(
+                              notificationItem["dstitu"],
+                              style: TextStyle( fontFamily: 'Mulish', 
                                   fontWeight: FontWeight.bold,
                                   color: tick
                                       ? const Color(0XFF3A3D5F)

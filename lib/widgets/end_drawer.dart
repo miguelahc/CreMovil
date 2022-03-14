@@ -23,7 +23,7 @@ Widget endDrawer(AuthService authService, BuildContext context) {
                   const Text(
                     'Menú de Opciones',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0XFF84BD00), fontSize: 16),
+                    style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF84BD00), fontSize: 16),
                   )
                 ],
               )),

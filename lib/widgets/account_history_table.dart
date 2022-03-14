@@ -1,3 +1,4 @@
+import 'package:app_cre/models/account_detail.dart';
 import 'package:app_cre/models/invoice_detail.dart';
 import 'package:app_cre/screens/account/invoice_detail_screen.dart';
 import 'package:app_cre/ui/box_decoration.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 
 class AccountHistoryTable extends StatelessWidget {
   final List<dynamic> data;
-  const AccountHistoryTable({required this.data});
+  final AccountDetail accountDetail;
+  const AccountHistoryTable({required this.data, required this.accountDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class AccountHistoryTable extends StatelessWidget {
                     child: Container(
                       child: const Text(
                         "Periodo",
-                        style: TextStyle(
+                        style: TextStyle( fontFamily: 'Mulish', 
                             fontWeight: FontWeight.bold,
                             color: Color(0XFF3A3D5F)),
                       ),
@@ -42,13 +44,13 @@ class AccountHistoryTable extends StatelessWidget {
                       children: const [
                         Text(
                           "Consumo",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               fontWeight: FontWeight.bold,
                               color: Color(0XFF3A3D5F)),
                         ),
                         Text(
                           "KWh",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               fontWeight: FontWeight.bold,
                               color: Color(0XFF3A3D5F)),
                         ),
@@ -63,13 +65,13 @@ class AccountHistoryTable extends StatelessWidget {
                       children: const [
                         Text(
                           "Importe",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               fontWeight: FontWeight.bold,
                               color: Color(0XFF3A3D5F)),
                         ),
                         Text(
                           "Bs.",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               fontWeight: FontWeight.bold,
                               color: Color(0XFF3A3D5F)),
                         ),
@@ -83,13 +85,13 @@ class AccountHistoryTable extends StatelessWidget {
                       children: const [
                         Text(
                           "Fecha",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               fontWeight: FontWeight.bold,
                               color: Color(0XFF3A3D5F)),
                         ),
                         Text(
                           "Pago",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               fontWeight: FontWeight.bold,
                               color: Color(0XFF3A3D5F)),
                         ),
@@ -99,12 +101,12 @@ class AccountHistoryTable extends StatelessWidget {
             )),
         Expanded(
             child:
-                ListView(children: data.map((e) => row(e, context)).toList()))
+                ListView(children: data.map((e) => row(e, accountDetail, context)).toList()))
       ],
     ));
   }
 
-  Widget row(data, context) {
+  Widget row(data, accountDetail, context) {
     return Column(
       children: [
         GestureDetector(
@@ -115,6 +117,7 @@ class AccountHistoryTable extends StatelessWidget {
                       builder: (context) => InvoiceDetailScreen(
                             invoiceDetail: InvoiceDetail(
                                 data["DocumentNumber"], data["CompanyNumber"]),
+                            accountDetail: accountDetail,
                           )));
             },
             child: Container(
@@ -132,7 +135,7 @@ class AccountHistoryTable extends StatelessWidget {
                             child: Container(
                               child: Text(
                                 data["DateGestion"],
-                                style: const TextStyle(
+                                style: const TextStyle( fontFamily: 'Mulish', 
                                     fontWeight: FontWeight.bold,
                                     color: Color(0XFF999999)),
                               ),
@@ -143,7 +146,7 @@ class AccountHistoryTable extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Text(
                                 data["Valuekwh"].toString(),
-                                style: const TextStyle(
+                                style: const TextStyle( fontFamily: 'Mulish', 
                                     fontWeight: FontWeight.bold,
                                     color: Color(0XFF999999)),
                               ),
@@ -154,7 +157,7 @@ class AccountHistoryTable extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Text(
                                 data["TotalInvoice"].toString(),
-                                style: const TextStyle(
+                                style: const TextStyle( fontFamily: 'Mulish', 
                                     fontWeight: FontWeight.bold,
                                     color: Color(0XFF999999)),
                               ),
@@ -167,7 +170,7 @@ class AccountHistoryTable extends StatelessWidget {
                                   children: [
                                     Text(
                                       data["DateInvoice"],
-                                      style: const TextStyle(
+                                      style: const TextStyle( fontFamily: 'Mulish', 
                                           fontWeight: FontWeight.bold,
                                           color: Color(0XFF999999)),
                                     ),

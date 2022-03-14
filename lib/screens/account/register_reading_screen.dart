@@ -49,7 +49,7 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                     padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("Registro de lectura de medidor",
-                        style: TextStyle(
+                        style: TextStyle( fontFamily: 'Mulish', 
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold)),
                   ),
@@ -85,14 +85,14 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                                   children: [
                                     const Text(
                                       "Código fijo: ",
-                                      style: TextStyle(
+                                      style: TextStyle( fontFamily: 'Mulish', 
                                           fontWeight: FontWeight.bold,
                                           color: Color(0XFF3A3D5F),
                                           fontSize: 14),
                                     ),
                                     Text(
                                       accountDetail.accountNumber,
-                                      style: const TextStyle(
+                                      style: const TextStyle( fontFamily: 'Mulish', 
                                           color: Color(0XFF999999),
                                           fontSize: 14),
                                     )
@@ -117,12 +117,12 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                         children: [
                           const Text(
                             "Última lectura: ",
-                            style: TextStyle(
+                            style: TextStyle( fontFamily: 'Mulish', 
                                 fontSize: 16, color: Color(0XFF3A3D5F)),
                           ),
                           Text(
                             "$lastReading Kwh",
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontSize: 16, color: Color(0XFF666666)),
                           )
                         ],
@@ -161,14 +161,14 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                         children: [
                           Text(
                             key,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F),
                                 fontSize: 14),
                           ),
                           Text(
                             value,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 color: Color(0XFF999999), fontSize: 14),
                           )
                         ],
@@ -236,7 +236,7 @@ class FormCurrentReadingState extends StatelessWidget {
                             ? circularProgress()
                             : const Text(
                                 'Registrar',
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     color: Colors.white, fontSize: 16),
                               ),
                       ),
@@ -281,7 +281,7 @@ class FormCurrentReadingState extends StatelessWidget {
                         child: const Text(
                           'Cancelar',
                           style:
-                              TextStyle(color:  Color(0XFF3A3D5F), fontSize: 16),
+                              TextStyle( fontFamily: 'Mulish', color:  Color(0XFF3A3D5F), fontSize: 16),
                         ),
                       ),
                       onPressed: () {
@@ -306,7 +306,7 @@ class FormCurrentReadingState extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           'La Lectura Actual debe ser \nmayor a la Última Lectura',
-          style: TextStyle(fontSize: 14),
+          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -330,7 +330,7 @@ class FormCurrentReadingState extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Regresar',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -355,7 +355,7 @@ class _CurrentReading extends StatelessWidget {
           hintText: 'Digite la lectura actual de su medidor',
           labelText: 'Lectura actual',
           prefixIcon: Icons.watch_later_outlined),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       initialValue: '',
       keyboardType: TextInputType.number,
       textCapitalization: TextCapitalization.words,
@@ -405,7 +405,7 @@ class _ImageReading extends StatelessWidget {
                         ),
                         Text(
                           "Cámara",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               color: Colors.white, fontWeight: FontWeight.bold),
                         )
                       ]),
@@ -413,7 +413,7 @@ class _ImageReading extends StatelessWidget {
                 const Text(
                   "Tomar foto",
                   style:
-                      TextStyle(color: DarkColor, fontWeight: FontWeight.bold),
+                      TextStyle( fontFamily: 'Mulish', color: DarkColor, fontWeight: FontWeight.bold),
                 )
               ]),
         ),
@@ -438,7 +438,7 @@ class _ImageReading extends StatelessWidget {
                         ),
                         Text(
                           "Galería",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               color: Colors.white, fontWeight: FontWeight.bold),
                         )
                       ]),
@@ -446,7 +446,7 @@ class _ImageReading extends StatelessWidget {
                 const Text(
                   "Adjuntar",
                   style:
-                      TextStyle(color: DarkColor, fontWeight: FontWeight.bold),
+                      TextStyle( fontFamily: 'Mulish', color: DarkColor, fontWeight: FontWeight.bold),
                 )
               ]),
         ),

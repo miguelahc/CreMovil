@@ -101,14 +101,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             children: [
                               const Text(
                                 "Código fijo: ",
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     fontWeight: FontWeight.bold,
                                     color: Color(0XFF3A3D5F),
                                     fontSize: 14),
                               ),
                               Text(
                                 accountDetail.accountNumber,
-                                style: const TextStyle(
+                                style: const TextStyle( fontFamily: 'Mulish', 
                                     color: Color(0XFF999999), fontSize: 14),
                               )
                             ],
@@ -143,7 +143,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 8, bottom: 16),
                         child: const Text("Selecciona las Facturas a Pagar",
-                          style: TextStyle(color: SecondaryColor,
+                          style: TextStyle( fontFamily: 'Mulish', color: SecondaryColor,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -165,7 +165,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 8, bottom: 16),
                         child: const Text("Selecciona el Método de Pago",
-                          style: TextStyle(color: SecondaryColor,
+                          style: TextStyle( fontFamily: 'Mulish', color: SecondaryColor,
                               fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -183,7 +183,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   child: Container(
                                     child: const Text(
                                       "Transferencia bancaria mediante código QR",
-                                      style: TextStyle(
+                                      style: TextStyle( fontFamily: 'Mulish', 
                                           color: Color(0XFF666666)),
                                     ),
                                   )
@@ -212,7 +212,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   child: Container(
                                     child: const Text(
                                       "Tarjeta de Débito / Crédito",
-                                      style: TextStyle(
+                                      style: TextStyle( fontFamily: 'Mulish', 
                                           color: Color(0XFF666666)),
                                     ),
                                   )
@@ -233,7 +233,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         alignment: Alignment.centerLeft,
                         child: const Text(
                           "Facturas seleccionadas:",
-                          style: TextStyle(color: DarkColor),
+                          style: TextStyle( fontFamily: 'Mulish', color: DarkColor),
                         ),
                       ),
                       PaymentsTable(pay: false),
@@ -280,11 +280,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     children: [
                       const Text(
                         "Total de facturas a pagar: ",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle( fontFamily: 'Mulish', color: Colors.white),
                       ),
                       Text(
                         invoices.toString(),
-                        style: const TextStyle(
+                        style: const TextStyle( fontFamily: 'Mulish', 
                             color: SecondaryColor, fontWeight: FontWeight.bold),
                       )
                     ],
@@ -303,9 +303,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                      "Monto Bs. ", style: TextStyle(color: Colors.white)),
+                      "Monto Bs. ", style: TextStyle( fontFamily: 'Mulish', color: Colors.white)),
                   Text(mount.toString(),
-                      style: const TextStyle(
+                      style: const TextStyle( fontFamily: 'Mulish', 
                           color: Color(0XFF82BA00),
                           fontWeight: FontWeight.bold))
                 ],
@@ -333,14 +333,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         children: [
                           Text(
                             key,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F),
                                 fontSize: 14),
                           ),
                           Text(
                             value,
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 color: Color(0XFF999999), fontSize: 14),
                           )
                         ],
@@ -383,7 +383,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: const Text(
               'Siguiente',
               style:
-              TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              TextStyle( fontFamily: 'Mulish', color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
           onPressed: () {

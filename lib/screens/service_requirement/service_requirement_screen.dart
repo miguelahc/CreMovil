@@ -38,7 +38,7 @@ class _ServiceRequirementScreenState extends State<ServiceRequirementScreen> {
                     padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("Requisitos de Servicio",
-                        style: TextStyle(
+                        style: TextStyle( fontFamily: 'Mulish', 
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold)),
                   ),

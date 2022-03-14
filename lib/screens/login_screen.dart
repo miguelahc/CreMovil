@@ -107,7 +107,7 @@ class _FormLogin extends StatelessWidget {
                         ? circularProgress()
                         : const Text(
                             'Ingresar',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                           )),
                 onPressed: () {
                   if (loginForm.isValidForm() && !loginForm.isLoading) {
@@ -125,7 +125,6 @@ class _FormLogin extends StatelessWidget {
                     });
                   }
                   FocusScope.of(context).unfocus();
-                  // //Todo Login Forms
                   if (!loginForm.isValidForm()) return;
                 }),
           ])),
@@ -144,7 +143,7 @@ class _FormLogin extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           'Hemos enviado un mensaje de texto (SMS) con tu PIN de verificación de teléfono',
-          style: TextStyle(fontSize: 14),
+          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -168,7 +167,7 @@ class _FormLogin extends StatelessWidget {
                           colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
                     'Ingresar PIN',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {
@@ -198,7 +197,7 @@ class _FormLogin extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           'El numero de telefono no es valido, asegurate de ingresar un numero valido ...',
-          style: TextStyle(fontSize: 14),
+          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -222,7 +221,7 @@ class _FormLogin extends StatelessWidget {
                           colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                   child: const Text(
                     'Volver a Intentar',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                   ),
                 ),
                 onPressed: () {
@@ -249,7 +248,7 @@ class _Nombres extends StatelessWidget {
           hintText: 'Nombres',
           labelText: 'Nombres del usuario',
           prefixIcon: Icons.person_outline),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       initialValue: '',
       textCapitalization: TextCapitalization.words,
       onChanged: (value) {
@@ -279,39 +278,34 @@ class _Telefono extends StatelessWidget {
       alignment: Alignment.center,
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
         Container(
-          width: 100,
-          child: DropdownButtonFormField(
-              value: '+591',
-              items: [
-                DropdownMenuItem(
-                    value: '+591',
-                    child: Row(children: [
-                      Image.asset("assets/icons/bolivia.png"),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text('+591')
-                    ])),
-                DropdownMenuItem(
-                    value: '+593',
-                    child: Row(children: [
-                      Image.asset("assets/icons/ecuador.png"),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text('+593')
-                    ])),
-              ],
-              decoration: const InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF84BD00)),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0XFF84BD00), width: 2)),
-              ),
-              onChanged: (value) {
-                loginForm.setPrefixPhone(value.toString());
-              }),
+          width: 70,
+          child:
+          TextFormField(
+            initialValue: '+591',
+            keyboardType: TextInputType.phone,
+            decoration: InputDecorations.authInputDecoration(
+                hintText: '+591',
+                labelText: 'Codigo',
+                prefixIcon: null),
+            style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
+            onChanged: (value) => loginForm.setPrefixPhone(value),
+            validator: (value1) {
+              String pattern = r'^\+[0-9]{1,3}$';
+              RegExp regExp = RegExp(pattern);
+              if (!regExp.hasMatch(value1 ?? '')) {
+                return "No Valido";
+              }
+              if (value1 == null || value1 == '') {
+                return 'Requerido';
+              }
+            },
+          )
+        ),
+        Container(
+          width: 1,
+          height: 20,
+          color: const Color(0XFF666666),
+          margin: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
         ),
         Expanded(
           child: TextFormField(
@@ -321,7 +315,7 @@ class _Telefono extends StatelessWidget {
                 hintText: 'Teléfono',
                 labelText: 'Teléfono móvil',
                 prefixIcon: Icons.phone_android),
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
             onChanged: (value) => loginForm.setPhone(value),
             validator: (value1) {
               String pattern = r'^\d+$';

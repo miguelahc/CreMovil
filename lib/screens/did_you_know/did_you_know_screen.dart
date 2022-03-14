@@ -39,7 +39,7 @@ class _DidYouKnowScreenState extends State<DidYouKnowScreen> {
                     padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("¿Sabías que?",
-                        style: TextStyle(
+                        style: TextStyle( fontFamily: 'Mulish', 
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold)),
                   ),

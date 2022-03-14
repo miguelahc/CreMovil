@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         const Text(
                           "Mi Perfil",
-                          style: TextStyle(
+                          style: TextStyle( fontFamily: 'Mulish', 
                               color: SecondaryColor,
                               fontWeight: FontWeight.w600),
                         ),
@@ -78,12 +78,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Column(
                           children: const [
                             Text("Nombre",
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     color: DarkColor,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold)),
                             Text("miguel.cre@gmail.com",
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     color: Color(0XFF666666), fontSize: 12))
                           ],
                         )
@@ -106,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             const Text(
                               "Notificaciones",
-                              style: TextStyle(
+                              style: TextStyle( fontFamily: 'Mulish', 
                                   color: DarkColor,
                                   fontWeight: FontWeight.bold),
                             ),

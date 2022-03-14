@@ -38,7 +38,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     const Text(
                       "Editar Perfil",
-                      style: TextStyle(
+                      style: TextStyle( fontFamily: 'Mulish', 
                           color: SecondaryColor, fontWeight: FontWeight.w600),
                     ),
                     Expanded(
@@ -137,7 +137,7 @@ class _FormEditProfileState extends State<FormEditProfile> {
                       ? circularProgress()
                       : const Text(
                           'Guardar',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
                         ),
                 ),
                 onPressed: () {
@@ -162,7 +162,7 @@ class _Name extends StatelessWidget {
           hintText: 'Nombre',
           labelText: 'Nombre',
           prefixIcon: Icons.person_outline),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       textCapitalization: TextCapitalization.words,
       onChanged: (value) {
         editForm.name = value;
@@ -191,7 +191,7 @@ class _Email extends StatelessWidget {
           hintText: 'Email',
           labelText: 'Email',
           prefixIcon: Icons.email_outlined),
-      style: const TextStyle(fontSize: 14),
+      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
       textCapitalization: TextCapitalization.words,
       onChanged: (value) {
         editForm.email = value;

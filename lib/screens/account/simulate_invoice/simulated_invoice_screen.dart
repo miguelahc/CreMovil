@@ -64,25 +64,25 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("Factura Simulada",
-                            style: TextStyle(
+                            style: TextStyle( fontFamily: 'Mulish', 
                                 color: Color(0XFF82BA00),
                                 fontWeight: FontWeight.bold)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             const Text("Código Fijo: ",
-                                style: TextStyle(
+                                style: TextStyle( fontFamily: 'Mulish', 
                                     color: Color(0XFF3A3D5F),
                                     fontWeight: FontWeight.bold)),
                             Text(reading.accountNumber,
-                                style: const TextStyle(
+                                style: const TextStyle( fontFamily: 'Mulish', 
                                     color: Color(0XFF666666)))
                           ],
                         )
                       ],
                     )),
                 rowData("Titular: ", invoiceDetail.titularName),
-                rowData("categoria: ", invoiceDetail.categoryName),
+                rowData("Categoria: ", invoiceDetail.categoryName),
                 Column(
                     children: invoiceDetail.others
                         .map((e) => rowData(
@@ -147,14 +147,14 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
             children: [
               Text(
                 key,
-                style: const TextStyle(
+                style: const TextStyle( fontFamily: 'Mulish', 
                     fontWeight: FontWeight.bold,
                     color: Color(0XFF3A3D5F),
                     fontSize: 14),
               ),
               Text(
                 value,
-                style: const TextStyle(color: Color(0XFF999999), fontSize: 14),
+                style: const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
               )
             ],
           ),
@@ -174,7 +174,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
               Expanded(
                 child: Text(
                   key,
-                  style: const TextStyle(
+                  style: const TextStyle( fontFamily: 'Mulish', 
                       fontWeight: FontWeight.bold,
                       color: Color(0XFF999999),
                       fontSize: 14),
@@ -185,7 +185,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                 children: [
                   Text(
                     key2,
-                    style: const TextStyle(
+                    style: const TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF999999),
                         fontSize: 14),
@@ -225,7 +225,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
               Expanded(
                   child: Text(
                 key,
-                style: TextStyle(
+                style: TextStyle( fontFamily: 'Mulish', 
                     fontWeight: FontWeight.bold,
                     color: (color == Colors.white)
                         ? const Color(0XFF3A3D5F)
@@ -237,7 +237,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                 children: [
                   Text(
                     key2,
-                    style: TextStyle(
+                    style: TextStyle( fontFamily: 'Mulish', 
                         fontWeight: FontWeight.bold,
                         color: (color == Colors.white)
                             ? const Color(0XFF3A3D5F)

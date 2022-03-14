@@ -64,10 +64,6 @@ class UserService {
           'Content-Type': 'application/json',
           'Authorization': token
         },
-        /*
-        body: jsonEncode(
-          {'PhoneNumber': phoneNumer, 'Environment': environment.env}
-        )*/
         body: jsonEncode({'P_NuTele': phoneNumer, 'P_Modo': environment.env}));
 
     var datajson;

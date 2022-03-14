@@ -46,7 +46,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                           alignment: Alignment.center,
                           child: const Text(
                             "Item",
-                            style: TextStyle(
+                            style: TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F)),
                           ),
@@ -56,7 +56,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                           alignment: Alignment.center,
                           child: const Text(
                             "Año",
-                            style: TextStyle(
+                            style: TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F)),
                           ),
@@ -66,7 +66,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                           alignment: Alignment.center,
                           child: const Text(
                             "Mes",
-                            style: TextStyle(
+                            style: TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F)),
                           ),
@@ -76,7 +76,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                           alignment: Alignment.center,
                           child: const Text(
                             "Monto",
-                            style: TextStyle(
+                            style: TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F)),
                           ),
@@ -87,7 +87,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                             alignment: Alignment.center,
                             child: const Text(
                               "Pagar",
-                              style: TextStyle(
+                              style: TextStyle( fontFamily: 'Mulish', 
                                   fontWeight: FontWeight.bold,
                                   color: Color(0XFF3A3D5F)),
                             ),
@@ -117,7 +117,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                           alignment: Alignment.center,
                           child: Text(
                             data["item"],
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF999999)),
                           ),
@@ -127,7 +127,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                           alignment: Alignment.center,
                           child: Text(
                             data["anho"].toString(),
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF999999)),
                           ),
@@ -137,7 +137,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                           alignment: Alignment.center,
                           child: Text(
                             data["mount"].toString(),
-                            style: const TextStyle(
+                            style: const TextStyle( fontFamily: 'Mulish', 
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF999999)),
                           ),
@@ -147,7 +147,7 @@ class _PaymentsTableState extends State<PaymentsTable> {
                             alignment: Alignment.centerRight,
                             child: Text(
                               data["cant"]+" Bs.",
-                              style: const TextStyle(
+                              style: const TextStyle( fontFamily: 'Mulish', 
                                   fontWeight: FontWeight.bold,
                                   color: Color(0XFF999999)),
                             ))),

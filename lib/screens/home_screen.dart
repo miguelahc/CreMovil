@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -8,6 +10,7 @@ import 'package:app_cre/services/services.dart';
 
 class HomeScreen extends StatefulWidget {
   int currentPage;
+
   HomeScreen({Key? key, required this.currentPage}) : super(key: key);
 
   @override
@@ -16,7 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late int _paginaActual;
-  final List<Widget> _paginas = [
+  int countNotifications = 0;
+  final List<Widget> _pages = [
     NotificationScreen(),
     DashboardScreen(),
     ProfileScreen()
@@ -26,6 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _paginaActual = widget.currentPage;
     super.initState();
+    NotificationsService().countNotificationsToRead().then((value) {
+      setState(() {
+        countNotifications = value;
+      });
+    });
   }
 
   @override
@@ -33,13 +42,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
           backgroundColor: Color(0XFFF7F7F7),
-            endDrawer: SafeArea(child: endDrawer(authService, context)),
-            appBar: appBar(context, false),
-            body: _paginas[_paginaActual],
-            bottomNavigationBar: SafeArea( child: bottomAppBar())),
+          endDrawer: SafeArea(child: endDrawer(authService, context)),
+          appBar: appBar(context, false),
+          body: _pages[_paginaActual],
+          bottomNavigationBar: SafeArea(child: bottomAppBar())),
     );
   }
 
@@ -60,8 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           alignment: Alignment.center,
           height: 90,
-          child: ConvexAppBar(
-            elevation: 0,
+          child: ConvexAppBar.badge(
+              {0: countNotifications > 0 ? countNotifications.toString() : ""},
+              badgeMargin: const EdgeInsets.only(left: 20, bottom: 20),
+              elevation: 0,
               height: 60,
               top: 0,
               activeColor: const Color(0XFF84BD00),
@@ -147,12 +158,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       )),
                 )
-              ],
-              onTap: (index) {
-                setState(() {
-                  _paginaActual = index;
-                });
-              }),
+              ], onTap: (index) {
+            setState(() {
+              _paginaActual = index;
+            });
+          }),
         )
       ]),
     );

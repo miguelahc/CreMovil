@@ -80,7 +80,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           children: [
             const Text(
               "Notificaciones",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              style: TextStyle( fontFamily: 'Mulish', fontSize: 18, fontWeight: FontWeight.w400),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TabButtom(
@@ -180,7 +180,7 @@ class TabButtom extends StatelessWidget {
         margin: const EdgeInsets.only(top: 20),
         child: Text(
           title,
-          style: TextStyle(
+          style: TextStyle( fontFamily: 'Mulish', 
               color: selectedPage == pageNumber
                   ? Colors.white
                   : const Color(0XFF3A3D5F)),

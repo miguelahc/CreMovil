@@ -143,14 +143,14 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
           slides: slides,
           renderSkipBtn: const Text(
             "Saltar intro",
-            style: TextStyle(color: Color(0XFF84BD00)),
+            style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF84BD00)),
           ),
           renderNextBtn: const Text(
             "Siguiente",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle( fontFamily: 'Mulish', color: Colors.black),
           ),
           renderDoneBtn: const Text("Continuar",
-              style: TextStyle(color: Color(0XFF84BD00))),
+              style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF84BD00))),
           // // colorDoneBtn: Colors.white,
           colorActiveDot: const Color(0xFF84BD00),
           sizeDot: 8.0,
@@ -189,7 +189,7 @@ class CustomBar extends StatelessWidget {
             //Icon(Icons.info_outline, color: Colors.white),
             //Text(
             //  "  Recuerde pagar sus facturas a tiempo para evitar cortes de energía",
-            //  style: TextStyle(
+            //  style: TextStyle( fontFamily: 'Mulish', 
             //   color: Colors.white,
             //      fontFamily: 'Mulish',
             //      fontWeight: FontWeight.bold,

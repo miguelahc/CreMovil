@@ -13,7 +13,7 @@ class InputDecorations {
             borderSide: BorderSide(color: Color(0XFF84BD00), width: 2)),
         hintText: hintText,
         labelText: labelText,
-        labelStyle: const TextStyle(color:Color(0XFF999999)),
+        labelStyle: const TextStyle( fontFamily: 'Mulish', color:Color(0XFF999999)),
         prefixIcon: prefixIcon != null
             ? Icon(prefixIcon, color:const Color(0xFF999999))
             : null);

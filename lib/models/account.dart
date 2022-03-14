@@ -1,4 +1,4 @@
-import  'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class Account {
   String accountNumber;
@@ -38,6 +38,7 @@ class AccountCre {
   String numberUV; //"0",
   String numz; //"0058",
   List estadocuenta;
+
   AccountCre(
       this.pin,
       this.phoneNumber,
@@ -69,37 +70,38 @@ class AccountCre {
       this.estadocuenta);
 
   Map<String, dynamic> toJson() => {
-    if (pin != "NULL") 'Pin': pin,
-    if (phoneNumber != "NULL") 'PhoneNumber': phoneNumber,
-    if (phoneImei != "NULL") 'PhoneImei': phoneImei,
-    if (accountNumber != "NULL") 'AccountNumber': accountNumber,
-    if (companyNumber != "NULL") 'CompanyNumber': companyNumber,
-    if (identificationNumber != "NULL")
-      'IdentificationNumber': identificationNumber,
-    if (aliasName != "NULL") 'AliasName': aliasName,
-    if (environment != "NULL") 'Environment': environment,
-    if (phoneSO != "NULL") 'PhoneSO': phoneSO,
-    if (phonePushId != "NULL") 'PhonePushId': phonePushId,
-    if (accountType != "NULL") 'AccountType': accountType,
-    if (documentNumber != "NULL") 'DocumentNumber': documentNumber,
-    if (currentReading != "NULL") 'CurrentReading': currentReading,
-    if (imageReading != "NULL") 'ImageReading': imageReading,
-    if (accountId != "NULL") 'AccountId': accountId,
-    if (titularName != "NULL") 'TitularName': titularName,
-    'DateRegister': dateRegister.toIso8601String(),
-    'DateModified': dateModified.toIso8601String(),
-    if (isPartner != "NULL") 'IsPartner': isPartner,
-    if (address != "NULL") 'Address': address,
-    if (totalDebt != -1) 'TotalDebt': totalDebt,
-    if (stateAccount != "NULL") 'StateAccount': stateAccount,
-    if (registerState != "NULL") 'RegisterState': registerState,
-    if (districtCode != "NULL") 'DistrictCode': districtCode,
-    if (sectionCode != "NULL") 'SectionCode': sectionCode,
-    if (numberUV != "NULL") 'NumberUV': numberUV,
-    if (numz != "NULL") 'numz': numz,
-    'estadocuenta':
-    estadocuenta.isEmpty ? '[]' : listestadocuenta(estadocuenta),
-  };
+        if (pin != "NULL") 'Pin': pin,
+        if (phoneNumber != "NULL") 'PhoneNumber': phoneNumber,
+        if (phoneImei != "NULL") 'PhoneImei': phoneImei,
+        if (accountNumber != "NULL") 'AccountNumber': accountNumber,
+        if (companyNumber != "NULL") 'CompanyNumber': companyNumber,
+        if (identificationNumber != "NULL")
+          'IdentificationNumber': identificationNumber,
+        if (aliasName != "NULL") 'AliasName': aliasName,
+        if (environment != "NULL") 'Environment': environment,
+        if (phoneSO != "NULL") 'PhoneSO': phoneSO,
+        if (phonePushId != "NULL") 'PhonePushId': phonePushId,
+        if (accountType != "NULL") 'AccountType': accountType,
+        if (documentNumber != "NULL") 'DocumentNumber': documentNumber,
+        if (currentReading != "NULL") 'CurrentReading': currentReading,
+        if (imageReading != "NULL") 'ImageReading': imageReading,
+        if (accountId != "NULL") 'AccountId': accountId,
+        if (titularName != "NULL") 'TitularName': titularName,
+        'DateRegister': dateRegister.toIso8601String(),
+        'DateModified': dateModified.toIso8601String(),
+        if (isPartner != "NULL") 'IsPartner': isPartner,
+        if (address != "NULL") 'Address': address,
+        if (totalDebt != -1) 'TotalDebt': totalDebt,
+        if (stateAccount != "NULL") 'StateAccount': stateAccount,
+        if (registerState != "NULL") 'RegisterState': registerState,
+        if (districtCode != "NULL") 'DistrictCode': districtCode,
+        if (sectionCode != "NULL") 'SectionCode': sectionCode,
+        if (numberUV != "NULL") 'NumberUV': numberUV,
+        if (numz != "NULL") 'numz': numz,
+        'estadocuenta':
+            estadocuenta.isEmpty ? '[]' : listestadocuenta(estadocuenta),
+      };
+
   List listestadocuenta(List listestcuenta) {
     AccountStatement accountstatement;
     String companynumber,
@@ -140,12 +142,14 @@ class RegisterAccount {
   int companyName;
   String clientName;
   String typeAccount;
+
   RegisterAccount(this.companyName, this.clientName, this.typeAccount);
+
   Map<String, dynamic> toJson() => {
-    'CompanyName': companyName,
-    'ClientName': clientName,
-    'TypeAccount': typeAccount,
-  };
+        'CompanyName': companyName,
+        'ClientName': clientName,
+        'TypeAccount': typeAccount,
+      };
 }
 
 class AccountStatement {
@@ -166,16 +170,17 @@ class AccountStatement {
       this.payInvoice,
       this.totalInvoice,
       this.valuekwh);
+
   Map<String, dynamic> toJson() => {
-    'DocumentNumber': documentNumber,
-    'CompanyNumber': companyNumber,
-    'Valuekwh': valuekwh,
-    'DateGestion': dateGestion,
-    'TotalInvoice': totalInvoice,
-    'DateInvoice': dateInvoice,
-    'DownloadInvoice': downloadInvoice,
-    'PayInvoice': payInvoice,
-  };
+        'DocumentNumber': documentNumber,
+        'CompanyNumber': companyNumber,
+        'Valuekwh': valuekwh,
+        'DateGestion': dateGestion,
+        'TotalInvoice': totalInvoice,
+        'DateInvoice': dateInvoice,
+        'DownloadInvoice': downloadInvoice,
+        'PayInvoice': payInvoice,
+      };
 }
 
 class ListAccounts {
@@ -189,6 +194,9 @@ class ListAccounts {
   String accountTypeRegister;
   double amountDebt;
   int numberInvoicesDue;
+  String dateLastReading;
+  int lastReading;
+
   ListAccounts(
       this.accountName,
       this.accountNumber,
@@ -199,7 +207,10 @@ class ListAccounts {
       this.phoneImei,
       this.phoneNumber,
       this.amountDebt,
-      this.numberInvoicesDue);
+      this.numberInvoicesDue,
+      this.dateLastReading,
+      this.lastReading);
+
   static List getAccounts(List listestcuenta) {
     String phonenumber,
         phoneimei,
@@ -209,20 +220,21 @@ class ListAccounts {
         aliasname,
         accounttype,
         accounttyperegister;
-
     double amountdebt;
     int numberinvoicesdue;
+    String dateLastReading;
+    int lastReading;
     ListAccounts accountstatement;
     List resultcuentas = new List.empty(growable: true);
     for (int i = 0; i < listestcuenta.length; i++) {
       phonenumber = listestcuenta[i]["nutele"].toString();
       phoneimei = (listestcuenta[i])["dsimei"];
       accountnumber = (listestcuenta[i])["nucuen"].toString();
-      accountname = (listestcuenta[i]["nocuen"] == null
-          ? ""
-          : listestcuenta[i]["nocuen"]);
+      accountname = (listestcuenta[i]["nocuen"] ?? "");
       companynumber = (listestcuenta[i])["nucomp"].toString();
       aliasname = (listestcuenta[i])["noalia"];
+      dateLastReading = (listestcuenta[i]["fclect"] ?? "");
+      lastReading = (listestcuenta[i]["valect"] ?? "");
       accounttype = (listestcuenta[i])["ticuen"].toString();
       accounttyperegister = (listestcuenta[i])["tiregi"];
       amountdebt = double.parse((listestcuenta[i])["modeud"].toString());
@@ -237,22 +249,26 @@ class ListAccounts {
           phoneimei,
           phonenumber,
           amountdebt,
-          numberinvoicesdue);
+          numberinvoicesdue,
+          dateLastReading,
+          lastReading);
       resultcuentas.add(accountstatement.toJson());
     }
     return resultcuentas;
   }
 
   Map<String, dynamic> toJson() => {
-    'PhoneNumber': phoneNumber,
-    'PhoneImei': phoneNumber,
-    'AccountNumber': accountNumber,
-    'AccountName': accountName,
-    'CompanyNumber': companyNumber,
-    'AliasName': aliasName,
-    'AccountType': accountType,
-    'AccountTypeRegister': accountTypeRegister,
-    'AmountDebt': amountDebt,
-    'NumberInvoicesDue': numberInvoicesDue
-  };
+        'PhoneNumber': phoneNumber,
+        'PhoneImei': phoneNumber,
+        'AccountNumber': accountNumber,
+        'AccountName': accountName,
+        'CompanyNumber': companyNumber,
+        'AliasName': aliasName,
+        'AccountType': accountType,
+        'AccountTypeRegister': accountTypeRegister,
+        'AmountDebt': amountDebt,
+        'NumberInvoicesDue': numberInvoicesDue,
+        'DateLastReading': dateLastReading,
+        'LastReading': lastReading
+      };
 }
