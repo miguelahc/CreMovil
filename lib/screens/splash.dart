@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:app_cre/providers/conection_status.dart';
+import 'package:app_cre/screens/no_connection_screen.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +16,32 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    _navigatetohome();
+    _checkConnection();
   }
 
-  _navigatetohome() async {
-    await Future.delayed(const Duration(milliseconds: 3000));
+  _checkConnection() async {
+    try {
+      await Future.delayed(const Duration(seconds: 3));
+      final result = await InternetAddress.lookup('creapp.cre.com.bo');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        _checkAuth();
+      } else {
+        _navigateNoConnexionPage();
+      }
+    } on SocketException catch (_) {
+      _navigateNoConnexionPage();
+    }
+  }
+
+  _checkAuth(){
     TokenService().generateToken();
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) => const CheckAuthScreen()));
+  }
+
+  _navigateNoConnexionPage(){
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => NoConnectionScreen()));
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_cre/models/models.dart';
+import 'package:app_cre/providers/conection_status.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
@@ -8,6 +9,7 @@ import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -15,6 +17,29 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ConnectionStatus()),
+      ],
+      child: Consumer<ConnectionStatus>(
+          builder: (_, model, __) => Content(status: model)),
+      // child: const LoginScreen(),
+    );
+  }
+}
+
+class Content extends StatefulWidget {
+  ConnectionStatus status;
+
+  Content({Key? key, required this.status}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _Content();
+}
+
+class _Content extends State<Content> {
   var accounts = [];
   var services = [];
   bool onLoad = true;
@@ -23,6 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    print(widget.status.isOnline);
     TokenService().readToken().then((token) {
       UserService().readUserData().then((data) {
         var userData = jsonDecode(data);
@@ -64,8 +90,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     disabledColor: Colors.black87,
                     elevation: 0,
                     child: Container(
-                        constraints: const
-                            BoxConstraints(minWidth: 100, maxHeight: 30),
+                        constraints:
+                            const BoxConstraints(minWidth: 100, maxHeight: 30),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -82,8 +108,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             Text(
                               'Registrar',
-                              style:
-                                  TextStyle(fontFamily: 'Mulish', color: Colors.white, fontSize: 12),
+                              style: TextStyle(
+                                  fontFamily: 'Mulish',
+                                  color: Colors.white,
+                                  fontSize: 12),
                             ),
                           ],
                         )),
@@ -96,52 +124,76 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ])
             ]),
           ),
-          onLoad
-              ? circularProgress()
-              : Expanded(
-                  child: ListView(
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Codigos Fijos",
-                              style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F)),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            // i
-                            Column(
-                              children: accounts
-                                  .map((e) => item(context, e))
-                                  .toList(),
-                            ),
-                            services.isEmpty
-                            ?   const SizedBox()
-                            :   Column(
+          widget.status.isOnline
+              ? onLoad
+                  ? circularProgress()
+                  : Expanded(
+                      child: ListView(
+                      children: [
+                        Container(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
-                                  "Servicios",
-                                  style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F)),
+                                  "Codigos Fijos",
+                                  style: TextStyle(
+                                      fontFamily: 'Mulish',
+                                      color: Color(0XFF3A3D5F)),
                                 ),
                                 const SizedBox(
                                   height: 8,
                                 ),
                                 // i
                                 Column(
-                                  children: services
+                                  children: accounts
                                       .map((e) => item(context, e))
                                       .toList(),
                                 ),
+                                services.isEmpty
+                                    ? const SizedBox()
+                                    : Column(
+                                        children: [
+                                          const Text(
+                                            "Servicios",
+                                            style: TextStyle(
+                                                fontFamily: 'Mulish',
+                                                color: Color(0XFF3A3D5F)),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          // i
+                                          Column(
+                                            children: services
+                                                .map((e) => item(context, e))
+                                                .toList(),
+                                          ),
+                                        ],
+                                      )
                               ],
-                            )
-                          ],
-                        ))
-                  ],
-                )),
+                            ))
+                      ],
+                    ))
+              : Container(
+            margin: const EdgeInsets.only(top: 24),
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  height: 100,
+                  decoration: customBoxDecoration(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 64, right: 64, bottom: 24, top: 32),
+                        child: Text(
+                          "¡No hemos podido\nrecuperar tus datos!",
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
         ]));
   }
 
@@ -171,8 +223,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AccountStatusScreen(
-                                  account: account)));
+                              builder: (context) =>
+                                  AccountStatusScreen(account: account)));
                     },
                     child: Container(
                       decoration: const BoxDecoration(
@@ -195,14 +247,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             children: [
                               const Text(
                                 "Nro.",
-                                style: TextStyle( fontFamily: 'Mulish', 
+                                style: TextStyle(
+                                    fontFamily: 'Mulish',
                                     fontSize: 12,
                                     color: Color(0XFF393D5E),
                                     fontWeight: FontWeight.w500),
                               ),
                               Text(data["AccountNumber"],
-                                  style: const TextStyle( fontFamily: 'Mulish', 
-                                      fontSize: 12, color: Color(0XFF999999)))
+                                  style: const TextStyle(
+                                      fontFamily: 'Mulish',
+                                      fontSize: 12,
+                                      color: Color(0XFF999999)))
                             ],
                           ),
                         ),
@@ -212,13 +267,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("Referencia",
-                                  style: TextStyle( fontFamily: 'Mulish', 
+                                  style: TextStyle(
+                                      fontFamily: 'Mulish',
                                       fontSize: 12,
                                       color: Color(0XFF393D5E),
                                       fontWeight: FontWeight.w500)),
                               Text(data["AliasName"],
-                                  style: const TextStyle( fontFamily: 'Mulish', 
-                                      fontSize: 12, color: Color(0XFF999999)))
+                                  style: const TextStyle(
+                                      fontFamily: 'Mulish',
+                                      fontSize: 12,
+                                      color: Color(0XFF999999)))
                             ],
                           ),
                         ),
@@ -228,44 +286,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("Deuda",
-                                  style: TextStyle( fontFamily: 'Mulish', 
+                                  style: TextStyle(
+                                      fontFamily: 'Mulish',
                                       fontSize: 12,
                                       color: Color(0XFF393D5E),
                                       fontWeight: FontWeight.w500)),
-                              Text("Bs. "+ data["AmountDebt"].toString(),
-                                  style: const TextStyle( fontFamily: 'Mulish', 
-                                      fontSize: 12, color: Color(0XFF999999)))
+                              Text("Bs. " + data["AmountDebt"].toString(),
+                                  style: const TextStyle(
+                                      fontFamily: 'Mulish',
+                                      fontSize: 12,
+                                      color: Color(0XFF999999)))
                             ],
                           ),
                         ),
                         data["AmountDebt"] == 0.0
-                          ?   const SizedBox(width: 70)
-                          :  MaterialButton(
-                              padding: const EdgeInsets.all(0),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                              disabledColor: Colors.black87,
-                              elevation: 0,
-                              child: Container(
-                                  constraints: const BoxConstraints(
-                                      minWidth: 60, maxHeight: 30),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      gradient: const LinearGradient(colors: [
-                                        Color(0XFF618A02),
-                                        Color(0XFF84BD00)
-                                      ])),
-                                  child: Row(
-                                    children: const [
-                                      Text(
-                                        'Pagar',
-                                        style: TextStyle( fontFamily: 'Mulish', 
-                                            color: Colors.white, fontSize: 12),
-                                      ),
-                                    ],
-                                  )),
-                              onPressed: () {}),
+                            ? const SizedBox(width: 70)
+                            : MaterialButton(
+                                padding: const EdgeInsets.all(0),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                disabledColor: Colors.black87,
+                                elevation: 0,
+                                child: Container(
+                                    constraints: const BoxConstraints(
+                                        minWidth: 60, maxHeight: 30),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        gradient: const LinearGradient(colors: [
+                                          Color(0XFF618A02),
+                                          Color(0XFF84BD00)
+                                        ])),
+                                    child: Row(
+                                      children: const [
+                                        Text(
+                                          'Pagar',
+                                          style: TextStyle(
+                                              fontFamily: 'Mulish',
+                                              color: Colors.white,
+                                              fontSize: 12),
+                                        ),
+                                      ],
+                                    )),
+                                onPressed: () {}),
                         const ImageIcon(
                           AssetImage('assets/icons/vuesax-linear-more.png'),
                           color: Colors.black,
@@ -324,7 +387,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           'El registro $aliasName\nse ha eliminado',
-          style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
+          style: const TextStyle(fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -348,7 +411,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Aceptar',
-                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white,
+                          fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -372,7 +438,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Text(
           '¿Está seguro que desea\neliminar $aliasName \nde la Aplicación Móvil?',
-          style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
+          style: const TextStyle(fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -403,8 +469,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ? circularProgress()
                             : const Text(
                                 'Eliminar',
-                                style: TextStyle( fontFamily: 'Mulish', 
-                                    color: Colors.white, fontSize: 16),
+                                style: TextStyle(
+                                    fontFamily: 'Mulish',
+                                    color: Colors.white,
+                                    fontSize: 16),
                               ),
                       ),
                       onPressed: () {
@@ -451,13 +519,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(30),
-                          border:
-                              Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
+                          border: Border.all(
+                              color: const Color(0XFF3A3D5F), width: 1.5),
                         ),
                         child: const Text(
                           'Cancelar',
-                          style:
-                              TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 16),
+                          style: TextStyle(
+                              fontFamily: 'Mulish',
+                              color: Color(0XFF3A3D5F),
+                              fontSize: 16),
                         ),
                       ),
                       onPressed: () {
@@ -541,7 +611,7 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'SF Pro Display')),
-                    SizedBox(
+                      SizedBox(
                           width: 24,
                           height: 24,
                           child: IconButton(
@@ -602,12 +672,14 @@ class DidYouKnow extends StatelessWidget {
                 color: Color(0XFF84BD00),
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DidYouKnowScreen()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const DidYouKnowScreen()));
               },
             ),
             const Text(
               " ¿Sabías que?",
-              style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 12),
+              style: TextStyle(
+                  fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 12),
             )
           ],
         ));

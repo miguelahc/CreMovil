@@ -18,3 +18,8 @@ const DarkGradient =
     LinearGradient(colors: [Color(0XFF3a3d5f), Color(0XFF2b5c5a)],
         begin:  Alignment.bottomLeft,
         end: Alignment.topRight);
+
+const DarkGradientAlpha =
+LinearGradient(colors: [Color(0XFF1C1F2F), Color(0XFF162D2D)],
+    begin:  Alignment.bottomLeft,
+    end: Alignment.topRight);
