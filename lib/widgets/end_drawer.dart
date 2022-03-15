@@ -15,20 +15,29 @@ Widget endDrawer(AuthService authService, BuildContext context) {
         children: <Widget>[
           DrawerHeader(
               child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  Image.asset("assets/logo_azul.png",
-                      alignment: Alignment.center, width: 60),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Menú de Opciones',
-                    textAlign: TextAlign.center,
-                    style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF84BD00), fontSize: 16),
-                  )
-                ],
-              )),
-          itemOption(
-              "Puntos de atención y pago", "vuesax-linear-location.png", () {}),
+            children: [
+              const SizedBox(height: 20),
+              Image.asset("assets/logo_azul.png",
+                  alignment: Alignment.center, width: 60),
+              const SizedBox(height: 20),
+              const Text(
+                'Menú de Opciones',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'Mulish',
+                    color: Color(0XFF84BD00),
+                    fontSize: 16),
+              )
+            ],
+          )),
+          itemOption("Puntos de atención y pago", "vuesax-linear-location.png",
+              () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoadingScreen(),
+                ));
+          }),
           itemOption("Requisitos de servicio", "vuesax-linear-verify.png", () {
             Navigator.push(
                 context,
@@ -38,9 +47,9 @@ Widget endDrawer(AuthService authService, BuildContext context) {
           }),
           itemOption("Información de ayuda y soporte",
               "vuesax-linear-info-circle.png", () {}),
-          itemOption(
-              "Sabías que?", "vuesax-linear-lamp-charge-blue.png", () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DidYouKnowScreen()));
+          itemOption("Sabías que?", "vuesax-linear-lamp-charge-blue.png", () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const DidYouKnowScreen()));
           }),
           itemOption("Salir", "vuesax-linear-logout.png", () {
             authService.logout();

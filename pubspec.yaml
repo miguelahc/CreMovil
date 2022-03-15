@@ -49,6 +49,11 @@ dependencies:
   dotted_border: ^2.0.0+2
   json_annotation: ^4.4.0
   connectivity: ^3.0.6
+  geolocator: ^8.2.0
+  permission_handler: ^9.2.0
+  bloc: ^8.0.3
+  equatable: ^2.0.3
+  flutter_bloc: ^8.0.1
   # iconos_cupertino: ^1.0.2
 
 dev_dependencies:

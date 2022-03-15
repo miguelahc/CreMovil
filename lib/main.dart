@@ -1,3 +1,4 @@
+import 'package:app_cre/blocs/gps/gps_bloc.dart';
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/providers/conection_status.dart';
 import 'package:app_cre/screens/screens.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:app_cre/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:app_cre/services/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +23,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => ConnectionStatus()),
+        BlocProvider(create: (context) => GpsBloc()),
       ],
       child: const MyApp(),
     );
@@ -59,7 +62,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Reto Api',
-      initialRoute: 'home',
+      initialRoute: 'login',
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: messengerKey,
       routes: {
