@@ -40,6 +40,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 NotificationCategoryScreen(notification: notification)));
   }
 
+  bool countNotificationNoRead(List notifications){
+    List result = notifications.where((element) => element["leido"]=="NO").toList();
+    return result.isNotEmpty ? true: false ;
+  }
+
   @override
   void initState() {
     _pageController = PageController();
@@ -127,7 +132,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                               NotificationsService()
                                                   .filterOnlyCategory(
                                                       notifications,
-                                                      e.numberCategory)))))
+                                                      e.numberCategory))),
+                                      countNotificationNoRead(NotificationsService()
+                                          .filterOnlyCategory(
+                                          notifications,
+                                          e.numberCategory))))
                                   .toList())),
                       Container(
                           padding:

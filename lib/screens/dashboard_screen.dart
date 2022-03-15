@@ -7,6 +7,7 @@ import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/widgets/widgets.dart';
+import 'package:badges/badges.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -631,7 +632,7 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                           ))
                     ],
                   ),
-                  const Text("miguel.cre@gmail.com",
+                  const Text("usuario.cre@gmail.com",
                       style: TextStyle(
                           color: Color(0XFFA39F9F),
                           fontSize: 12,
@@ -667,9 +668,12 @@ class DidYouKnow extends StatelessWidget {
           children: [
             IconButton(
               color: const Color(0xFF84BD00),
-              icon: const ImageIcon(
-                AssetImage('assets/icons/vuesax-linear-lamp-charge.png'),
-                color: Color(0XFF84BD00),
+              icon: Badge(
+                position: BadgePosition.topEnd(end: -2, top: -2),
+                child: const ImageIcon(
+                  AssetImage('assets/icons/vuesax-linear-lamp-charge.png'),
+                  color: Color(0XFF84BD00),
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:app_cre/ui/box_decoration.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ Widget itemOption(String title, String icon, Function() function) {
   );
 }
 
-Widget itemOptionWithImage(String title, String base64, Function() function) {
+Widget itemOptionWithImage(String title, String base64, Function() function, bool badge) {
   Uint8List bytes =  const Base64Decoder().convert(base64);
   return GestureDetector(
     onTap: function,
@@ -53,7 +54,11 @@ Widget itemOptionWithImage(String title, String base64, Function() function) {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 12),
-              child: Image.memory(bytes, width: 24,)
+              child: Badge(
+                position: BadgePosition.topEnd(end: -2, top: -2),
+                showBadge: badge,
+                child: Image.memory(bytes, width: 24,),
+              )
             ),
             Text(
               title,

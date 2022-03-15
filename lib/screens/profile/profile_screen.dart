@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:app_cre/screens/profile/edit_profile_screen.dart';
+import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/widgets/item_option.dart';
@@ -12,6 +15,19 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _notificationActive = false;
+  String name = "Nombre";
+
+  @override
+  void initState() {
+    super.initState();
+    UserService().readUserData().then((data) {
+      var userData = jsonDecode(data);
+      setState(() {
+        name = userData["Name"];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,13 +92,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ]),
                         ),
                         Column(
-                          children: const [
-                            Text("Nombre",
-                                style: TextStyle( fontFamily: 'Mulish', 
+                          children: [
+                            Text(name,
+                                style: const TextStyle( fontFamily: 'Mulish',
                                     color: DarkColor,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold)),
-                            Text("miguel.cre@gmail.com",
+                            const Text("usuario.cre@gmail.com",
                                 style: TextStyle( fontFamily: 'Mulish', 
                                     color: Color(0XFF666666), fontSize: 12))
                           ],
