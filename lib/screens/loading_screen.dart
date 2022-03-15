@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:app_cre/blocs/blocs.dart';
+import 'package:app_cre/screens/screens.dart';
 
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Products'),
-      ),
-      body: const Center(
-        child: CircularProgressIndicator(
-          color: Colors.indigo,
-        ),
-      ),
-    );
+    return Scaffold(body: BlocBuilder<GpsBloc, GpsState>(
+      builder: (context, state) {
+        return state.isAllGranted ? const MapScreen() : const GpsAccessScreen();
+      },
+    ));
   }
 }

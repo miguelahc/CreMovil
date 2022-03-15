@@ -24,3 +24,5 @@ export 'package:app_cre/screens/splash.dart';
 export 'package:app_cre/screens/validate_cod_screen.dart';
 export 'package:app_cre/screens/did_you_know/did_you_know_screen.dart';
 export 'package:app_cre/screens/did_you_know/did_you_know_content_screen.dart';
+export 'package:app_cre/screens/map_screen.dart';
+export 'package:app_cre/screens/gps_access_screen.dart';
