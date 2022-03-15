@@ -89,12 +89,17 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 const Text("Teléfono",
-                                                    style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999))),
+                                                    style: TextStyle(
+                                                        fontFamily: 'Mulish',
+                                                        color:
+                                                            Color(0XFF999999))),
                                                 Text(
                                                   "${widget.user.prefixPhone} ${widget.user.phone}",
-                                                  style: const TextStyle( fontFamily: 'Mulish', 
-                                                      fontSize: 16, fontWeight: FontWeight.w400),
-
+                                                  style: const TextStyle(
+                                                      fontFamily: 'Mulish',
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                                 )
                                               ],
                                             )
@@ -112,7 +117,8 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                           inactiveColor:
                                               const Color(0xFF84BD00),
                                         ),
-                                        pastedTextStyle: TextStyle( fontFamily: 'Mulish', 
+                                        pastedTextStyle: TextStyle(
+                                          fontFamily: 'Mulish',
                                           color: Colors.green.shade600,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -230,7 +236,8 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                           InkWell(
                                             child: const Text(
                                               'Reenviar',
-                                              style: TextStyle( fontFamily: 'Mulish', 
+                                              style: TextStyle(
+                                                  fontFamily: 'Mulish',
                                                   color: Color(0XFF84BD00),
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold),
@@ -314,7 +321,7 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           'No existen registros de servicios con el número de teléfono ingresado',
-          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
+          style: TextStyle(fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -338,7 +345,10 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Registrar Servício',
-                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white,
+                          fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -361,7 +371,7 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           'Hemos enviado un mensaje de texto (SMS) con tu PIN de verificación de teléfono',
-          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
+          style: TextStyle(fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -385,7 +395,10 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Ingresar PIN',
-                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white,
+                          fontSize: 16),
                     ),
                   ),
                   onPressed: () {
@@ -408,7 +421,7 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
           '¡El PIN ingresado es incorrecto! \n\nPor favor revisa el SMS y vuelve a intentar',
-          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
+          style: TextStyle(fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -432,7 +445,10 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Regresar',
-                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white,
+                          fontSize: 16),
                     ),
                   ),
                   onPressed: () {

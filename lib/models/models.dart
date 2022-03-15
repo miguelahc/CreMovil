@@ -6,3 +6,7 @@ export 'package:app_cre/models/account_detail.dart';
 export 'package:app_cre/models/invoice_detail.dart';
 export 'package:app_cre/models/account_type.dart';
 export 'package:app_cre/models/reading.dart';
+export 'package:app_cre/models/places_models.dart';
+export 'package:app_cre/models/route_destination.dart';
+export 'package:app_cre/models/search_result.dart';
+export 'package:app_cre/models/traffic_response.dart';
