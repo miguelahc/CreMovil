@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_cre/models/models.dart';
 import 'package:app_cre/providers/reading_form_provider.dart';
 import 'package:app_cre/screens/screens.dart';
@@ -13,6 +15,7 @@ import 'package:provider/provider.dart';
 
 class RegisterReadingScreen extends StatefulWidget {
   final AccountDetail accountDetail;
+
   const RegisterReadingScreen({Key? key, required this.accountDetail})
       : super(key: key);
 
@@ -22,15 +25,11 @@ class RegisterReadingScreen extends StatefulWidget {
 
 class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
   late AccountDetail accountDetail;
-  String lastDate = "";
-  int lastReading = 15102;
+  var formatter = DateFormat('dd/MM/yyyy');
 
   @override
   void initState() {
     accountDetail = widget.accountDetail;
-    var now = DateTime.now();
-    var formatter = DateFormat('dd/MM/yyyy');
-    lastDate = formatter.format(now);
     super.initState();
   }
 
@@ -38,6 +37,7 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0XFFF7F7F7),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
@@ -49,7 +49,8 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                     padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("Registro de lectura de medidor",
-                        style: TextStyle( fontFamily: 'Mulish', 
+                        style: TextStyle(
+                            fontFamily: 'Mulish',
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold)),
                   ),
@@ -85,14 +86,16 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                                   children: [
                                     const Text(
                                       "Código fijo: ",
-                                      style: TextStyle( fontFamily: 'Mulish', 
+                                      style: TextStyle(
+                                          fontFamily: 'Mulish',
                                           fontWeight: FontWeight.bold,
                                           color: Color(0XFF3A3D5F),
                                           fontSize: 14),
                                     ),
                                     Text(
                                       accountDetail.accountNumber,
-                                      style: const TextStyle( fontFamily: 'Mulish', 
+                                      style: const TextStyle(
+                                          fontFamily: 'Mulish',
                                           color: Color(0XFF999999),
                                           fontSize: 14),
                                     )
@@ -104,7 +107,10 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                         ],
                       )),
                   rowData("Titular: ", accountDetail.titularName),
-                  rowData("Fecha última lectura: ", lastDate),
+                  rowData(
+                      "Fecha última lectura: ",
+                      formatter.format(
+                          DateTime.parse(accountDetail.dateLastReading))),
                   const CustomDivider(),
                   Container(
                       height: 40,
@@ -117,13 +123,17 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                         children: [
                           const Text(
                             "Última lectura: ",
-                            style: TextStyle( fontFamily: 'Mulish', 
-                                fontSize: 16, color: Color(0XFF3A3D5F)),
+                            style: TextStyle(
+                                fontFamily: 'Mulish',
+                                fontSize: 16,
+                                color: Color(0XFF3A3D5F)),
                           ),
                           Text(
-                            "$lastReading Kwh",
-                            style: const TextStyle( fontFamily: 'Mulish', 
-                                fontSize: 16, color: Color(0XFF666666)),
+                            accountDetail.lastReading.toString() + " Kwh",
+                            style: const TextStyle(
+                                fontFamily: 'Mulish',
+                                fontSize: 16,
+                                color: Color(0XFF666666)),
                           )
                         ],
                       )),
@@ -135,9 +145,8 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                       child: ChangeNotifierProvider(
                     create: (_) => ReadingFormProvider(),
                     child: FormCurrentReadingState(
-                      lastReading: lastReading,
+                      lastReading: accountDetail.lastReading,
                       accountDetail: accountDetail,
-                      lastDate: lastDate,
                     ),
                   ))
                 ]))));
@@ -161,15 +170,18 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                         children: [
                           Text(
                             key,
-                            style: const TextStyle( fontFamily: 'Mulish', 
+                            style: const TextStyle(
+                                fontFamily: 'Mulish',
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF3A3D5F),
                                 fontSize: 14),
                           ),
                           Text(
                             value,
-                            style: const TextStyle( fontFamily: 'Mulish', 
-                                color: Color(0XFF999999), fontSize: 14),
+                            style: const TextStyle(
+                                fontFamily: 'Mulish',
+                                color: Color(0XFF999999),
+                                fontSize: 14),
                           )
                         ],
                       )
@@ -185,13 +197,10 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
 
 class FormCurrentReadingState extends StatelessWidget {
   final int lastReading;
-  final String lastDate;
   final AccountDetail accountDetail;
+
   const FormCurrentReadingState(
-      {Key? key,
-      required this.lastReading,
-      required this.accountDetail,
-      required this.lastDate})
+      {Key? key, required this.lastReading, required this.accountDetail})
       : super(key: key);
 
   @override
@@ -236,26 +245,41 @@ class FormCurrentReadingState extends StatelessWidget {
                             ? circularProgress()
                             : const Text(
                                 'Registrar',
-                                style: TextStyle( fontFamily: 'Mulish', 
-                                    color: Colors.white, fontSize: 16),
+                                style: TextStyle(
+                                    fontFamily: 'Mulish',
+                                    color: Colors.white,
+                                    fontSize: 16),
                               ),
                       ),
                       onPressed: () {
                         if (readingForm.isValidForm() &&
                             !readingForm.isLoading) {
+                          readingForm.isLoading = true;
                           if (int.parse(readingForm.reading) <= lastReading) {
-                            _showDialogError(context);
+                            _showDialogError(context, readingForm,
+                                'La Lectura Actual debe ser \nmayor a la Última Lectura');
                           } else {
-                            Reading reading = Reading(
-                                accountDetail.accountNumber,
-                                accountDetail.companyNumber,
-                                int.parse(readingForm.reading));
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SimulatedInvoiceScreen(
-                                            reading: reading)));
+                            TokenService().readToken().then((token) {
+                              UserService().readUserData().then((data) {
+                                var userData = jsonDecode(data);
+                                InvoiceService()
+                                    .registerReading(
+                                        token,
+                                        userData,
+                                        accountDetail.accountNumber,
+                                        accountDetail.companyNumber,
+                                        readingForm.reading)
+                                    .then((value) {
+                                  int code = jsonDecode(value)["Code"];
+                                  if (code == 0) {
+                                    _showDialogExit(context, readingForm);
+                                  } else {
+                                    _showDialogError(context, readingForm,
+                                        'Se produjo un error\nal registrar la lectura');
+                                  }
+                                });
+                              });
+                            });
                           }
                         }
                         FocusScope.of(context).unfocus();
@@ -275,13 +299,15 @@ class FormCurrentReadingState extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(30),
-                          border:
-                              Border.all(color: const Color(0XFF3A3D5F), width: 1.5),
+                          border: Border.all(
+                              color: const Color(0XFF3A3D5F), width: 1.5),
                         ),
                         child: const Text(
                           'Cancelar',
-                          style:
-                              TextStyle( fontFamily: 'Mulish', color:  Color(0XFF3A3D5F), fontSize: 16),
+                          style: TextStyle(
+                              fontFamily: 'Mulish',
+                              color: Color(0XFF3A3D5F),
+                              fontSize: 16),
                         ),
                       ),
                       onPressed: () {
@@ -294,7 +320,7 @@ class FormCurrentReadingState extends StatelessWidget {
         ));
   }
 
-  _showDialogError(context) {
+  _showDialogExit(context, readingForm) {
     showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -305,8 +331,59 @@ class FormCurrentReadingState extends StatelessWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: const Text(
-          'La Lectura Actual debe ser \nmayor a la Última Lectura',
-          style: TextStyle( fontFamily: 'Mulish', fontSize: 14),
+          'Los datos han sido registrados\npara su procesamiento',
+          style: TextStyle(fontFamily: 'Mulish', fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
+        actions: <Widget>[
+          Align(
+              alignment: Alignment.center,
+              child: MaterialButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  disabledColor: Colors.black87,
+                  elevation: 0,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxHeight: 50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    child: const Text(
+                      'Aceptar',
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white,
+                          fontSize: 16),
+                    ),
+                  ),
+                  onPressed: () {
+                    readingForm.isLoading = false;
+                    Navigator.pop(context);
+                  })),
+        ],
+      ),
+    );
+  }
+
+  _showDialogError(context, readingForm, String message) {
+    showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        contentPadding:
+            const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+        actionsPadding: const EdgeInsets.only(bottom: 30),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        content: Text(
+          message,
+          style: TextStyle(fontFamily: 'Mulish', fontSize: 14),
           textAlign: TextAlign.center,
         ),
         actions: <Widget>[
@@ -330,10 +407,14 @@ class FormCurrentReadingState extends StatelessWidget {
                             colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
                     child: const Text(
                       'Regresar',
-                      style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white,
+                          fontSize: 16),
                     ),
                   ),
                   onPressed: () {
+                    readingForm.isLoading = false;
                     Navigator.pop(context);
                   })),
         ],
@@ -355,7 +436,7 @@ class _CurrentReading extends StatelessWidget {
           hintText: 'Digite la lectura actual de su medidor',
           labelText: 'Lectura actual',
           prefixIcon: Icons.watch_later_outlined),
-      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
+      style: const TextStyle(fontFamily: 'Mulish', fontSize: 14),
       initialValue: '',
       keyboardType: TextInputType.number,
       textCapitalization: TextCapitalization.words,
@@ -405,15 +486,19 @@ class _ImageReading extends StatelessWidget {
                         ),
                         Text(
                           "Cámara",
-                          style: TextStyle( fontFamily: 'Mulish', 
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontFamily: 'Mulish',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         )
                       ]),
                 ),
                 const Text(
                   "Tomar foto",
-                  style:
-                      TextStyle( fontFamily: 'Mulish', color: DarkColor, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontFamily: 'Mulish',
+                      color: DarkColor,
+                      fontWeight: FontWeight.bold),
                 )
               ]),
         ),
@@ -438,15 +523,19 @@ class _ImageReading extends StatelessWidget {
                         ),
                         Text(
                           "Galería",
-                          style: TextStyle( fontFamily: 'Mulish', 
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontFamily: 'Mulish',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         )
                       ]),
                 ),
                 const Text(
                   "Adjuntar",
-                  style:
-                      TextStyle( fontFamily: 'Mulish', color: DarkColor, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontFamily: 'Mulish',
+                      color: DarkColor,
+                      fontWeight: FontWeight.bold),
                 )
               ]),
         ),

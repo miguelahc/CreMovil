@@ -48,7 +48,6 @@ class _Content extends State<Content> {
   @override
   void initState() {
     super.initState();
-    print(widget.status.isOnline);
     TokenService().readToken().then((token) {
       UserService().readUserData().then((data) {
         var userData = jsonDecode(data);
@@ -220,6 +219,7 @@ class _Content extends State<Content> {
                       account.numberInvoicesDue = data["NumberInvoicesDue"];
                       account.dateLastReading = data["DateLastReading"];
                       account.lastReading = data["LastReading"];
+                      account.category = data["Category"];
                       Navigator.push(
                           context,
                           MaterialPageRoute(
