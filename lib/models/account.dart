@@ -196,6 +196,7 @@ class ListAccounts {
   int numberInvoicesDue;
   String dateLastReading;
   int lastReading;
+  String category;
 
   ListAccounts(
       this.accountName,
@@ -209,7 +210,8 @@ class ListAccounts {
       this.amountDebt,
       this.numberInvoicesDue,
       this.dateLastReading,
-      this.lastReading);
+      this.lastReading,
+      this.category);
 
   static List getAccounts(List listestcuenta) {
     String phonenumber,
@@ -224,6 +226,7 @@ class ListAccounts {
     int numberinvoicesdue;
     String dateLastReading;
     int lastReading;
+    String category;
     ListAccounts accountstatement;
     List resultcuentas = new List.empty(growable: true);
     for (int i = 0; i < listestcuenta.length; i++) {
@@ -239,6 +242,7 @@ class ListAccounts {
       accounttyperegister = (listestcuenta[i])["tiregi"];
       amountdebt = double.parse((listestcuenta[i])["modeud"].toString());
       numberinvoicesdue = (listestcuenta[i])["ctdeud"];
+      category = (listestcuenta[i])["dscate"];
       accountstatement = ListAccounts(
           accountname,
           accountnumber,
@@ -251,7 +255,8 @@ class ListAccounts {
           amountdebt,
           numberinvoicesdue,
           dateLastReading,
-          lastReading);
+          lastReading,
+      category);
       resultcuentas.add(accountstatement.toJson());
     }
     return resultcuentas;
@@ -269,6 +274,7 @@ class ListAccounts {
         'AmountDebt': amountDebt,
         'NumberInvoicesDue': numberInvoicesDue,
         'DateLastReading': dateLastReading,
-        'LastReading': lastReading
+        'LastReading': lastReading,
+        'Category': category
       };
 }

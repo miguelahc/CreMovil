@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Reto Api',
-      initialRoute: 'login',
+      initialRoute: 'splash',
       navigatorKey: navigatorKey,
       scaffoldMessengerKey: messengerKey,
       routes: {

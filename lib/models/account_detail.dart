@@ -4,7 +4,7 @@ class AccountDetail {
   String accountNumber = "";
   String accountType = "PD";
   String titularName = "";
-  String category = "Domiciliaria-PC-BT";
+  String category = "";
   String address = "";
   String state = "";
   String dist = "";

@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:io';
 
 import 'package:app_cre/models/invoice_detail.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_cre/services/environment.dart' as environment;
-import 'package:intl/intl.dart';
 
 import '../models/resultjson.dart';
 
@@ -165,5 +166,45 @@ class InvoiceService {
           (element) =>
       element["Category"] != "" && element["Category"] == "Cargos y Abonos",
     );
+  }
+
+  Future<dynamic> registerReading(
+      token, userData, accountNumber, companyNumber, currentReading) async {
+    var image = (await rootBundle.load('assets/medidor.jpg')).buffer.asUint8List();
+    final response = await http.post(
+        Uri.parse(environment.urlcre + 'RegistrarLectura'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': token,
+          'P_Pin': userData["Pin"],
+          'P_NuTele': userData["PhoneNumber"],
+          'P_ImeiTele': userData["PhoneImei"],
+          'P_NuCuen': accountNumber,
+          'P_NuComp': companyNumber,
+          'P_Lect': currentReading,
+          'P_Modo': environment.env
+        },
+        body: image
+    );
+    var bodyResponse = Utf8Decoder().convert(response.bodyBytes);
+    ResultJson rjson;
+    if (bodyResponse != null && bodyResponse != "") {
+      var ok = jsonDecode(bodyResponse)["isOk"];
+      if ( ok == "S") {
+        var message = jsonDecode(bodyResponse)["dsMens"];
+        rjson = ResultJson(0, message, "");
+        //return jsonEncode(rjson);
+      } else {
+        rjson = ResultJson(4, "Error en la respuesta del servicio [RegistrarLectura]...", bodyResponse);
+      }
+    } else {
+      rjson = ResultJson(
+          5,
+          "Error en la respuesta del servicio [RegistrarLectura]...",
+          bodyResponse);
+    }
+    //return response.body;
+    var datajson = jsonEncode(rjson.toJson());
+    return datajson;
   }
 }

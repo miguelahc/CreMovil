@@ -15,41 +15,11 @@ import 'package:app_cre/providers/conection_status.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  // static Widget create() {
-  //   return MultiProvider(
-  //     providers: [
-  //       ChangeNotifierProvider(create: (_) => ConnectionStatus()),
-  //     ],
-  //     child: Consumer<ConnectionStatus>(
-  //         builder: (_, model, __) => const LoginScreen()),
-  //     // child: const LoginScreen(),
-  //   );
-  // }
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  @override
-  Widget build(BuildContext context) {
-    // return newLogin(dynamicModel: model);
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ConnectionStatus()),
-      ],
-      child: Consumer<ConnectionStatus>(
-          builder: (_, model, __) => newLogin(dynamicModel: model)),
-      // child: const LoginScreen(),
-    );
-  }
-}
-
-class newLogin extends StatelessWidget {
-  ConnectionStatus dynamicModel;
-
-  newLogin({Key? key, required this.dynamicModel}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,12 +56,12 @@ class newLogin extends StatelessWidget {
                           ),
                           Expanded(
                               child: Container(
-                            alignment: Alignment.center,
-                            child: ChangeNotifierProvider(
-                              create: (_) => LoginFormProvider(),
-                              child: _FormLogin(dynamicModel: dynamicModel),
-                            ),
-                          )),
+                                alignment: Alignment.center,
+                                child: ChangeNotifierProvider(
+                                  create: (_) => LoginFormProvider(),
+                                  child: _FormLogin(),
+                                ),
+                              )),
                         ],
                       ),
                     ),
@@ -107,9 +77,8 @@ class newLogin extends StatelessWidget {
   }
 }
 
+
 class _FormLogin extends StatelessWidget {
-  _FormLogin({Key? key, required this.dynamicModel}) : super(key: key);
-  ConnectionStatus dynamicModel;
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
@@ -168,48 +137,6 @@ class _FormLogin extends StatelessWidget {
                     // //Todo Login Forms
                     if (!loginForm.isValidForm()) return;
                   }),
-              Column(
-                children: [
-                  // if(dynamicModel.isOnline==false){
-                  //   return Text("conección");
-                  // }
-
-                  dynamicModel.isOnline
-                      ? Text("Conectado")
-                      : Text("Sin conectar"),
-                  // Consumer<ConnectionStatus>(builder: (_, model, __) {
-                  //   if (model.isOnline == false) {
-                  //     return AlertDialog(
-                  //       content: const Text('AlertDialog sin conección'),
-                  //       actions: <Widget>[
-                  //         TextButton(
-                  //           onPressed: () => Navigator.pop(context, 'Cancel'),
-                  //           child: const Text('Cancel'),
-                  //         ),
-                  //         TextButton(
-                  //           onPressed: () => Navigator.pop(context, 'OK'),
-                  //           child: const Text('OK'),
-                  //         ),
-                  //       ],
-                  //     );
-                  //   } else {
-                  //     return AlertDialog(
-                  //       content: const Text('AlertDialog con conección'),
-                  //       actions: <Widget>[
-                  //         TextButton(
-                  //           onPressed: () => Navigator.pop(context, 'Cancel'),
-                  //           child: const Text('Cancel'),
-                  //         ),
-                  //         TextButton(
-                  //           onPressed: () => Navigator.pop(context, 'OK'),
-                  //           child: const Text('OK'),
-                  //         ),
-                  //       ],
-                  //     );
-                  //   }
-                  // }),
-                ],
-              )
             ]),
       ),
     );

@@ -136,8 +136,7 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                 var pin = UserService()
                                                     .findPinInPaternString(
                                                         message);
-                                                // if (code == pin) {
-                                                if (!(code == pin)) {
+                                                if (code == pin) {
                                                   UserService().saveUserData(
                                                       pin,
                                                       widget.user.name,
@@ -186,10 +185,6 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                         setState(() {
                                                           onLoading = false;
                                                         });
-                                                        // Navigator.pop(context);
-                                                        // Navigator.pop(context);
-                                                        // Navigator.pushReplacementNamed(
-                                                        //     context, "home");
                                                         Navigator.of(context)
                                                             .pushNamedAndRemoveUntil(
                                                                 'home',
