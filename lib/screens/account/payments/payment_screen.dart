@@ -5,7 +5,7 @@ import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
-import 'package:app_cre/widgets/CustomDot.dart';
+import 'package:app_cre/widgets/custom_dot.dart';
 import 'package:app_cre/widgets/payments_table.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';

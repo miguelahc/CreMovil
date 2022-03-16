@@ -151,4 +151,43 @@ class NotificationsService {
     notifications = notifications.where((element) => element["leido"]=="NO").toList();
     return notifications.length;
   }
+
+  Future<dynamic> notificationsRead(token, userData, idNotification) async {
+    final response = await http.post(
+        Uri.parse(environment.urlcre + 'NotificacionLeida'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: jsonEncode({
+          "P_Pin": userData["Pin"],
+          // 'P_NuTele': userData["PhoneNumber"],
+          'P_NuTele': "78498664",
+          // 'P_ImeiTele': userData["PhoneImei"],
+          'P_ImeiTele': '+59178498664',
+          'P_IdNoti': idNotification,
+          'P_Modo': environment.env
+        }));
+    var datajson;
+    ResultJson rjson;
+    var bodyResponse = Utf8Decoder().convert(response.bodyBytes);
+    if (bodyResponse != null && bodyResponse != "") {
+      datajson = jsonDecode(bodyResponse)["isOk"];
+      if (datajson == "S") {
+        rjson = ResultJson(0, "OK", "");
+      } else {
+        rjson = ResultJson(
+            4,
+            "Error en la respuesta del servicio [NotificacionLeida]",
+            bodyResponse);
+      }
+    } else {
+      rjson = ResultJson(
+          5,
+          "Error en la respuesta del servicio [NotificacionLeida]...",
+          bodyResponse);
+    }
+    datajson = rjson.toJson();
+    return jsonEncode(datajson);
+  }
 }

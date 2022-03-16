@@ -365,6 +365,10 @@ class FormCurrentReadingState extends StatelessWidget {
                   onPressed: () {
                     readingForm.isLoading = false;
                     Navigator.pop(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen(currentPage: 1)));
                   })),
         ],
       ),

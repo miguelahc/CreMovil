@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_cre/models/notification.dart';
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
@@ -33,8 +35,17 @@ class _NotificationCategoryScreenState
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                NotificationContentScreen(notification: notification, item: item)));
+            builder: (context) => NotificationContentScreen(
+                notification: notification, item: item))).then((value) {
+
+      var idNotification = item["idnoti"];
+      TokenService().readToken().then((token) {
+        UserService().readUserData().then((data) {
+          var userData = jsonDecode(data);
+          NotificationsService().notificationsRead(token, userData, idNotification);
+        });
+      });
+    });
   }
 
   @override
@@ -59,10 +70,14 @@ class _NotificationCategoryScreenState
                     children: [
                       const Text(
                         "Notificaciones",
-                        style: TextStyle( fontFamily: 'Mulish', fontSize: 18, color: DarkColor),
+                        style: TextStyle(
+                            fontFamily: 'Mulish',
+                            fontSize: 18,
+                            color: DarkColor),
                       ),
                       Text(notification.category,
-                          style: const TextStyle( fontFamily: 'Mulish', 
+                          style: const TextStyle(
+                              fontFamily: 'Mulish',
                               fontSize: 12,
                               color: Color(0XFF666666),
                               fontWeight: FontWeight.bold))
@@ -95,8 +110,10 @@ class _NotificationCategoryScreenState
                                   ),
                                   Text(
                                     'Marcar todas como leida',
-                                    style: TextStyle( fontFamily: 'Mulish', 
-                                        color: Colors.white, fontSize: 12),
+                                    style: TextStyle(
+                                        fontFamily: 'Mulish',
+                                        color: Colors.white,
+                                        fontSize: 12),
                                   )
                                 ],
                               )),
@@ -124,14 +141,16 @@ class _NotificationCategoryScreenState
                                       children: const [
                                         Text(
                                           "No existen notificaciones para visualizar",
-                                          style: TextStyle( fontFamily: 'Mulish',
+                                          style: TextStyle(
+                                              fontFamily: 'Mulish',
                                               color: Color(0XFF3A3D5F)),
                                         )
                                       ],
                                     )))
                           ]
                         : notification.notifications
-                            .map((e) => item(e, e["leido"] == "SI"? false: true))
+                            .map((e) =>
+                                item(e, e["leido"] == "SI" ? false : true))
                             .toList()),
               ))
             ],
@@ -160,7 +179,8 @@ class _NotificationCategoryScreenState
                           children: [
                             Text(
                               notificationItem["dstitu"],
-                              style: TextStyle( fontFamily: 'Mulish', 
+                              style: TextStyle(
+                                  fontFamily: 'Mulish',
                                   fontWeight: FontWeight.bold,
                                   color: tick
                                       ? const Color(0XFF3A3D5F)

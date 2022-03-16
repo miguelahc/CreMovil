@@ -7,7 +7,7 @@ export 'package:app_cre/widgets/btn_toggle_user_route.dart';
 export 'package:app_cre/widgets/circular_progress.dart';
 export 'package:app_cre/widgets/custom_card.dart';
 export 'package:app_cre/widgets/custom_divider.dart';
-export 'package:app_cre/widgets/CustomDot.dart';
+export 'package:app_cre/widgets/custom_dot.dart';
 export 'package:app_cre/widgets/end_drawer.dart';
 export 'package:app_cre/widgets/footer.dart';
 export 'package:app_cre/widgets/item_option.dart';
