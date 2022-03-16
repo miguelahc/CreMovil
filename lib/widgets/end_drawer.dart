@@ -37,24 +37,24 @@ Widget endDrawer(AuthService authService, BuildContext context) {
                 MaterialPageRoute(
                   builder: (context) => LoadingScreen(),
                 ));
-          }),
+          },false),
           itemOption("Requisitos de servicio", "vuesax-linear-verify.png", () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ServiceRequirementScreen(),
                 ));
-          }),
+          }, true),
           itemOption("Información de ayuda y soporte",
-              "vuesax-linear-info-circle.png", () {}),
+              "vuesax-linear-info-circle.png", () {}, false),
           itemOption("Sabías que?", "vuesax-linear-lamp-charge-blue.png", () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const DidYouKnowScreen()));
-          }),
+          }, true),
           itemOption("Salir", "vuesax-linear-logout.png", () {
             authService.logout();
             Navigator.pushReplacementNamed(context, 'login');
-          }),
+          }, false),
         ],
       ),
       shape: const RoundedRectangleBorder(

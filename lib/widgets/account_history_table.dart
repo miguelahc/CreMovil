@@ -111,12 +111,14 @@ class AccountHistoryTable extends StatelessWidget {
       children: [
         GestureDetector(
             onTap: () {
+              InvoiceDetail invoiceDetail = InvoiceDetail(data["DocumentNumber"], data["CompanyNumber"]);
+              invoiceDetail.downloadInvoice = data["DownloadInvoice"];
+              invoiceDetail.payInvoice = data["PayInvoice"];
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => InvoiceDetailScreen(
-                            invoiceDetail: InvoiceDetail(
-                                data["DocumentNumber"], data["CompanyNumber"]),
+                            invoiceDetail: invoiceDetail,
                             accountDetail: accountDetail,
                           )));
             },

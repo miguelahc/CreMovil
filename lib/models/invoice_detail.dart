@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 class InvoiceDetail {
   final documentNumber;
   final companyNumber;
+  bool downloadInvoice = false;
+  bool  payInvoice = false;
   String titularName = "";
   String invoiceName = "";
   String location = "";

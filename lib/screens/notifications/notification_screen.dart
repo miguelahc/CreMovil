@@ -144,11 +144,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           child: Column(
                             children: [
                               itemOption("Asistencia social cooperativa",
-                                  "vuesax-linear-star.png", () => null),
+                                  "vuesax-linear-star.png", () => null, false),
                               itemOption("Medco", "vuesax-linear-story.png",
-                                  () => null),
+                                  () => null, false),
                               itemOption("Crece",
-                                  "vuesax-linear-send-square.png", () => null),
+                                  "vuesax-linear-send-square.png", () => null, false),
                             ],
                           )),
                     ],

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
-class EditRefrenceFormProvider extends ChangeNotifier {
+class EditReferenceFormProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String _reference = "";
 
-  EditRefrenceFormProvider(this._reference);
+  EditReferenceFormProvider(this._reference);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

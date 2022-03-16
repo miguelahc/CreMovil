@@ -108,10 +108,11 @@ class AccountCre {
         dategestion,
         dateinvoice,
         documentnumber,
-        downloadinvoice,
-        payinvoice,
         totalinvoice,
         valuekwh;
+
+    bool downloadinvoice,
+    payinvoice;
 
     List resultestadocuenta = new List.empty(growable: true);
     for (int i = 0; i < listestcuenta.length; i++) {
@@ -119,8 +120,8 @@ class AccountCre {
       dategestion = (listestcuenta[i])["dsgest"].toString();
       dateinvoice = (listestcuenta[i])["stfact"].toString();
       documentnumber = (listestcuenta[i])["nudocu"].toString();
-      downloadinvoice = (listestcuenta[i])["opfact"].toString();
-      payinvoice = (listestcuenta[i])["oppaga"].toString();
+      downloadinvoice = (listestcuenta[i])["opfact"] == null || (listestcuenta[i])["opfact"].toString() == "N" ? false : true;
+      payinvoice = (listestcuenta[i])["oppaga"].toString() == 'N' || (listestcuenta[i])["oppaga"] == null ? false : true;
       totalinvoice = (listestcuenta[i])["tofact"].toString();
       valuekwh = (listestcuenta[i])["vakwh"].toString();
       accountstatement = new AccountStatement(
@@ -159,8 +160,8 @@ class AccountStatement {
   String dateGestion;
   double totalInvoice;
   String dateInvoice;
-  String downloadInvoice; //S o N --Indica si se puede descargar la factura
-  String payInvoice; //S o N --Indica si se puede pagar la factura
+  bool downloadInvoice; //S o N --Indica si se puede descargar la factura
+  bool payInvoice; //S o N --Indica si se puede pagar la factura
   AccountStatement(
       this.companyNumber,
       this.dateGestion,

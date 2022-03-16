@@ -18,3 +18,4 @@ export 'package:app_cre/widgets/product_image.dart';
 export 'package:app_cre/widgets/screens_background.dart';
 export 'package:app_cre/widgets/searchbar.dart';
 export 'package:app_cre/widgets/title.dart';
+export 'package:app_cre/widgets/dialog_no_connection.dart';

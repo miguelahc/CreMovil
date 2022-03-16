@@ -21,6 +21,7 @@ class InvoiceDetailScreen extends StatefulWidget {
 class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
   bool onLoad = true;
   late InvoiceDetail invoiceDetail;
+  late bool document;
 
   @override
   void initState() {
@@ -33,37 +34,47 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             .getInvoiceDetail(token, userData, invoiceDetail.documentNumber,
             invoiceDetail.companyNumber)
             .then((dataI) {
-          var message = jsonDecode(jsonDecode(dataI)["Message"]);
-          setState(() {
-            invoiceDetail.titularName = message["TitularName"];
-            invoiceDetail.invoiceName = message["InvoiceName"];
-            invoiceDetail.location = message["Location"];
-            invoiceDetail.categoryName = message["CategoryName"];
-            invoiceDetail.totalInvoice = message["TotaInvoice"];
-            invoiceDetail.baseTaxCredit = message["BaseTaxCredit"];
-            invoiceDetail.status = message["Status"];
-            invoiceDetail.dateIssue = message["DateIssue"];
-            invoiceDetail.from = message["From"];
-            invoiceDetail.until = message["Until"];
-            invoiceDetail.daysConsumption = message["DaysConsumption"];
-            Iterable<dynamic> categories = message["detalle"];
-            invoiceDetail.energyPower = categories.where(
-                  (element) =>
-              element["Category"] != null &&
-                  element["Category"] == "Energía y potencia",
-            );
-            invoiceDetail.municipalFees = categories.where(
-                  (element) =>
-              element["Category"] != null &&
-                  element["Category"] == "Tasas Municipales",
-            );
-            invoiceDetail.chargesPayments = categories.where(
-                  (element) =>
-              element["Category"] != null &&
-                  element["Category"] == "Cargos / Abonos",
-            );
-            onLoad = false;
-          });
+              var code = jsonDecode(dataI)["Code"];
+              if(code == 0){
+                var message = jsonDecode(jsonDecode(dataI)["Message"]);
+                setState(() {
+                  document = true;
+                  invoiceDetail.titularName = message["TitularName"];
+                  invoiceDetail.invoiceName = message["InvoiceName"];
+                  invoiceDetail.location = message["Location"];
+                  invoiceDetail.categoryName = message["CategoryName"];
+                  invoiceDetail.totalInvoice = message["TotaInvoice"];
+                  invoiceDetail.baseTaxCredit = message["BaseTaxCredit"];
+                  invoiceDetail.status = message["Status"];
+                  invoiceDetail.dateIssue = message["DateIssue"];
+                  invoiceDetail.from = message["From"];
+                  invoiceDetail.until = message["Until"];
+                  invoiceDetail.daysConsumption = message["DaysConsumption"];
+                  Iterable<dynamic> categories = message["detalle"];
+                  invoiceDetail.energyPower = categories.where(
+                        (element) =>
+                    element["Category"] != null &&
+                        element["Category"] == "Energía y potencia",
+                  );
+                  invoiceDetail.municipalFees = categories.where(
+                        (element) =>
+                    element["Category"] != null &&
+                        element["Category"] == "Tasas Municipales",
+                  );
+                  invoiceDetail.chargesPayments = categories.where(
+                        (element) =>
+                    element["Category"] != null &&
+                        element["Category"] == "Cargos / Abonos",
+                  );
+                  onLoad = false;
+                });
+              }
+              else{
+                setState(() {
+                  document = false;
+                  onLoad = false;
+                });
+              }
         });
       });
     });
@@ -84,201 +95,221 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                 left: 16,
                 right: 16,
               ),
-              child: Column(children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  height: 70,
-                  alignment: Alignment.center,
-                  decoration: customBoxDecoration(10),
-                  child: Row(children: [
-                    Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.accountDetail.aliasName,
-                              style: const TextStyle(
-                                  color: Color(0XFF3A3D5F),
-                                  fontSize: 16,
-                                  fontFamily: "Mulish"),
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Código fijo: ",
-                                  style: TextStyle( fontFamily: 'Mulish', 
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0XFF3A3D5F),
-                                      fontSize: 14),
-                                ),
-                                Text(
-                                  widget.accountDetail.accountNumber,
-                                  style: const TextStyle( fontFamily: 'Mulish', 
-                                      color: Color(0XFF999999), fontSize: 14),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Estado: ",
-                                  style: TextStyle( fontFamily: 'Mulish', 
-                                      color: Color(0XFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  invoiceDetail.status,
-                                  style: const TextStyle( fontFamily: 'Mulish', 
-                                      color: Color(0XFF84BD00),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Fecha de emisión: ",
-                                  style: TextStyle( fontFamily: 'Mulish', 
-                                      color: Color(0XFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  invoiceDetail.dateIssue,
-                                  style: const TextStyle( fontFamily: 'Mulish', 
-                                      color: Color(0XFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          ],
-                        )),
-                    MaterialButton(
-                        padding: const EdgeInsets.all(0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        disabledColor: Colors.black87,
-                        elevation: 0,
-                        child: Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 110, maxHeight: 25),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                gradient: const LinearGradient(colors: [
-                                  Color(0XFF618A02),
-                                  Color(0XFF84BD00)
-                                ])),
-                            child: Row(
-                              children: const [
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  'Descargar',
-                                  style: TextStyle( fontFamily: 'Mulish', 
-                                      color: Colors.white, fontSize: 12),
-                                ),
-                              ],
-                            )),
-                        onPressed: () {
-                          _showDialogDownload(context);
-                        })
-                  ]),
-                ),
-                rowData("Titular: ", invoiceDetail.titularName),
-                rowData("Facturar a: ", invoiceDetail.invoiceName),
-                rowData("Ubicación: ", invoiceDetail.location),
-                doubleRowDataImage(
-                    "Categoria: ",
-                    invoiceDetail.categoryName,
-                    "Lectura",
-                    "camera-small.png"),
-                doubleRowData("Periodo: ", invoiceDetail.from +" / "+ invoiceDetail.until,
-                    "Días: ", invoiceDetail.daysConsumption.toString()),
-                const SizedBox(
-                  height: 8,
-                ),
-                Expanded(
-                    child: ListView(
-                      children: [
-                        // Seccion energia y potencia
-                        section(
-                            "Energía y potencia", "Monto Bs.", Colors.white),
-                        Column(
-                            children: invoiceDetail.energyPower
-                                .map((e) => doubleSimpleRowData(
-                                e["Description"], e["Value"].toString()))
-                                .toList()),
-                        // Seccion tasas municipales
-                        section(
-                            "Tasas municipales", "Monto Bs.", Colors.white),
-                        Column(
-                            children: invoiceDetail.municipalFees
-                                .map((e) => doubleSimpleRowData(
-                                e["Description"], e["Value"].toString()))
-                                .toList()),
-                        // Seccion Cargos y abonos
-                        section("Cargos / abonos", "Monto Bs.", Colors.white),
-
-                        Column(
-                            children: invoiceDetail.chargesPayments
-                                .map((e) => doubleSimpleRowData(
-                                e["Description"], e["Value"].toString()))
-                                .toList()),
-
-                        doubleSimpleRowData("Base p/cred. fiscal Bs.",
-                        invoiceDetail.baseTaxCredit.toString()),
-                        // section(
-                        //     "Base p/cred. fiscal Bs.",
-                        //     invoiceDetail.totalInvoice.toString(),
-                        //     const Color(0XFF82BA00)),
-                        section(
-                            "Total facturado Bs.",
-                            invoiceDetail.totalInvoice.toString(),
-                            const Color(0XFF393E5E)),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        MaterialButton(
-                            padding: const EdgeInsets.all(0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                            disabledColor: Colors.black87,
-                            elevation: 0,
-                            child: Container(
-                              constraints: BoxConstraints(
-                                  minWidth:
-                                  MediaQuery.of(context).size.width *
-                                      0.75,
-                                  maxWidth:
-                                  MediaQuery.of(context).size.width *
-                                      0.75,
-                                  maxHeight: 50),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  gradient: const LinearGradient(colors: [
-                                    Color(0XFF618A02),
-                                    Color(0XFF84BD00)
-                                  ])),
-                              child: const Text(
-                                'Pagar',
-                                style: TextStyle( fontFamily: 'Mulish', 
-                                    color: Colors.white, fontSize: 16),
+              child:
+                document
+                    ?   Column(children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    height: 70,
+                    alignment: Alignment.center,
+                    decoration: customBoxDecoration(10),
+                    child: Row(children: [
+                      Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.accountDetail.aliasName,
+                                style: const TextStyle(
+                                    color: Color(0XFF3A3D5F),
+                                    fontSize: 16,
+                                    fontFamily: "Mulish"),
                               ),
-                            ),
-                            onPressed: () {})
-                      ],
-                    ))
-              ])),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Código fijo: ",
+                                    style: TextStyle( fontFamily: 'Mulish',
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0XFF3A3D5F),
+                                        fontSize: 14),
+                                  ),
+                                  Text(
+                                    widget.accountDetail.accountNumber,
+                                    style: const TextStyle( fontFamily: 'Mulish',
+                                        color: Color(0XFF999999), fontSize: 14),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Estado: ",
+                                    style: TextStyle( fontFamily: 'Mulish',
+                                        color: Color(0XFF999999),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    invoiceDetail.status,
+                                    style: const TextStyle( fontFamily: 'Mulish',
+                                        color: Color(0XFF84BD00),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Fecha de emisión: ",
+                                    style: TextStyle( fontFamily: 'Mulish',
+                                        color: Color(0XFF999999),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    invoiceDetail.dateIssue,
+                                    style: const TextStyle( fontFamily: 'Mulish',
+                                        color: Color(0XFF999999),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ],
+                          )),
+                          invoiceDetail.downloadInvoice
+                              ?MaterialButton(
+                              padding: const EdgeInsets.all(0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              disabledColor: Colors.black87,
+                              elevation: 0,
+                              child: Container(
+                                  constraints: const BoxConstraints(
+                                      minWidth: 110, maxHeight: 25),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      gradient: const LinearGradient(colors: [
+                                        Color(0XFF618A02),
+                                        Color(0XFF84BD00)
+                                      ])),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        'Descargar',
+                                        style: TextStyle( fontFamily: 'Mulish',
+                                            color: Colors.white, fontSize: 12),
+                                      ),
+                                    ],
+                                  )),
+                              onPressed: () {
+                                _showDialogDownload(context);
+                              })
+                              : const SizedBox()
+                    ]),
+                  ),
+                  rowData("Titular: ", invoiceDetail.titularName),
+                  rowData("Facturar a: ", invoiceDetail.invoiceName),
+                  rowData("Ubicación: ", invoiceDetail.location),
+                  doubleRowDataImage(
+                      "Categoria: ",
+                      invoiceDetail.categoryName,
+                      "Lectura",
+                      "camera-small.png"),
+                  doubleRowData("Periodo: ", invoiceDetail.from +" / "+ invoiceDetail.until,
+                      "Días: ", invoiceDetail.daysConsumption.toString()),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Expanded(
+                      child: ListView(
+                        children: [
+                          // Seccion energia y potencia
+                          section(
+                              "Energía y potencia", "Monto Bs.", Colors.white),
+                          Column(
+                              children: invoiceDetail.energyPower
+                                  .map((e) => doubleSimpleRowData(
+                                  e["Description"], e["Value"].toString()))
+                                  .toList()),
+                          // Seccion tasas municipales
+                          section(
+                              "Tasas municipales", "Monto Bs.", Colors.white),
+                          Column(
+                              children: invoiceDetail.municipalFees
+                                  .map((e) => doubleSimpleRowData(
+                                  e["Description"], e["Value"].toString()))
+                                  .toList()),
+                          // Seccion Cargos y abonos
+                          section("Cargos / abonos", "Monto Bs.", Colors.white),
+
+                          Column(
+                              children: invoiceDetail.chargesPayments
+                                  .map((e) => doubleSimpleRowData(
+                                  e["Description"], e["Value"].toString()))
+                                  .toList()),
+
+                          doubleSimpleRowData("Base p/cred. fiscal Bs.",
+                              invoiceDetail.baseTaxCredit.toString()),
+                          // section(
+                          //     "Base p/cred. fiscal Bs.",
+                          //     invoiceDetail.totalInvoice.toString(),
+                          //     const Color(0XFF82BA00)),
+                          section(
+                              "Total facturado Bs.",
+                              invoiceDetail.totalInvoice.toString(),
+                              const Color(0XFF393E5E)),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          invoiceDetail.payInvoice
+                            ?MaterialButton(
+                              padding: const EdgeInsets.all(0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              disabledColor: Colors.black87,
+                              elevation: 0,
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    minWidth:
+                                    MediaQuery.of(context).size.width *
+                                        0.75,
+                                    maxWidth:
+                                    MediaQuery.of(context).size.width *
+                                        0.75,
+                                    maxHeight: 50),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    gradient: const LinearGradient(colors: [
+                                      Color(0XFF618A02),
+                                      Color(0XFF84BD00)
+                                    ])),
+                                child: const Text(
+                                  'Pagar',
+                                  style: TextStyle( fontFamily: 'Mulish',
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                              onPressed: () {})
+                              : const SizedBox()
+                        ],
+                      ))
+                ])
+                : Center(
+                    child: Container(
+                        height: 80,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        alignment: Alignment.center,
+                        decoration: customBoxDecoration(10),
+                        child: const Text(
+                          "El documento que intenta acceder no existe, o no esta disponible",
+                          style: TextStyle( fontFamily: 'Mulish',
+                              color: Color(0XFF3A3D5F)),
+                          textAlign: TextAlign.center,
+                        )))
+          ),
         ));
   }
 

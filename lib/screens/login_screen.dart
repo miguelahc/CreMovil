@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app_cre/screens/screens.dart';
 import 'package:app_cre/services/services.dart';
@@ -10,7 +11,6 @@ import 'package:app_cre/ui/input_decorations.dart';
 import 'package:app_cre/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:app_cre/models/models.dart';
-import 'package:app_cre/providers/conection_status.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -134,7 +134,6 @@ class _FormLogin extends StatelessWidget {
                       });
                     }
                     FocusScope.of(context).unfocus();
-                    // //Todo Login Forms
                     if (!loginForm.isValidForm()) return;
                   }),
             ]),

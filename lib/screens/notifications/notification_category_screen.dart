@@ -114,8 +114,8 @@ class _NotificationCategoryScreenState
                                     margin: const EdgeInsets.only(
                                         top: 32,
                                         bottom: 32,
-                                        left: 64,
-                                        right: 64),
+                                        left: 32,
+                                        right: 32),
                                     alignment: Alignment.center,
                                     decoration: customBoxDecoration(10),
                                     child: Row(
@@ -124,9 +124,9 @@ class _NotificationCategoryScreenState
                                       children: const [
                                         Text(
                                           "No existen notificaciones para visualizar",
-                                          style: TextStyle( fontFamily: 'Mulish', 
+                                          style: TextStyle( fontFamily: 'Mulish',
                                               color: Color(0XFF3A3D5F)),
-                                        ),
+                                        )
                                       ],
                                     )))
                           ]

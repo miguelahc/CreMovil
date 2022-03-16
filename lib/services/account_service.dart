@@ -142,7 +142,7 @@ class AccountService {
         String nudocu = jsonDecode(response.body)["nudocu"].toString();
         DateFormat dateFormat = DateFormat("yyyy-MM-ddTHH:mm:ssZ");
         List estadoCuenta = jsonDecode(response.body)["estadocuenta"];
-        AccountCre accountCre = new AccountCre(
+        AccountCre accountCre = AccountCre(
             userData["Pin"],
             nutele,
             "NULL",
@@ -173,17 +173,18 @@ class AccountService {
             estadoCuenta);
 
         datajson = jsonEncode(accountCre);
-        rjson = new ResultJson(0, datajson, "");
+        rjson = ResultJson(0, datajson, "");
         //return jsonEncode(rjson);
       } else {
         datajson = jsonDecode(response.body)["dsMens"];
-        rjson = new ResultJson(4, datajson, response.body);
+        rjson = ResultJson(4, datajson, response.body);
       }
-    } else
-      rjson = new ResultJson(
+    } else {
+      rjson = ResultJson(
           5,
           "Error en la respuesta del servicio [RetornaEstadoCuenta]...",
           response.body);
+    }
 
     return jsonEncode(rjson.toJson());
     //return response.body;

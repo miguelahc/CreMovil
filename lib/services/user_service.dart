@@ -13,27 +13,19 @@ class UserService {
       os = 'iOS';
     }
     final response = await http.post(
-      //Uri.parse(environment.url + 'cre_userregister'),
         Uri.parse(environment.urlcre + 'RegistrarUsuario'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': token
         },
-        /*
-        body: jsonEncode({
-          'Pin': userData["Pin"],
-          'PhoneNumber': userData['PhoneNumber'],
-          'PhoneSO': os,
-          'PhonePushId': phonePushId,
-          'PhoneImei': userData['PhoneImei'],
-          'Environment': environment.env
-        })*/
         body: jsonEncode({
           'P_Pin': userData["Pin"],
           'P_NuTele': userData['PhoneNumber'],
           'P_SoTele': os,
           'P_PushIdTele': phonePushId,
           'P_ImeiTele': userData['PhoneImei'],
+          "P_Email" : userData["Email"],
+          "P_NoUsua" : userData["Name"],
           'P_Modo': environment.env
         }));
     var datajson;
@@ -41,17 +33,18 @@ class UserService {
     if (response.body != null && response.body != "") {
       datajson = jsonDecode(response.body)["isOk"];
       if (datajson == "S") {
-        rjson = new ResultJson(0, "OK", "");
+        rjson = ResultJson(0, "OK", "");
         //return jsonEncode(rjson);
       } else {
         datajson = jsonDecode(response.body)["dsMens"];
-        rjson = new ResultJson(4, datajson, response.body);
+        rjson = ResultJson(4, datajson, response.body);
       }
-    } else
-      rjson = new ResultJson(
+    } else {
+      rjson = ResultJson(
           5,
           "Error en la respuesta del servicio [RegistrarUsuario]...",
           response.body);
+    }
     //return response.body;
     return jsonEncode(rjson.toJson());
   }
@@ -71,7 +64,7 @@ class UserService {
     if (response.body != null && response.body != "") {
       datajson = jsonDecode(response.body)["isOk"];
       if (datajson == "S") {
-        rjson = new ResultJson(0, "OK", "");
+        rjson = ResultJson(0, "OK", "");
         //return jsonEncode(rjson);
       } else {
         datajson = jsonDecode(response.body)["dsMens"];
@@ -113,7 +106,7 @@ class UserService {
       datajson = jsonDecode(response.body)["isOk"];
       if (datajson == "S") {
         datajson = jsonDecode(response.body)["pin"];
-        accountcre = new AccountCre(
+        accountcre = AccountCre(
             datajson,
             phoneNumer,
             phoneImei,
@@ -161,11 +154,11 @@ class UserService {
     return parameters['Pin'] ?? '-1';
   }
 
-  saveUserData(pin, name, phoneNumber, prefixPhone, phoneImei) {
+  saveUserData(pin, name, phoneNumber, email, prefixPhone, phoneImei) {
     storage.write(
         key: 'user_data',
         value:
-        '{"Pin": "$pin", "Name": "$name", "PhoneNumber": "$phoneNumber", "PhoneImei": "$phoneImei", "PrefixPhone": "$prefixPhone"}');
+        '{"Pin": "$pin", "Name": "$name", "PhoneNumber": "$phoneNumber", "Email": "$email", "PhoneImei": "$phoneImei", "PrefixPhone": "$prefixPhone"}');
   }
 
   Future<String> readUserData() async {

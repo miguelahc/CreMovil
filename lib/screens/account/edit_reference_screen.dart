@@ -79,7 +79,7 @@ class _EditReferenceScreen extends State<EditReferenceScreen> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   child: ChangeNotifierProvider(
-                                    create: (_) => EditRefrenceFormProvider(account.aliasName),
+                                    create: (_) => EditReferenceFormProvider(account.aliasName),
                                     child: _FormEditReference(account: account,),
                                   ),
                                 )
@@ -102,7 +102,7 @@ class _FormEditReference  extends StatelessWidget {
   const _FormEditReference({required this.account});
   @override
   Widget build(BuildContext context) {
-    final referenceForm = Provider.of<EditRefrenceFormProvider>(context);
+    final referenceForm = Provider.of<EditReferenceFormProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.height * 0.04),
@@ -287,7 +287,7 @@ class _AliasName extends StatefulWidget {
 class _AliasNameState extends State<_AliasName> {
   @override
   Widget build(BuildContext context) {
-    final registerForm = Provider.of<EditRefrenceFormProvider>(context);
+    final registerForm = Provider.of<EditReferenceFormProvider>(context);
     return TextFormField(
       decoration: InputDecorations.authInputDecoration(
         hintText: 'Referencia',

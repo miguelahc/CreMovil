@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:app_cre/providers/edit_profile_form_provider.dart';
+import 'package:app_cre/screens/home_screen.dart';
 import 'package:app_cre/services/auth_service.dart';
+import 'package:app_cre/services/services.dart';
 import 'package:app_cre/ui/box_decoration.dart';
 import 'package:app_cre/ui/colors.dart';
 import 'package:app_cre/ui/input_decorations.dart';
@@ -10,13 +14,37 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  String name;
+  String email;
+
+  EditProfileScreen({Key? key, required this.name, required this.email})
+      : super(key: key);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+
+  late String _name;
+  late String _email;
+
+  @override
+  void initState() {
+    _name = widget.name;
+    _email = widget.email;
+    super.initState();
+  }
+
+  loadData() async {
+    var data = await UserService().readUserData();
+    var userData = jsonDecode(data);
+    setState(() {
+      _name = userData["Name"];
+      _email = userData["Email"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -28,8 +56,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         body: SafeArea(
           child: Column(children: [
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.35,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.35,
               margin: const EdgeInsets.only(bottom: 4, right: 16, left: 16),
               padding: const EdgeInsets.only(top: 24, bottom: 24),
               decoration: customBoxDecoration(10),
@@ -38,14 +72,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     const Text(
                       "Editar Perfil",
-                      style: TextStyle( fontFamily: 'Mulish', 
+                      style: TextStyle(fontFamily: 'Mulish',
                           color: SecondaryColor, fontWeight: FontWeight.w600),
                     ),
                     Expanded(
                       child: Container(
                         alignment: Alignment.center,
                         child:
-                            Stack(alignment: Alignment.bottomRight, children: [
+                        Stack(alignment: Alignment.bottomRight, children: [
                           Container(
                               height: 124,
                               width: 124,
@@ -54,12 +88,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 borderType: BorderType.Circle,
                                 dashPattern: const [10, 5, 10, 5, 10, 5],
                                 child: CircleAvatar(
-                                  radius: MediaQuery.of(context).size.width,
+                                  radius: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width,
                                   backgroundColor: Colors.black,
                                   child: CircleAvatar(
-                                    radius: MediaQuery.of(context).size.width,
+                                    radius: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width,
                                     backgroundImage: const
-                                        AssetImage('assets/foto.png'),
+                                    AssetImage('assets/foto.png'),
                                   ),
                                 ),
                               )),
@@ -81,15 +121,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ]),
             ),
             ChangeNotifierProvider(
-                create: (_) => EditProfileFormProvider(),
-                child: const FormEditProfile())
+                create: (_) => EditProfileFormProvider(_name, _email),
+                child: FormEditProfile(name: _name, email: _email))
           ]),
         ));
   }
 }
 
 class FormEditProfile extends StatefulWidget {
-  const FormEditProfile({Key? key}) : super(key: key);
+  String name;
+  String email;
+
+  FormEditProfile({Key? key, required this.name, required this.email})
+      : super(key: key);
 
   @override
   State<FormEditProfile> createState() => _FormEditProfileState();
@@ -101,57 +145,198 @@ class _FormEditProfileState extends State<FormEditProfile> {
     final editForm = Provider.of<EditProfileFormProvider>(context);
     return Container(
         child: Form(
-      key: editForm.formKey,
-      child: Container(
-          margin: const EdgeInsets.only(top: 24),
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Column(children: [
-            Container(
-              padding: const EdgeInsets.only(left: 24, right: 24),
-              margin: const EdgeInsets.only(bottom: 24),
-              child: Column(children: const [
-                _Name(),
-                SizedBox(
-                  height: 16,
+          key: editForm.formKey,
+          child: Container(
+              margin: const EdgeInsets.only(top: 24),
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Column(children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  margin: const EdgeInsets.only(bottom: 24),
+                  child: Column(children: [
+                    _Name(name: widget.name),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    _Email(email: widget.email)
+                  ]),
                 ),
-                _Email()
-              ]),
-            ),
-            MaterialButton(
-                padding: const EdgeInsets.all(0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                disabledColor: Colors.black87,
-                elevation: 0,
-                child: Container(
-                  constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width * 0.75,
-                      maxWidth: MediaQuery.of(context).size.width * 0.75,
-                      maxHeight: 50),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                          colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
-                  child: editForm.isLoading
-                      ? circularProgress()
-                      : const Text(
-                          'Guardar',
-                          style: TextStyle( fontFamily: 'Mulish', color: Colors.white, fontSize: 16),
-                        ),
-                ),
-                onPressed: () {
-                  if (editForm.isValidForm() && !editForm.isLoading) {}
-                  FocusScope.of(context).unfocus();
-                }),
-          ])),
-    ));
+                MaterialButton(
+                    padding: const EdgeInsets.all(0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    disabledColor: Colors.black87,
+                    elevation: 0,
+                    child: Container(
+                      constraints: BoxConstraints(
+                          minWidth: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.75,
+                          maxWidth: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.75,
+                          maxHeight: 50),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: const LinearGradient(
+                              colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                      child: editForm.isLoading
+                          ? circularProgress()
+                          : const Text(
+                        'Guardar',
+                        style: TextStyle(fontFamily: 'Mulish',
+                            color: Colors.white,
+                            fontSize: 16),
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (editForm.isValidForm() && !editForm.isLoading) {
+                        editForm.isLoading = true;
+                        var token = await TokenService().readToken();
+                        var data = await UserService().readUserData();
+                        var userData = jsonDecode(data);
+                        UserService().saveUserData(
+                            userData["Pin"], editForm.name,
+                            userData["PhoneNumber"], editForm.email,
+                            userData["PrefixPhone"], userData["PhoneImei"]);
+                        var dataUpdate = await UserService().readUserData();
+                        var userDataUpdate = jsonDecode(dataUpdate);
+                        print(userDataUpdate.toString());
+                        var phonePushId = await PushNotificationService().readPhonePushId();
+                        UserService().registerUser(
+                            token,
+                            userDataUpdate,
+                            phonePushId)
+                            .then((value) {
+                          var code = jsonDecode(value)["Code"];
+                          if(code == 0){
+                            _showDialogExit(context);
+                            editForm.isLoading = false;
+                          }
+                          else{
+                            _showDialogError(context);
+                            editForm.isLoading = false;
+                          }
+                        });
+                      }
+                      FocusScope.of(context).unfocus();
+                    }),
+              ])),
+        ));
+  }
+
+  _showDialogExit(context) {
+    showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        contentPadding:
+        const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+        actionsPadding: const EdgeInsets.only(bottom: 30),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        content: const Text(
+          '¡Tus datos se han guardado!',
+          style: TextStyle(fontFamily: 'Mulish', fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
+        actions: <Widget>[
+          Align(
+              alignment: Alignment.center,
+              child: MaterialButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  disabledColor: Colors.black87,
+                  elevation: 0,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxHeight: 50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    child: const Text(
+                      'Aceptar',
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen(currentPage: 2)));
+                  })),
+        ],
+      ),
+    );
+  }
+
+  _showDialogError(context) {
+    showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        contentPadding:
+        const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+        actionsPadding: const EdgeInsets.only(bottom: 30),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        content: const Text(
+          '¡Ocurrio un error al guardar tus datos!',
+          style: TextStyle(fontFamily: 'Mulish', fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
+        actions: <Widget>[
+          Align(
+              alignment: Alignment.center,
+              child: MaterialButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  disabledColor: Colors.black87,
+                  elevation: 0,
+                  child: Container(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        maxHeight: 50),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                            colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                    child: const Text(
+                      'Volver a Intentar',
+                      style: TextStyle(
+                          fontFamily: 'Mulish',
+                          color: Colors.white),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })),
+        ],
+      ),
+    );
   }
 }
 
 class _Name extends StatelessWidget {
-  const _Name({
+  String name;
+
+  _Name({
     Key? key,
+    required this.name
   }) : super(key: key);
 
   @override
@@ -162,8 +347,9 @@ class _Name extends StatelessWidget {
           hintText: 'Nombre',
           labelText: 'Nombre',
           prefixIcon: Icons.person_outline),
-      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
+      style: const TextStyle(fontFamily: 'Mulish', fontSize: 14),
       textCapitalization: TextCapitalization.words,
+      initialValue: name,
       onChanged: (value) {
         editForm.name = value;
       },
@@ -179,8 +365,11 @@ class _Name extends StatelessWidget {
 }
 
 class _Email extends StatelessWidget {
-  const _Email({
+  String email;
+
+  _Email({
     Key? key,
+    required this.email
   }) : super(key: key);
 
   @override
@@ -191,8 +380,9 @@ class _Email extends StatelessWidget {
           hintText: 'Email',
           labelText: 'Email',
           prefixIcon: Icons.email_outlined),
-      style: const TextStyle( fontFamily: 'Mulish', fontSize: 14),
+      style: const TextStyle(fontFamily: 'Mulish', fontSize: 14),
       textCapitalization: TextCapitalization.words,
+      initialValue: email,
       onChanged: (value) {
         editForm.email = value;
       },

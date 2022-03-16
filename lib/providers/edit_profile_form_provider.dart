@@ -6,6 +6,8 @@ class EditProfileFormProvider extends ChangeNotifier {
   String _name = "";
   String _email = "";
 
+  EditProfileFormProvider( this._name, this._email);
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 

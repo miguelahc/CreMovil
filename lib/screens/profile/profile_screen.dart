@@ -15,7 +15,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _notificationActive = false;
-  String name = "Nombre";
+  String name = "";
+  String email = "";
 
   @override
   void initState() {
@@ -24,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       var userData = jsonDecode(data);
       setState(() {
         name = userData["Name"];
+        email = userData["Email"];
       });
     });
   }
@@ -98,8 +100,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: DarkColor,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold)),
-                            const Text("usuario.cre@gmail.com",
-                                style: TextStyle( fontFamily: 'Mulish', 
+                            Text(email,
+                                style: const TextStyle( fontFamily: 'Mulish',
                                     color: Color(0XFF666666), fontSize: 12))
                           ],
                         )
@@ -110,8 +112,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     itemOption("Editar Perfil", "vuesax-linear-edit-blue.png",
                         () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const EditProfileScreen()));
-                    }),
+                          builder: (context) =>  EditProfileScreen(name: name, email: email,)));
+                    }, false),
                     Container(
                       height: 50,
                       margin: const EdgeInsets.only(top: 4, right: 1.5, left: 1.5),

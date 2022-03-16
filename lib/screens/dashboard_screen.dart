@@ -44,7 +44,6 @@ class _Content extends State<Content> {
   var accounts = [];
   var services = [];
   bool onLoad = true;
-  bool onLoadDialog = false;
 
   @override
   void initState() {
@@ -176,21 +175,25 @@ class _Content extends State<Content> {
                       ],
                     ))
               : Container(
-            margin: const EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(top: 24),
                   width: MediaQuery.of(context).size.width * 0.75,
-                  height: 100,
+                  height: 150,
                   decoration: customBoxDecoration(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: const [
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 64, right: 64, bottom: 24, top: 32),
+                        padding: EdgeInsets.only(top: 32, bottom: 24),
+                        child: Text("¡Problemas de conexión!"),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: 64, right: 64, bottom: 24),
                         child: Text(
-                          "¡No hemos podido\nrecuperar tus datos!",
+                          "Por favor revisa tu\nServicio de Internet y\nvuelve a intentar",
                           textAlign: TextAlign.center,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -375,6 +378,142 @@ class _Content extends State<Content> {
     );
   }
 
+
+  _showDialogConfirm(context, AccountDetail accountDetail) {
+    var aliasName = accountDetail.aliasName;
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) =>
+            ConfirmDialog(aliasName: aliasName, accountDetail: accountDetail));
+  }
+}
+
+class ConfirmDialog extends StatefulWidget {
+  String aliasName;
+  AccountDetail accountDetail;
+
+  ConfirmDialog(
+      {Key? key, required this.aliasName, required this.accountDetail})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ConfirmDialog();
+}
+
+class _ConfirmDialog extends State<ConfirmDialog> {
+  bool onLoadDialog = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      contentPadding:
+          const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+      actionsPadding: const EdgeInsets.only(bottom: 30),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      content: Text(
+        "¿Está seguro que desea\neliminar " +
+            widget.aliasName +
+            " \nde la Aplicación Móvil?",
+        style: const TextStyle(fontFamily: 'Mulish', fontSize: 14),
+        textAlign: TextAlign.center,
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Align(
+                alignment: Alignment.center,
+                child: MaterialButton(
+                    padding: const EdgeInsets.all(0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    disabledColor: Colors.black87,
+                    elevation: 0,
+                    child: Container(
+                      constraints: BoxConstraints(
+                          minWidth: MediaQuery.of(context).size.width * 0.25,
+                          maxWidth: MediaQuery.of(context).size.width * 0.25,
+                          maxHeight: 50),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: const LinearGradient(
+                              colors: [Color(0XFF618A02), Color(0XFF84BD00)])),
+                      child: onLoadDialog
+                          ? circularProgress()
+                          : const Text(
+                              'Eliminar',
+                              style: TextStyle(
+                                  fontFamily: 'Mulish',
+                                  color: Colors.white,
+                                  fontSize: 16),
+                            ),
+                    ),
+                    onPressed: () async {
+                      setState(() {
+                        onLoadDialog = true;
+                      });
+                      TokenService().readToken().then((token) {
+                        UserService().readUserData().then((data) {
+                          var userData = jsonDecode(data);
+                          AccountService()
+                              .disableAccount(
+                                  token,
+                                  userData,
+                                  widget.accountDetail.accountNumber,
+                                  widget.accountDetail.companyNumber)
+                              .then((value) {
+                            setState(() {
+                              onLoadDialog = false;
+                            });
+                            Navigator.pop(context);
+                            _showDialogExit(context, widget.accountDetail);
+                          });
+                        });
+                      });
+                    })),
+            const SizedBox(
+              width: 15,
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: MaterialButton(
+                    padding: const EdgeInsets.all(0),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    disabledColor: Colors.black87,
+                    elevation: 0,
+                    child: Container(
+                      constraints: BoxConstraints(
+                          minWidth: MediaQuery.of(context).size.width * 0.25,
+                          maxWidth: MediaQuery.of(context).size.width * 0.25,
+                          maxHeight: 50),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                            color: const Color(0XFF3A3D5F), width: 1.5),
+                      ),
+                      child: const Text(
+                        'Cancelar',
+                        style: TextStyle(
+                            fontFamily: 'Mulish',
+                            color: Color(0XFF3A3D5F),
+                            fontSize: 16),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })),
+          ],
+        )
+      ],
+    );
+  }
+
+
   _showDialogExit(context, AccountDetail accountDetail) {
     var aliasName = accountDetail.aliasName;
     showDialog<String>(
@@ -382,7 +521,7 @@ class _Content extends State<Content> {
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         contentPadding:
-            const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
+        const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
         actionsPadding: const EdgeInsets.only(bottom: 30),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -426,120 +565,6 @@ class _Content extends State<Content> {
       ),
     );
   }
-
-  _showDialogConfirm(context, AccountDetail accountDetail) {
-    var aliasName = accountDetail.aliasName;
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        contentPadding:
-            const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
-        actionsPadding: const EdgeInsets.only(bottom: 30),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        content: Text(
-          '¿Está seguro que desea\neliminar $aliasName \nde la Aplicación Móvil?',
-          style: const TextStyle(fontFamily: 'Mulish', fontSize: 14),
-          textAlign: TextAlign.center,
-        ),
-        actions: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Align(
-                  alignment: Alignment.center,
-                  child: MaterialButton(
-                      padding: const EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      disabledColor: Colors.black87,
-                      elevation: 0,
-                      child: Container(
-                        constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width * 0.25,
-                            maxWidth: MediaQuery.of(context).size.width * 0.25,
-                            maxHeight: 50),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            gradient: const LinearGradient(colors: [
-                              Color(0XFF618A02),
-                              Color(0XFF84BD00)
-                            ])),
-                        child: onLoadDialog
-                            ? circularProgress()
-                            : const Text(
-                                'Eliminar',
-                                style: TextStyle(
-                                    fontFamily: 'Mulish',
-                                    color: Colors.white,
-                                    fontSize: 16),
-                              ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          onLoadDialog = true;
-                        });
-                        TokenService().readToken().then((token) {
-                          UserService().readUserData().then((data) {
-                            var userData = jsonDecode(data);
-                            AccountService()
-                                .disableAccount(
-                                    token,
-                                    userData,
-                                    accountDetail.accountNumber,
-                                    accountDetail.companyNumber)
-                                .then((value) {
-                              print(jsonDecode(value));
-                              setState(() {
-                                onLoadDialog = false;
-                              });
-                              Navigator.pop(context);
-                              _showDialogExit(context, accountDetail);
-                            });
-                          });
-                        });
-                      })),
-              const SizedBox(
-                width: 15,
-              ),
-              Align(
-                  alignment: Alignment.center,
-                  child: MaterialButton(
-                      padding: const EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      disabledColor: Colors.black87,
-                      elevation: 0,
-                      child: Container(
-                        constraints: BoxConstraints(
-                            minWidth: MediaQuery.of(context).size.width * 0.25,
-                            maxWidth: MediaQuery.of(context).size.width * 0.25,
-                            maxHeight: 50),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                              color: const Color(0XFF3A3D5F), width: 1.5),
-                        ),
-                        child: const Text(
-                          'Cancelar',
-                          style: TextStyle(
-                              fontFamily: 'Mulish',
-                              color: Color(0XFF3A3D5F),
-                              fontSize: 16),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      })),
-            ],
-          )
-        ],
-      ),
-    );
-  }
 }
 
 class _CajaSuperiorDatos extends StatefulWidget {
@@ -551,6 +576,7 @@ class _CajaSuperiorDatos extends StatefulWidget {
 
 class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
   String name = "";
+  String email = "";
 
   @override
   void initState() {
@@ -559,25 +585,20 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
       var userData = jsonDecode(data);
       setState(() {
         name = userData["Name"];
+        email = userData["Email"];
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      // alignment: Alignment.topCenter,
-      children: [
-        perfilUsuario(context),
-      ],
-    );
+    return perfilUsuario(context);
   }
 
   Container perfilUsuario(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.96,
-      height: 100,
-      margin: const EdgeInsets.only(left: 8, top: 8),
+      width: MediaQuery.of(context).size.width - 32,
+      height: 105,
       decoration: customBoxDecoration(10),
       child: Container(
         padding: const EdgeInsets.only(left: 12, right: 12),
@@ -604,36 +625,53 @@ class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text("Hola, $name",
-                          style: const TextStyle(
-                              color: Color(0XFF3A3D5F),
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'SF Pro Display')),
-                      SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            color: const Color(0xFF84BD00),
-                            iconSize: 24,
-                            icon: const ImageIcon(
-                              AssetImage('assets/icons/vuesax-linear-edit.png'),
-                              color: Color(0XFF84BD00),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomeScreen(currentPage: 2)));
-                            },
-                          ))
-                    ],
+                  Container(
+                    height: 35,
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Row(
+                                children: [
+                                  Text("Hola, $name",
+                                      style: const TextStyle(
+                                          color: Color(0XFF3A3D5F),
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'SF Pro Display')),
+                                  SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: IconButton(
+                                        padding: EdgeInsets.zero,
+                                        color: const Color(0xFF84BD00),
+                                        iconSize: 24,
+                                        icon: const ImageIcon(
+                                          AssetImage(
+                                              'assets/icons/vuesax-linear-edit.png'),
+                                          color: Color(0XFF84BD00),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomeScreen(
+                                                          currentPage: 2)));
+                                        },
+                                      ))
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const Text("usuario.cre@gmail.com",
-                      style: TextStyle(
+                  Text(email,
+                      style: const TextStyle(
                           color: Color(0XFFA39F9F),
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -659,7 +697,8 @@ class DidYouKnow extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.only(top: 8, bottom: 8),
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width * 0.22,
+        width: 86,
+        height: 80,
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.elliptical(20, 10)),
             color: const Color(0XFFF7F7F7),

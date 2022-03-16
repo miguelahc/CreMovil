@@ -22,8 +22,7 @@ class InvoiceService {
         body: jsonEncode({
           'P_NuTele': userData["PhoneNumber"],
           'P_ImeiTele': userData["PhoneImei"],
-          // 'P_NumeroDocumento': documentNumber,
-          "P_NumeroDocumento": "105283937",
+          'P_NumeroDocumento': documentNumber,
           'P_NuComp': companyNumber,
           'P_Modo': environment.env
         }));
@@ -36,7 +35,6 @@ class InvoiceService {
     if (bodyResponse != null && bodyResponse != "") {
       datajson = jsonDecode(bodyResponse)["isOk"];
       if (datajson == "S") {
-        String nuBaseCredFisc, nuTotaFact;
         conceptosDetalleFactura = jsonDecode(bodyResponse)["conceptos"];
         DataInvoice dataSimulacion = DataInvoice(
             0, // double.parse(nuBaseCredFisc),
@@ -56,16 +54,8 @@ class InvoiceService {
         rjson = ResultJson(0, datajson, "");
         //return jsonEncode(rjson);
       } else {
-        conceptosDetalleFactura = (jsonDecode(bodyResponse)["conceptos"]);
-        if (conceptosDetalleFactura.length >= 0) {
-          datajson = conceptosDetalleFactura[0]["dsconc"];
-          if (datajson.toString().toLowerCase() == "error") {
-            rjson = ResultJson(4, datajson, bodyResponse);
-          } else
-            rjson = ResultJson(5, "Error desconocido", bodyResponse);
-        } else
-          rjson = ResultJson(5, "Error desconocido", bodyResponse);
-        //datajson = jsonDecode(response.body)["dsMens"];
+        datajson = jsonDecode(bodyResponse)["dsMens"];
+        rjson = ResultJson(4, datajson, "");
       }
     } else {
       rjson = ResultJson(

@@ -6,7 +6,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget itemOption(String title, String icon, Function() function) {
+Widget itemOption(String title, String icon, Function() function, bool badge) {
   return GestureDetector(
     onTap: function,
     child: Container(
@@ -17,12 +17,15 @@ Widget itemOption(String title, String icon, Function() function) {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 12),
-              child: ImageIcon(
-                AssetImage("assets/icons/$icon"),
-                color: const Color(0XFF3A3D5F),
-              ),
-            ),
+                padding: const EdgeInsets.only(left: 16, right: 12),
+                child: Badge(
+                  position: BadgePosition.topEnd(end: -2, top: -2),
+                  showBadge: badge,
+                  child: ImageIcon(
+                    AssetImage("assets/icons/$icon"),
+                    color: const Color(0XFF3A3D5F),
+                  ),
+                )),
             Text(
               title,
               style: const TextStyle(
@@ -41,8 +44,9 @@ Widget itemOption(String title, String icon, Function() function) {
   );
 }
 
-Widget itemOptionWithImage(String title, String base64, Function() function, bool badge) {
-  Uint8List bytes =  const Base64Decoder().convert(base64);
+Widget itemOptionWithImage(
+    String title, String base64, Function() function, bool badge) {
+  Uint8List bytes = const Base64Decoder().convert(base64);
   return GestureDetector(
     onTap: function,
     child: Container(
@@ -53,13 +57,15 @@ Widget itemOptionWithImage(String title, String base64, Function() function, boo
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 12),
-              child: Badge(
-                position: BadgePosition.topEnd(end: -2, top: -2),
-                showBadge: badge,
-                child: Image.memory(bytes, width: 24,),
-              )
-            ),
+                padding: const EdgeInsets.only(left: 16, right: 12),
+                child: Badge(
+                  position: BadgePosition.topEnd(end: -2, top: -2),
+                  showBadge: badge,
+                  child: Image.memory(
+                    bytes,
+                    width: 24,
+                  ),
+                )),
             Text(
               title,
               style: const TextStyle(

@@ -250,12 +250,12 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                       builder: (context) => PaymentScreen(
                                             accountDetail: accountDetail,
                                           )));
-                            })
+                            }, false)
                           : const SizedBox(),
                       (accountDetail.accountType == "Prepago" &&
                               accountDetail.totalDebt == 0.0)
                           ? itemOption("Comprar Energia",
-                              "vuesax-linear-trend-up.png", () {})
+                              "vuesax-linear-trend-up.png", () {}, false)
                           : const SizedBox(),
                       (permitAccount(AccountType.PD))
                           ? itemOption("Simular Factura",
@@ -267,7 +267,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                           SimulateInvoiceScreen(
                                             accountDetail: accountDetail,
                                           )));
-                            })
+                            }, false)
                           : const SizedBox(),
                       (accountDetail.accountType != "Pago Extraordinario")
                           ? itemOption(
@@ -280,7 +280,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                           AccountHistoryScreen(
                                             accountDetail: accountDetail,
                                           )));
-                            })
+                            }, false)
                           : const SizedBox(),
                       (permitAccount(AccountType.PD))
                           ? itemOption("Registrar Lectura del Medidor",
@@ -292,7 +292,7 @@ class _AccountStatusScreenState extends State<AccountStatusScreen> {
                                           RegisterReadingScreen(
                                             accountDetail: accountDetail,
                                           )));
-                            })
+                            }, false)
                           : const SizedBox()
                     ],
                   ),
