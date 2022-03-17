@@ -229,7 +229,7 @@ class ListAccounts {
     int lastReading;
     String category;
     ListAccounts accountstatement;
-    List resultcuentas = new List.empty(growable: true);
+    List resultcuentas =  List.empty(growable: true);
     for (int i = 0; i < listestcuenta.length; i++) {
       phonenumber = listestcuenta[i]["nutele"].toString();
       phoneimei = (listestcuenta[i])["dsimei"];
@@ -238,7 +238,7 @@ class ListAccounts {
       companynumber = (listestcuenta[i])["nucomp"].toString();
       aliasname = (listestcuenta[i])["noalia"];
       dateLastReading = (listestcuenta[i]["fclect"] ?? "");
-      lastReading = (listestcuenta[i]["valect"] ?? "");
+      lastReading = (listestcuenta[i]["valect"] ?? -1);
       accounttype = (listestcuenta[i])["ticuen"].toString();
       accounttyperegister = (listestcuenta[i])["tiregi"];
       amountdebt = double.parse((listestcuenta[i])["modeud"].toString());

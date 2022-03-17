@@ -152,6 +152,7 @@ class _Content extends State<Content> {
                                 services.isEmpty
                                     ? const SizedBox()
                                     : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           const Text(
                                             "Servicios",
