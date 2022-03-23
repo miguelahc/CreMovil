@@ -305,7 +305,7 @@ class _Content extends State<Content> {
                           ),
                         ),
                         data["AmountDebt"] == 0.0
-                            ? const SizedBox(width: 70)
+                            ? const SizedBox(width: 90)
                             : MaterialButton(
                                 padding: const EdgeInsets.all(0),
                                 shape: RoundedRectangleBorder(
