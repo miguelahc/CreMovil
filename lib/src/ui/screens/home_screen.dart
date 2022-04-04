@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_cre/src/blocs/account/account_bloc.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -47,7 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Color(0XFFF7F7F7),
           endDrawer: SafeArea(child: endDrawer(authService, context)),
           appBar: appBar(context, false),
-          body: _pages[_paginaActual],
+          body: _paginaActual == 0
+              ? NotificationScreen()
+              : _paginaActual == 1
+                  ? DashboardScreen()
+                  : ProfileScreen(),
           bottomNavigationBar: SafeArea(child: bottomAppBar())),
     );
   }
@@ -160,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ], onTap: (index) {
             setState(() {
+              accountBloc.reloadAccounts();
               _paginaActual = index;
             });
           }),

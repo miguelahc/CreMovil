@@ -26,51 +26,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ChangeNotifierProvider(create: (_) => ConnectionStatus()),
       ],
       child: Consumer<ConnectionStatus>(
-          builder: (_, model, __) => Content(status: model)),
-      // child: const LoginScreen(),
+          builder: (_, model, __) => DashboardContent(status: model)),
     );
   }
 }
 
-class Content extends StatefulWidget {
+class DashboardContent extends StatefulWidget {
   ConnectionStatus status;
 
-  Content({Key? key, required this.status}) : super(key: key);
+  DashboardContent({Key? key, required this.status}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _Content();
+  State<StatefulWidget> createState() => _DashboardContent();
 }
 
-class _Content extends State<Content> {
+class _DashboardContent extends State<DashboardContent> {
   var accounts = [];
   var services = [];
-  bool onLoad = true;
 
   @override
   void initState() {
     super.initState();
-    TokenService().readToken().then((token) {
-      UserService().readUserData().then((data) {
-        var userData = jsonDecode(data);
-        AccountService()
-            .getAccounts(token, userData["Pin"], userData["PhoneNumber"],
-                userData["PhoneImei"])
-            .then((value) {
-          var data = jsonDecode(value)["Message"];
-          Iterable<dynamic> all = jsonDecode(data);
-          setState(() {
-            accounts = all
-                .where((element) => element["AccountTypeRegister"] == "Cuenta")
-                .toList();
-            services = all
-                .where(
-                    (element) => element["AccountTypeRegister"] == "Servicio")
-                .toList();
-            onLoad = false;
-          });
-        });
-      });
-    });
   }
 
   @override
@@ -122,93 +98,18 @@ class _Content extends State<Content> {
         ]),
       ),
       widget.status.isOnline
-          ? onLoad
-              ? circularProgress()
-              : Expanded(
-                  child: ListView(
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            accounts.isEmpty && services.isEmpty
-                            ? Container(
-                              alignment: Alignment.center,
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 24),
-                                width: MediaQuery.of(context).size.width * 0.75,
-                                height: 150,
-                                decoration: customBoxDecoration(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 32, bottom: 24),
-                                      child: Text("¡No tienes ninguna cuenta registrada!"),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 64, right: 64, bottom: 24),
-                                      child: Text(
-                                        "Por favor realiza el registro\nde nuevos codigos fijos o servicios",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                            :
-                            accounts.isEmpty
-                                ? SizedBox()
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Codigos Fijos",
-                                        style: TextStyle(
-                                            fontFamily: 'Mulish',
-                                            color: Color(0XFF3A3D5F)),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      // i
-                                      Column(
-                                        children: accounts
-                                            .map((e) => item(context, e))
-                                            .toList(),
-                                      ),
-                                    ],
-                                  ),
-                            services.isEmpty
-                                ? const SizedBox()
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Servicios",
-                                        style: TextStyle(
-                                            fontFamily: 'Mulish',
-                                            color: Color(0XFF3A3D5F)),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      // i
-                                      Column(
-                                        children: services
-                                            .map((e) => item(context, e))
-                                            .toList(),
-                                      ),
-                                    ],
-                                  )
-                          ],
-                        ))
-                  ],
-                ))
+          ? StreamBuilder(
+              builder: (_, snapshot) {
+                if (snapshot.hasData) {
+                  return AccountsDiaplay(
+                      context, snapshot.data as Iterable<dynamic>);
+                } else if (snapshot.hasError) {
+                  return circularProgress();
+                } else {
+                  return circularProgress();
+                }
+              },
+              stream: accountBloc.allAccounts)
           : Container(
               margin: const EdgeInsets.only(top: 24),
               width: MediaQuery.of(context).size.width * 0.75,
@@ -232,6 +133,98 @@ class _Content extends State<Content> {
               ),
             ),
     ]);
+  }
+
+  Widget AccountsDiaplay(context, Iterable<dynamic> list) {
+    accounts = list
+        .where((element) => element["AccountTypeRegister"] == "Cuenta")
+        .toList();
+    services = list
+        .where(
+            (element) => element["AccountTypeRegister"] == "Servicio")
+        .toList();
+    return Expanded(
+        child: ListView(
+      children: [
+        Container(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                accounts.isEmpty && services.isEmpty
+                    ? Container(
+                        alignment: Alignment.center,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 24),
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          height: 150,
+                          decoration: customBoxDecoration(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Padding(
+                                padding: EdgeInsets.only(top: 32, bottom: 24),
+                                child: Text(
+                                    "¡No tienes ninguna cuenta registrada!"),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 64, right: 64, bottom: 24),
+                                child: Text(
+                                  "Por favor realiza el registro\nde nuevos codigos fijos o servicios",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : accounts.isEmpty
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Codigos Fijos",
+                                style: TextStyle(
+                                    fontFamily: 'Mulish',
+                                    color: Color(0XFF3A3D5F)),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              // i
+                              Column(
+                                children: accounts
+                                    .map((e) => item(context, e))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                services.isEmpty
+                    ? const SizedBox()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Servicios",
+                            style: TextStyle(
+                                fontFamily: 'Mulish', color: Color(0XFF3A3D5F)),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          // i
+                          Column(
+                            children:
+                                services.map((e) => item(context, e)).toList(),
+                          ),
+                        ],
+                      )
+              ],
+            ))
+      ],
+    ));
   }
 
   Widget item(context, data) {
@@ -602,7 +595,7 @@ class _ConfirmDialog extends State<ConfirmDialog> {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushReplacementNamed(context, "home");
+                    accountBloc.reloadAccounts();
                   })),
         ],
       ),
