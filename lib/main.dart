@@ -1,13 +1,13 @@
-import 'package:app_cre/blocs/blocs.dart';
-import 'package:app_cre/blocs/gps/gps_bloc.dart';
-import 'package:app_cre/blocs/location/location_bloc.dart';
-import 'package:app_cre/models/models.dart';
-import 'package:app_cre/providers/conection_status.dart';
-import 'package:app_cre/screens/screens.dart';
+import 'package:app_cre/src/blocs/blocs.dart';
+import 'package:app_cre/src/blocs/gps/gps_bloc.dart';
+import 'package:app_cre/src/blocs/location/location_bloc.dart';
+import 'package:app_cre/src/models/models.dart';
+import 'package:app_cre/src/providers/conection_status.dart';
+import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:flutter/material.dart';
-import 'package:app_cre/screens/login_screen.dart';
+import 'package:app_cre/src/ui/screens/login_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:app_cre/services/services.dart';
+import 'package:app_cre/src/services/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
             ),
         'login': (_) => const LoginScreen(),
         'validar': (_) => ValidateCodScreen(
-              user: User("", "", ""),
+              user: User("", "", "", ""),
             ),
         'register': (_) => const RegisterAccountScreen(),
         'home': (_) => HomeScreen(
