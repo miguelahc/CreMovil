@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_cre/src/blocs/notification/notification_bloc.dart';
 import 'package:app_cre/src/models/notification.dart';
 import 'package:app_cre/src/ui/screens/notifications/notification_category_screen.dart';
 import 'package:app_cre/src/services/services.dart';
@@ -8,6 +9,7 @@ import 'package:app_cre/src/ui/widgets/item_option.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_cre/src/models/category.dart';
+import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_cre/src/blocs/account/account_bloc.dart';
+import 'package:app_cre/src/blocs/notification/notification_bloc.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -41,23 +42,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
-
+    final notificationBloc = Provider.of<NotificationBloc>(context, listen: false);
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          backgroundColor: Color(0XFFF7F7F7),
-          endDrawer: SafeArea(child: endDrawer(authService, context)),
-          appBar: appBar(context, false),
-          body: _paginaActual == 0
-              ? NotificationScreen()
-              : _paginaActual == 1
-                  ? DashboardScreen()
-                  : ProfileScreen(),
-          bottomNavigationBar: SafeArea(child: bottomAppBar())),
-    );
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+            backgroundColor: Color(0XFFF7F7F7),
+            endDrawer: SafeArea(child: endDrawer(authService, context)),
+            appBar: appBar(context, false),
+            body: _pages[_paginaActual],
+            bottomNavigationBar: ChangeNotifierProvider(
+                create: (_) => NotificationBloc(),
+                child: SafeArea(child: bottomAppBar(notificationBloc)))));
   }
 
-  Widget bottomAppBar() {
+
+
+  Widget bottomAppBar(provider) {
+    final notificationBloc = Provider.of<NotificationBloc>(context, listen: false);
     return Container(
       color: const Color(0XFF3A3D5F),
       height: 120,
@@ -75,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
           alignment: Alignment.center,
           height: 90,
           child: ConvexAppBar.badge(
-              {0: countNotifications > 0 ? countNotifications.toString() : ""},
+              {0: notificationBloc.notificationsToRead > 0 ? notificationBloc.notificationsToRead.toString() : ""},
               badgeMargin: const EdgeInsets.only(left: 20, bottom: 20),
               elevation: 0,
               height: 60,

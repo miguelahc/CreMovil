@@ -1,6 +1,7 @@
 import 'package:app_cre/src/blocs/blocs.dart';
 import 'package:app_cre/src/blocs/gps/gps_bloc.dart';
 import 'package:app_cre/src/blocs/location/location_bloc.dart';
+import 'package:app_cre/src/blocs/notification/notification_bloc.dart';
 import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/providers/conection_status.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
@@ -25,6 +26,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => ConnectionStatus()),
+        ChangeNotifierProvider(create: (_) => NotificationBloc()),
         BlocProvider(create: (context) => GpsBloc()),
         BlocProvider(create: (context) => LocationBloc()),
         BlocProvider(

@@ -20,7 +20,6 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Uint8List bytes = const Base64Decoder().convert(coverImage);
     return GestureDetector(
         onTap: onTap,
         child: Container(
@@ -34,16 +33,9 @@ class CustomCard extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              // child: Image.asset(
-              //   'assets/image_service.png',
-              //   width: MediaQuery.of(context).size.width - 32,
-              //   height: 112,
-              //   fit: BoxFit.cover,
-              //   alignment: Alignment.topCenter,
-              // ),
               child: Image.memory(base64Decode(coverImage.toString()),
                   width: MediaQuery.of(context).size.width - 32,
-                  height: 12,
+                  height: 112,
                   fit: BoxFit.cover,
                   alignment: Alignment.topCenter),
             ),

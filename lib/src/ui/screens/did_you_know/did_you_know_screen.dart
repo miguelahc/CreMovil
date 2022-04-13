@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:app_cre/src/models/did_you_know.dart';
 import 'package:app_cre/src/ui/screens/did_you_know/did_you_know_content_screen.dart';
-import 'package:app_cre/src/ui/screens/service_requirement/service_requirement_content_screen.dart';
 import 'package:app_cre/src/services/auth_service.dart';
 import 'package:app_cre/src/services/did_you_know_service.dart';
 import 'package:app_cre/src/services/services.dart';
@@ -27,9 +26,9 @@ class _DidYouKnowScreenState extends State<DidYouKnowScreen> {
   List<DidYouKnow> items = List.empty(growable: true);
   bool loadData = true;
 
-  navigateServiceContent() {
+  navigateDidiYouKnowContent(DidYouKnow didYouKnow) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const DidYouKnowContentScreen(),
+      builder: (context) => DidYouKnowContentScreen(didYouKnow: didYouKnow),
     ));
   }
 
@@ -57,10 +56,8 @@ class _DidYouKnowScreenState extends State<DidYouKnowScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
         backgroundColor: const Color(0XFFF7F7F7),
-        endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
         body: SafeArea(
             child: Container(
@@ -90,7 +87,7 @@ class _DidYouKnowScreenState extends State<DidYouKnowScreen> {
                                       title: e.title,
                                       coverImage: e.coverImage,
                                       gradient: SecondaryGradient,
-                                      onTap: navigateServiceContent))
+                                      onTap: () => navigateDidiYouKnowContent(e)))
                                   .toList())
                     ],
                   ))

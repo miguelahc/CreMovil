@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_cre/src/blocs/country/country_bloc.dart';
+import 'package:app_cre/src/models/country.dart';
+import 'package:app_cre/src/services/country_service.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
 import 'package:app_cre/src/ui/components/box_decoration.dart';
@@ -77,7 +80,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class _FormLogin extends StatelessWidget {
+class _FormLogin extends StatefulWidget {
+  @override
+  State<_FormLogin> createState() => _FormLoginState();
+}
+
+class _FormLoginState extends State<_FormLogin> {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
@@ -94,7 +102,7 @@ class _FormLogin extends StatelessWidget {
             children: [
               const _Nombres(),
               const SizedBox(height: 15),
-              const _Telefono(),
+              _Telefono(),
               const SizedBox(height: 30),
               MaterialButton(
                   padding: const EdgeInsets.all(0),
@@ -191,8 +199,7 @@ class _FormLogin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ValidateCodScreen(
-                              user: user)));
+                          builder: (context) => ValidateCodScreen(user: user)));
                 }),
           ),
         ],
@@ -287,52 +294,31 @@ class _Nombres extends StatelessWidget {
   }
 }
 
-class _Telefono extends StatelessWidget {
-  const _Telefono({
-    Key? key,
-  }) : super(key: key);
+class _Telefono extends StatefulWidget {
+  @override
+  State<_Telefono> createState() => _TelefonoState();
+}
 
+class _TelefonoState extends State<_Telefono> {
   @override
   Widget build(BuildContext context) {
+    countryBloc.getCountries();
     final loginForm = Provider.of<LoginFormProvider>(context);
     return Container(
       alignment: Alignment.center,
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
         Container(
-          width: 100,
-          child: DropdownButtonFormField(
-              value: '+591',
-              items: [
-                DropdownMenuItem(
-                    value: '+591',
-                    child: Row(children: [
-                      Image.asset("assets/icons/bolivia.png"),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text('+591')
-                    ])),
-                DropdownMenuItem(
-                    value: '+593',
-                    child: Row(children: [
-                      Image.asset("assets/icons/ecuador.png"),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text('+593')
-                    ])),
-              ],
-              decoration: const InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF84BD00)),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
-              ),
-              onChanged: (value) {
-                loginForm.setPrefixPhone(value.toString());
-              }),
-        ),
+            width: 90,
+            child: StreamBuilder(
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    return withData(
+                        context, snapshot.data as List<Country>, loginForm);
+                  } else {
+                    return withOutData(context, loginForm);
+                  }
+                },
+                stream: countryBloc.allCountries)),
         Expanded(
           child: TextFormField(
             initialValue: '',
@@ -358,5 +344,66 @@ class _Telefono extends StatelessWidget {
         )
       ]),
     );
+  }
+
+  Widget withData(context, List<Country> data, loginForm) {
+    return DropdownButtonFormField(
+        isExpanded: true,
+        menuMaxHeight: 250,
+        value: data[0].code.toString(),
+        items: (data
+            .map((e) => DropdownMenuItem(
+                value: e.code,
+                child: Row(children: [
+                  Image.memory(
+                    base64Decode(e.flag),
+                    width: 24,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    e.code.toString(),
+                    style: const TextStyle(fontSize: 14),
+                  )
+                ])))
+            .toList()),
+        decoration: const InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFF84BD00)),
+          ),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
+        ),
+        onChanged: (value) {
+          loginForm.setPrefixPhone(value.toString());
+        });
+  }
+
+  Widget withOutData(context, loginForm) {
+    return DropdownButtonFormField(
+        isExpanded: true,
+        value: '+591',
+        items: [
+          DropdownMenuItem(
+              value: '+591',
+              child: Row(children: [
+                Image.asset("assets/icons/bolivia.png"),
+                const SizedBox(
+                  width: 8,
+                ),
+                const Text('+591')
+              ]))
+        ],
+        decoration: const InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFF84BD00)),
+          ),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
+        ),
+        onChanged: (value) {
+          loginForm.setPrefixPhone(value.toString());
+        });
   }
 }

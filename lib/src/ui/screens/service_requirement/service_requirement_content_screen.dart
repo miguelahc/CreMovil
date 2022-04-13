@@ -1,10 +1,19 @@
+import 'dart:convert';
+
+import 'package:app_cre/src/models/requisite.dart';
+import 'package:app_cre/src/services/requisites_services.dart';
+import 'package:app_cre/src/services/services.dart';
 import 'package:app_cre/src/ui/components/box_decoration.dart';
 import 'package:app_cre/src/ui/components/colors.dart';
+import 'package:app_cre/src/ui/widgets/circular_progress.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ServiceRequirementContentScreen extends StatefulWidget {
-  const ServiceRequirementContentScreen({Key? key}) : super(key: key);
+  final Requisite requisite;
+
+  const ServiceRequirementContentScreen({Key? key, required this.requisite})
+      : super(key: key);
 
   @override
   State<ServiceRequirementContentScreen> createState() =>
@@ -13,6 +22,33 @@ class ServiceRequirementContentScreen extends StatefulWidget {
 
 class _ServiceRequirementContentScreenState
     extends State<ServiceRequirementContentScreen> {
+  List<Requisite> images = List.empty(growable: true);
+  bool loadData = true;
+
+  @override
+  void initState() {
+    TokenService().readToken().then((token) {
+      RequisitesService()
+          .getRequisiteDetail(token, widget.requisite.id)
+          .then((value) {
+        var code = jsonDecode(value)["Code"];
+        if (code == 0) {
+          var message = jsonDecode(value)["Message"];
+          List<dynamic> list = jsonDecode(message);
+          setState(() {
+            images = RequisitesService().parseData(list);
+            loadData = false;
+          });
+        } else {
+          setState(() {
+            loadData = false;
+          });
+        }
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,17 +63,18 @@ class _ServiceRequirementContentScreenState
                       color: const Color(0XFFF7F7F7),
                       child: Column(children: [
                         Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            margin: const EdgeInsets.only(bottom: 16),
                             child: Stack(
                               children: [
                                 ClipRRect(
                                   borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(30),
                                       bottomRight: Radius.circular(30)),
-                                  child: Image.asset(
-                                    'assets/image_service.png',
+                                  child: Image.memory(
+                                    base64Decode(widget.requisite.coverImage),
                                     height: MediaQuery.of(context).size.height *
-                                        0.3,
+                                        0.25,
                                     width: MediaQuery.of(context).size.width,
                                     fit: BoxFit.cover,
                                     alignment: Alignment.topCenter,
@@ -63,12 +100,13 @@ class _ServiceRequirementContentScreenState
                               width: MediaQuery.of(context).size.width - 32,
                               padding:
                                   const EdgeInsets.only(left: 16, right: 32),
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.all(16),
+                              alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
                               decoration: customBoxDecoration(15),
-                              child: const Text(
-                                "Descuento a personas mayores a 60 años (Ley 1886)",
-                                style: TextStyle( fontFamily: 'Mulish', 
+                              child: Text(
+                                widget.requisite.title,
+                                style: const TextStyle(
+                                    fontFamily: 'Mulish',
                                     color: DarkColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18),
@@ -77,30 +115,24 @@ class _ServiceRequirementContentScreenState
                             Container(
                               decoration: customBoxDecoration(15),
                               width: MediaQuery.of(context).size.width - 32,
-                              padding: const EdgeInsets.all(16),
+                              // padding: const EdgeInsets.all(16),
                               alignment: Alignment.center,
                               margin:
                                   const EdgeInsets.only(left: 16, right: 16),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Requisitos:",
-                                    style: TextStyle( fontFamily: 'Mulish', 
-                                        color: SecondaryColor,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  item(
-                                      "1. Lorem Ipsum is simply dummy text of the printing and typesetting industry"),
-                                  item(
-                                      "2. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
-                                  item(
-                                      "3. Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical."),
-                                  item(
-                                      "4. There are many variations of passages of Lorem Ipsum available, but the majority"),
-                                  item(
-                                      "5. Lorem Ipsum is simply dummy text of the printing and typesetting industry.")
-                                ],
+                                children: images
+                                    .map((e) => ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(25)),
+                                        child: Image.memory(
+                                          base64Decode(e.coverImage),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              32,
+                                        )))
+                                    .toList(),
                               ),
                             )
                           ],
@@ -116,7 +148,8 @@ class _ServiceRequirementContentScreenState
         ),
         child: Text(
           data,
-          style: const TextStyle( fontFamily: 'Mulish', color: Color(0XFF666666)),
+          style:
+              const TextStyle(fontFamily: 'Mulish', color: Color(0XFF666666)),
         ));
   }
 }

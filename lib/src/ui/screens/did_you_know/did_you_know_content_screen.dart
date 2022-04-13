@@ -1,10 +1,19 @@
+import 'dart:convert';
+
+import 'package:app_cre/src/models/did_you_know.dart';
+import 'package:app_cre/src/services/did_you_know_service.dart';
+import 'package:app_cre/src/services/services.dart';
 import 'package:app_cre/src/ui/components/box_decoration.dart';
 import 'package:app_cre/src/ui/components/colors.dart';
+import 'package:app_cre/src/ui/widgets/circular_progress.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DidYouKnowContentScreen extends StatefulWidget {
-  const DidYouKnowContentScreen({Key? key}) : super(key: key);
+  final DidYouKnow didYouKnow;
+
+  const DidYouKnowContentScreen({Key? key, required this.didYouKnow})
+      : super(key: key);
 
   @override
   State<DidYouKnowContentScreen> createState() =>
@@ -12,6 +21,33 @@ class DidYouKnowContentScreen extends StatefulWidget {
 }
 
 class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
+  List<DidYouKnow> images = List.empty(growable: true);
+  bool loadData = true;
+
+  @override
+  void initState() {
+    TokenService().readToken().then((token) {
+      DidYouKnowService()
+          .getDidYouKnowDetail(token, widget.didYouKnow.id)
+          .then((value) {
+        var code = jsonDecode(value)["Code"];
+        if (code == 0) {
+          var message = jsonDecode(value)["Message"];
+          List<dynamic> list = jsonDecode(message);
+          setState(() {
+            images = DidYouKnowService().parseData(list);
+            loadData = false;
+          });
+        } else {
+          setState(() {
+            loadData = false;
+          });
+        }
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,21 +62,23 @@ class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
                       color: const Color(0XFFF7F7F7),
                       child: Column(children: [
                         Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            margin: const EdgeInsets.only(bottom: 16),
+                            height: MediaQuery.of(context).size.height * 0.25,
                             child: Stack(
                               children: [
                                 ClipRRect(
                                   borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(30),
                                       bottomRight: Radius.circular(30)),
-                                  child: Image.asset(
-                                    'assets/image_service.png',
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    width: MediaQuery.of(context).size.width,
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter,
-                                  ),
+                                  child: Image.memory(
+                                      base64Decode(widget.didYouKnow.coverImage
+                                          .toString()),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.25,
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.topCenter),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(4),
@@ -63,11 +101,12 @@ class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
                                 padding:
                                     const EdgeInsets.only(left: 16, right: 32),
                                 alignment: Alignment.center,
-                                margin: const EdgeInsets.all(16),
+                                margin: const EdgeInsets.only(
+                                    left: 16, right: 16, bottom: 12),
                                 decoration: customBoxDecoration(15),
                                 child: Row(
-                                  children: const [
-                                    Padding(
+                                  children: [
+                                    const Padding(
                                         padding: EdgeInsets.only(right: 16),
                                         child: ImageIcon(
                                           AssetImage(
@@ -77,37 +116,42 @@ class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
                                         )),
                                     Expanded(
                                         child: Text(
-                                      "Ahora puedes pagar tus facturas en línea desde nuestra app CRE Móvil",
-                                      style: TextStyle( fontFamily: 'Mulish', 
+                                      widget.didYouKnow.title,
+                                      style: const TextStyle(
+                                          fontFamily: 'Mulish',
                                           color: DarkColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16),
                                     ))
                                   ],
                                 )),
-                            Container(
-                              decoration: customBoxDecoration(15),
-                              width: MediaQuery.of(context).size.width - 32,
-                              padding: const EdgeInsets.all(16),
-                              alignment: Alignment.center,
-                              margin:
-                                  const EdgeInsets.only(left: 16, right: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Para pagar tu factura en línea realiza estos 3 simples pasos::",
-                                    style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF666666)),
-                                  ),
-                                  item(1,
-                                      "En la pantalla principal elige el Servicio que tiene activo el botón PAGAR y presionalo"),
-                                  item(2,
-                                      "Presiona la opción Pagar con Tarjeta C/D"),
-                                  item(3,
-                                      "Ingresa los datos de tu Tarjeta de Crédito o Débito y luego presiona en Pagar"),
-                                ],
-                              ),
-                            )
+                            loadData
+                                ? circularProgress()
+                                : Container(
+                                    decoration: customBoxDecoration(15),
+                                    width:
+                                        MediaQuery.of(context).size.width - 32,
+                                    // padding: const EdgeInsets.all(16),
+                                    alignment: Alignment.center,
+                                    margin: const EdgeInsets.only(
+                                        left: 16, right: 16, bottom: 16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: images
+                                          .map((e) => ClipRRect(
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(25)),
+                                              child: Image.memory(
+                                                base64Decode(e.coverImage),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    32,
+                                              )))
+                                          .toList(),
+                                    ),
+                                  )
                           ],
                         ))
                       ])))
@@ -129,14 +173,16 @@ class _DidYouKnowContentScreenState extends State<DidYouKnowContentScreen> {
             alignment: Alignment.center,
             child: Text(
               i.toString(),
-              style: const TextStyle( fontFamily: 'Mulish', 
-                  color: Colors.white, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontFamily: 'Mulish',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
               child: Text(
             data,
-            style: TextStyle( fontFamily: 'Mulish', color: Color(0XFF666666)),
+            style: TextStyle(fontFamily: 'Mulish', color: Color(0XFF666666)),
           ))
         ],
       ),

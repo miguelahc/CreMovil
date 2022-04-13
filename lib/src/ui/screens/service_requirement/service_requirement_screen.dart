@@ -1,7 +1,13 @@
+import 'dart:convert';
+
+import 'package:app_cre/src/models/requisite.dart';
+import 'package:app_cre/src/services/requisites_services.dart';
+import 'package:app_cre/src/services/services.dart';
 import 'package:app_cre/src/ui/screens/service_requirement/service_requirement_content_screen.dart';
 import 'package:app_cre/src/services/auth_service.dart';
 import 'package:app_cre/src/ui/components/colors.dart';
 import 'package:app_cre/src/ui/widgets/app_bar.dart';
+import 'package:app_cre/src/ui/widgets/circular_progress.dart';
 import 'package:app_cre/src/ui/widgets/custom_card.dart';
 import 'package:app_cre/src/ui/widgets/end_drawer.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,18 +23,43 @@ class ServiceRequirementScreen extends StatefulWidget {
 }
 
 class _ServiceRequirementScreenState extends State<ServiceRequirementScreen> {
-  navigateServiceContent() {
+  List<Requisite> items = List.empty(growable: true);
+  bool loadData = true;
+
+  navigateServiceContent(Requisite requisite) {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ServiceRequirementContentScreen(),
+      builder: (context) => ServiceRequirementContentScreen(
+        requisite: requisite,
+      ),
     ));
   }
 
   @override
+  void initState() {
+    TokenService().readToken().then((token) {
+      RequisitesService().getRequisites(token).then((value) {
+        var code = jsonDecode(value)["Code"];
+        if (code == 0) {
+          var message = jsonDecode(value)["Message"];
+          List<dynamic> list = jsonDecode(message);
+          setState(() {
+            items = RequisitesService().parseData(list);
+            loadData = false;
+          });
+        } else {
+          setState(() {
+            loadData = false;
+          });
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
         backgroundColor: const Color(0XFFF7F7F7),
-        endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
         body: SafeArea(
             child: Container(
@@ -38,37 +69,27 @@ class _ServiceRequirementScreenState extends State<ServiceRequirementScreen> {
                     padding: const EdgeInsets.only(left: 16, bottom: 16),
                     alignment: Alignment.centerLeft,
                     child: const Text("Requisitos de Servicio",
-                        style: TextStyle( fontFamily: 'Mulish', 
+                        style: TextStyle(
+                            fontFamily: 'Mulish',
                             color: Color(0XFF82BA00),
                             fontWeight: FontWeight.bold)),
                   ),
                   Expanded(
                       child: ListView(
                     children: [
-                      CustomCard(
-                          title:
-                              "Descuento a personas mayores a 60 años (Ley 1886)",
-                          coverImage: "",
-                          gradient: SecondaryGradient,
-                          onTap: navigateServiceContent),
-                      CustomCard(
-                          title:
-                              "CRE cerca de usted para facilitar el contacto",
-                          coverImage: "",
-                          gradient: DarkGradient,
-                          onTap: navigateServiceContent),
-                      CustomCard(
-                          title:
-                              "Transferencia del certificado de aportación por sucesión hereditaria",
-                          coverImage: "",
-                          gradient: DarkGradient,
-                          onTap: navigateServiceContent),
-                      CustomCard(
-                          title:
-                              "Controla tu consumo de energía con nuestra nueva aplicación CRE Móvil",
-                          coverImage: "",
-                          gradient: DarkGradient,
-                          onTap: navigateServiceContent)
+                      loadData
+                          ? SizedBox(
+                              child: circularProgress(),
+                              height: MediaQuery.of(context).size.height * 0.9,
+                            )
+                          : Column(
+                              children: items
+                                  .map((e) => CustomCard(
+                                      title: e.title,
+                                      coverImage: e.coverImage,
+                                      gradient: SecondaryGradient,
+                                      onTap: () => navigateServiceContent(e)))
+                                  .toList())
                     ],
                   ))
                 ]))));
