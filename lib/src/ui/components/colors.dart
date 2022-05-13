@@ -19,6 +19,11 @@ const DarkGradient =
         begin:  Alignment.bottomLeft,
         end: Alignment.topRight);
 
+const SecondaryGradientAlt =
+LinearGradient(colors: [Color(0XFF618A02), Color(0XFF84BD00)],
+    begin: Alignment.bottomLeft,
+    end: Alignment.topRight);
+
 const DarkGradientAlpha =
 LinearGradient(colors: [Color(0XFF1C1F2F), Color(0XFF162D2D)],
     begin:  Alignment.bottomLeft,

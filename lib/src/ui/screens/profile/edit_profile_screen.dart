@@ -1,15 +1,11 @@
 import 'dart:convert';
 
 import 'package:app_cre/src/providers/edit_profile_form_provider.dart';
-import 'package:app_cre/src/ui/screens/home_screen.dart';
-import 'package:app_cre/src/services/auth_service.dart';
+import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/components/input_decorations.dart';
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +51,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         body: SafeArea(
           child: Column(children: [
             Expanded(child: ListView(
+              physics:
+              const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,

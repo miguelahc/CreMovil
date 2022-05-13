@@ -10,7 +10,6 @@ import '../models/resultjson.dart';
 class AccountService {
   Future<dynamic> getAccounts(token, pin, phoneNumber, phoneImei) async {
     final response = await http.post(
-      //Uri.parse(environment.url + 'cre_getaccounts'),
         Uri.parse(environment.urlcre + 'RetornaCuentas'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -32,7 +31,6 @@ class AccountService {
         datajson = ListAccounts.getAccounts(datajson);
         datajson = jsonEncode(datajson);
         rjson = ResultJson(0, datajson, "");
-        //return jsonEncode(rjson);
       } else {
         rjson = ResultJson(4,
             "No existen cuentas para el numero " + phoneNumber, response.body);
@@ -44,7 +42,6 @@ class AccountService {
           response.body);
     }
     return jsonEncode(rjson.toJson());
-    //return response.body;
   }
 
   List getListOfAccounts(String data) {
@@ -55,7 +52,6 @@ class AccountService {
   Future<dynamic> registerAccount(
       token, userData, Account account, phonePushId) async {
     final response = await http.post(
-      //Uri.parse(environment.url + 'cre_registeraccount'),
         Uri.parse(environment.urlcre + 'RegistrarCuenta'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -102,7 +98,6 @@ class AccountService {
   Future<dynamic> getStatement(
       token, userData, accountNumber, companyNumber) async {
     final response = await http.post(
-      //Uri.parse(environment.url + 'cre_getstatement'),
         Uri.parse(environment.urlcre + 'RetornaEstadoCuenta'),
         headers: <String, String>{
           'Content-Type': 'application/json',

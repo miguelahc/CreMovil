@@ -27,6 +27,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => ConnectionStatus()),
         ChangeNotifierProvider(create: (_) => NotificationBloc()),
+        BlocProvider(create: (context) => AccountBloc()),
         BlocProvider(create: (context) => GpsBloc()),
         BlocProvider(create: (context) => LocationBloc()),
         BlocProvider(

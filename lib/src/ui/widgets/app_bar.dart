@@ -12,12 +12,12 @@ AppBar appBar(context, bool withLeading) {
       ),
       iconTheme: const IconThemeData(color: Colors.green),
       elevation: 0,
-      backgroundColor: const Color(0xFFF7F7F7),
+      backgroundColor: Colors.transparent,
     );
   }
   return AppBar(
     iconTheme: const IconThemeData(color: Colors.green),
     elevation: 0,
-    backgroundColor: const Color(0xFFF7F7F7),
+    backgroundColor: Colors.transparent,
   );
 }

@@ -1,3 +1,5 @@
+import 'package:app_cre/src/ui/components/box_decoration.dart';
+import 'package:app_cre/src/ui/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,6 +16,8 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
           icon: const Icon(Icons.clear),
           onPressed: () {
             query = '';
+            final result = SearchResult(cancel: true);
+            close(context, result);
           })
     ];
   }
@@ -39,64 +43,94 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
         final places = state.places;
+        final placesOther = state.placesOther;
+        return Container(
+            height: MediaQuery.of(context).size.height - 160,
+            margin:
+                const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 32),
+            decoration: customBoxDecoration(10),
+            child: ListView(children: [
+              ...placesOther.map((place) => Column(
+                    children: [
+                      ListTile(
+                          title: Text(place.name),
+                          subtitle: Text(place.address),
+                          leading: ImageIcon(
+                            AssetImage('assets/icons/vuesax-bold-location.png'),
+                            color: place.typeId == 1
+                                ? SecondaryColor
+                                : PrimaryColor,
+                          ),
+                          onTap: () {
+                            final result = SearchResult(
+                                cancel: false,
+                                manual: false,
+                                position: LatLng(double.parse(place.latitude),
+                                    double.parse(place.longitude)),
+                                name: place.name,
+                                description: place.name);
 
-        return ListView.separated(
-          itemCount: places.length,
-          itemBuilder: (context, i) {
-            final place = places[i];
-            return ListTile(
-                title: Text(place.text),
-                subtitle: Text(place.placeName),
-                leading: const Icon(Icons.place_outlined, color: Colors.black),
-                onTap: () {
-                  final result = SearchResult(
-                      cancel: false,
-                      manual: false,
-                      position: LatLng(place.center[1], place.center[0]),
-                      name: place.text,
-                      description: place.placeName);
+                            // searchBloc.add(AddToHistoryOEvent(place));
 
-                  searchBloc.add(AddToHistoryEvent(place));
-
-                  close(context, result);
-                });
-          },
-          separatorBuilder: (context, i) => const Divider(),
-        );
+                            close(context, result);
+                          }),
+                      Container(
+                        height: 1,
+                        color: Colors.black26,
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                      )
+                    ],
+                  )),
+            ]));
       },
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final history = BlocProvider.of<SearchBloc>(context).state.history;
+    final historyComplete =
+        BlocProvider.of<SearchBloc>(context).state.historyOther;
+    final history = historyComplete
+        .where((element) =>
+            element.name.toLowerCase().contains(query.toLowerCase()) ||
+            element.address.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    return Container(
+      decoration: customBoxDecoration(15),
+      child: ListView(
+        children: [
+          ListTile(
+              style: ListTileStyle.list,
+              leading: const ImageIcon(
+                AssetImage('assets/icons/vuesax-bold-location.png'),
+                color: Colors.black,
+              ),
+              title: const Text('Colocar la ubicación manualmente',
+                  style: TextStyle(color: Colors.black)),
+              onTap: () {
+                final result = SearchResult(cancel: false, manual: true);
+                close(context, result);
+              }),
+          ...history.map((place) => ListTile(
+              title: Text(place.name),
+              subtitle: Text(place.address),
+              leading: ImageIcon(
+                AssetImage('assets/icons/vuesax-bold-location.png'),
+                color: place.typeId == 1 ? SecondaryColor : DarkColor,
+              ),
+              onTap: () {
+                final result = SearchResult(
+                    cancel: false,
+                    manual: false,
+                    position: LatLng(double.parse(place.latitude),
+                        double.parse(place.longitude)),
+                    name: place.name,
+                    description: place.address);
 
-    return ListView(
-      children: [
-        ListTile(
-            leading:
-                const Icon(Icons.location_on_outlined, color: Colors.black),
-            title: const Text('Colocar la ubicación manualmente',
-                style: TextStyle(color: Colors.black)),
-            onTap: () {
-              final result = SearchResult(cancel: false, manual: true);
-              close(context, result);
-            }),
-        ...history.map((place) => ListTile(
-            title: Text(place.text),
-            subtitle: Text(place.placeName),
-            leading: const Icon(Icons.history, color: Colors.black),
-            onTap: () {
-              final result = SearchResult(
-                  cancel: false,
-                  manual: false,
-                  position: LatLng(place.center[1], place.center[0]),
-                  name: place.text,
-                  description: place.placeName);
-
-              close(context, result);
-            }))
-      ],
+                close(context, result);
+              }))
+        ],
+      ),
     );
   }
 }

@@ -24,8 +24,8 @@ class UserService {
           'P_SoTele': os,
           'P_PushIdTele': phonePushId,
           'P_ImeiTele': userData['PhoneImei'],
-          "P_Email" : userData["Email"],
-          "P_NoUsua" : userData["Name"],
+          "P_Email": userData["Email"],
+          "P_NoUsua": userData["Name"],
           'P_Modo': environment.env
         }));
     var datajson;
@@ -45,19 +45,20 @@ class UserService {
           "Error en la respuesta del servicio [RegistrarUsuario]...",
           response.body);
     }
-    //return response.body;
     return jsonEncode(rjson.toJson());
   }
 
-  Future<dynamic> sendPin(String token, String phoneNumer) async {
-    //final response = await http.post(Uri.parse(environment.url + 'cre_sendpin'),
+  Future<dynamic> sendPin(String token, String phoneNumer, String code) async {
     final response = await http.post(
         Uri.parse(environment.urlcre + 'RetornaPin'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': token
         },
-        body: jsonEncode({'P_NuTele': phoneNumer, 'P_Modo': environment.env}));
+        body: jsonEncode({
+          'P_NuTele': code == "+591" ? phoneNumer : code + phoneNumer,
+          'P_Modo': environment.env
+        }));
 
     var datajson;
     ResultJson rjson;
@@ -65,8 +66,7 @@ class UserService {
       datajson = jsonDecode(response.body)["isOk"];
       if (datajson == "S") {
         rjson = ResultJson(0, response.body, "");
-      }
-      else {
+      } else {
         datajson = jsonDecode(response.body)["dsMens"];
         rjson = ResultJson(4, datajson, response.body);
       }
@@ -150,7 +150,7 @@ class UserService {
     storage.write(
         key: 'user_data',
         value:
-        '{"Pin": "$pin", "Name": "$name", "PhoneNumber": "$phoneNumber", "Email": "$email", "PhoneImei": "$phoneImei", "PrefixPhone": "$prefixPhone"}');
+            '{"Pin": "$pin", "Name": "$name", "PhoneNumber": "$phoneNumber", "Email": "$email", "PhoneImei": "$phoneImei", "PrefixPhone": "$prefixPhone"}');
   }
 
   Future<String> readUserData() async {

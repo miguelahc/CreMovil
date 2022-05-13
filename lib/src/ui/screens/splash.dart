@@ -1,11 +1,8 @@
 import 'dart:io';
 
-import 'package:app_cre/src/providers/conection_status.dart';
-import 'package:app_cre/src/ui/screens/no_connection_screen.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Splash extends StatefulWidget {
   @override

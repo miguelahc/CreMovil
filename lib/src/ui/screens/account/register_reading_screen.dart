@@ -1,15 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/providers/reading_form_provider.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/components/input_decorations.dart';
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +36,7 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0XFFF7F7F7),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
         appBar: appBar(context, true),
@@ -106,48 +105,53 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
                           )),
                         ],
                       )),
-                  rowData("Titular: ", accountDetail.titularName),
-                  rowData(
-                      "Fecha última lectura: ",
-                      formatter.format(
-                          DateTime.parse(accountDetail.dateLastReading))),
-                  const CustomDivider(),
-                  Container(
-                      height: 40,
-                      margin: const EdgeInsets.only(
-                          top: 32, bottom: 32, left: 64, right: 64),
-                      alignment: Alignment.center,
-                      decoration: customBoxDecoration(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Última lectura: ",
-                            style: TextStyle(
-                                fontFamily: 'Mulish',
-                                fontSize: 16,
-                                color: Color(0XFF3A3D5F)),
-                          ),
-                          Text(
-                            accountDetail.lastReading.toString() + " Kwh",
-                            style: const TextStyle(
-                                fontFamily: 'Mulish',
-                                fontSize: 16,
-                                color: Color(0XFF666666)),
-                          )
-                        ],
-                      )),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Image.asset("assets/ejemplo.png"),
-                  ),
                   Expanded(
-                      child: ChangeNotifierProvider(
-                    create: (_) => ReadingFormProvider(),
-                    child: FormCurrentReadingState(
-                      lastReading: accountDetail.lastReading,
-                      accountDetail: accountDetail,
-                    ),
+                      child: ListView(
+                    children: [
+                      rowData("Titular: ", accountDetail.titularName),
+                      rowData(
+                          "Fecha última lectura: ",
+                          formatter.format(
+                              DateTime.parse(accountDetail.dateLastReading))),
+                      const CustomDivider(),
+                      Container(
+                          height: 40,
+                          margin: const EdgeInsets.only(
+                              top: 32, bottom: 32, left: 64, right: 64),
+                          alignment: Alignment.center,
+                          decoration: customBoxDecoration(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Última lectura: ",
+                                style: TextStyle(
+                                    fontFamily: 'Mulish',
+                                    fontSize: 16,
+                                    color: Color(0XFF3A3D5F)),
+                              ),
+                              Text(
+                                accountDetail.lastReading.toString() + " Kwh",
+                                style: const TextStyle(
+                                    fontFamily: 'Mulish',
+                                    fontSize: 16,
+                                    color: Color(0XFF666666)),
+                              )
+                            ],
+                          )),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Image.asset("assets/ejemplo.png"),
+                      ),
+                      Container(
+                          child: ChangeNotifierProvider(
+                        create: (_) => ReadingFormProvider(),
+                        child: FormCurrentReadingState(
+                          lastReading: accountDetail.lastReading,
+                          accountDetail: accountDetail,
+                        ),
+                      ))
+                    ],
                   ))
                 ]))));
   }
@@ -195,13 +199,34 @@ class _RegisterReadingScreenState extends State<RegisterReadingScreen> {
   }
 }
 
-class FormCurrentReadingState extends StatelessWidget {
+class FormCurrentReadingState extends StatefulWidget {
   final int lastReading;
   final AccountDetail accountDetail;
 
   const FormCurrentReadingState(
       {Key? key, required this.lastReading, required this.accountDetail})
       : super(key: key);
+
+  @override
+  State<FormCurrentReadingState> createState() =>
+      _FormCurrentReadingStateState();
+}
+
+class _FormCurrentReadingStateState extends State<FormCurrentReadingState>
+    with SingleTickerProviderStateMixin {
+  late TransformationController controller;
+  late AnimationController animationController;
+  Animation<Matrix4>? animation;
+  final double minScale = 1;
+  final double maxScale = 4;
+
+  @override
+  void initState() {
+    controller = TransformationController();
+    animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,10 +240,39 @@ class FormCurrentReadingState extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const _ImageReading(),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(bottom: 24),
+            readingForm.image != null
+                ? Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Foto de la lectura de su medidor",
+                          style: TextStyle(
+                              color: DarkColor, fontWeight: FontWeight.bold),
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            height: 120,
+                            width: MediaQuery.of(context).size.width - 32,
+                            margin: const EdgeInsets.only(top: 16),
+                            decoration: customBoxDecoration(20),
+                            child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                child: Image.file(readingForm.image!,
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.center)),
+                          ),
+                          onTap: () =>
+                              _showDialogImage(context, readingForm.image),
+                        )
+                      ],
+                    ),
+                  )
+                : const _ImageReading(),
+            Padding(
+              padding: const EdgeInsets.only(top: 24, bottom: 24),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -254,10 +308,16 @@ class FormCurrentReadingState extends StatelessWidget {
                       onPressed: () {
                         if (readingForm.isValidForm() &&
                             !readingForm.isLoading) {
-                          readingForm.isLoading = true;
-                          if (int.parse(readingForm.reading) <= lastReading) {
+                          if (readingForm.image == null) {
                             _showDialogError(context, readingForm,
-                                'La Lectura Actual debe ser \nmayor a la Última Lectura');
+                                'Debe cargar una imagen\npara adjuntar a la lectura de medidor.');
+                            return;
+                          }
+                          readingForm.isLoading = true;
+                          if (int.parse(readingForm.reading) <=
+                              widget.lastReading) {
+                            _showDialogError(context, readingForm,
+                                'La lectura actual debe ser\nmayor a la última lectura');
                           } else {
                             TokenService().readToken().then((token) {
                               UserService().readUserData().then((data) {
@@ -266,9 +326,9 @@ class FormCurrentReadingState extends StatelessWidget {
                                     .registerReading(
                                         token,
                                         userData,
-                                        accountDetail.accountNumber,
-                                        accountDetail.companyNumber,
-                                        readingForm.reading)
+                                        widget.accountDetail.accountNumber,
+                                        widget.accountDetail.companyNumber,
+                                        readingForm.reading, readingForm.image!)
                                     .then((value) {
                                   int code = jsonDecode(value)["Code"];
                                   if (code == 0) {
@@ -315,9 +375,37 @@ class FormCurrentReadingState extends StatelessWidget {
                       }),
                 ],
               ),
-            ))
+            )
           ]),
         ));
+  }
+
+  _showDialogImage(context, image) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        contentPadding: const EdgeInsets.all(2),
+        // actionsPadding: const EdgeInsets.only(bottom: 30),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        content: Container(
+            height: MediaQuery.of(context).size.height * 0.35,
+            child: InteractiveViewer(
+                transformationController: controller,
+                minScale: minScale,
+                maxScale: maxScale,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: Image.file(
+                        image!,
+                        width: 500,
+                        // fit: BoxFit.cover,
+                      )),
+                ))),
+      ),
+    );
   }
 
   _showDialogExit(context, readingForm) {
@@ -469,81 +557,93 @@ class _ImageReading extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
-          height: 148,
-          width: 160,
-          decoration: customBoxDecoration(10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: 80,
-                  width: 80,
-                  decoration: customButtonDecoration(15),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        ImageIcon(
-                          AssetImage('assets/icons/camera.png'),
-                          color: Colors.white,
-                          size: 39,
-                        ),
-                        Text(
-                          "Cámara",
-                          style: TextStyle(
-                              fontFamily: 'Mulish',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ]),
-                ),
-                const Text(
-                  "Tomar foto",
-                  style: TextStyle(
-                      fontFamily: 'Mulish',
-                      color: DarkColor,
-                      fontWeight: FontWeight.bold),
-                )
-              ]),
+        GestureDetector(
+          child: Container(
+            height: 148,
+            width: 160,
+            decoration: customBoxDecoration(10),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: customButtonDecoration(15),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          ImageIcon(
+                            AssetImage('assets/icons/camera.png'),
+                            color: Colors.white,
+                            size: 39,
+                          ),
+                          Text(
+                            "Cámara",
+                            style: TextStyle(
+                                fontFamily: 'Mulish',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                  ),
+                  const Text(
+                    "Tomar foto",
+                    style: TextStyle(
+                        fontFamily: 'Mulish',
+                        color: DarkColor,
+                        fontWeight: FontWeight.bold),
+                  )
+                ]),
+          ),
+          onTap: () => {_pickImage(ImageSource.camera, readingForm)},
         ),
-        Container(
-          height: 148,
-          width: 160,
-          decoration: customBoxDecoration(10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: 80,
-                  width: 80,
-                  decoration: customButtonDecoration(15),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        ImageIcon(
-                          AssetImage('assets/icons/gallery.png'),
-                          color: Colors.white,
-                          size: 39,
-                        ),
-                        Text(
-                          "Galería",
-                          style: TextStyle(
-                              fontFamily: 'Mulish',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ]),
-                ),
-                const Text(
-                  "Adjuntar",
-                  style: TextStyle(
-                      fontFamily: 'Mulish',
-                      color: DarkColor,
-                      fontWeight: FontWeight.bold),
-                )
-              ]),
-        ),
+        GestureDetector(
+          child: Container(
+            height: 148,
+            width: 160,
+            decoration: customBoxDecoration(10),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: customButtonDecoration(15),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          ImageIcon(
+                            AssetImage('assets/icons/gallery.png'),
+                            color: Colors.white,
+                            size: 39,
+                          ),
+                          Text(
+                            "Galería",
+                            style: TextStyle(
+                                fontFamily: 'Mulish',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                  ),
+                  const Text(
+                    "Adjuntar",
+                    style: TextStyle(
+                        fontFamily: 'Mulish',
+                        color: DarkColor,
+                        fontWeight: FontWeight.bold),
+                  )
+                ]),
+          ),
+          onTap: () => {_pickImage(ImageSource.gallery, readingForm)},
+        )
       ],
     );
+  }
+
+  void _pickImage(ImageSource source, readingForm) async {
+    final file = await ImagePicker().pickImage(source: source);
+    if (file == null) return;
+    readingForm.image = File(file.path);
   }
 }

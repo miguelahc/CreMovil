@@ -1,9 +1,7 @@
 import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/widgets/floating_home_button.dart';
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

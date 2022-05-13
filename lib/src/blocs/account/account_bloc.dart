@@ -2,12 +2,27 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app_cre/src/services/services.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
-class AccountBloc{
-  final _accountsData = StreamController<Iterable<dynamic>>.broadcast();
+part 'account_event.dart';
+part 'account_state.dart';
 
-  Stream<Iterable<dynamic>> get allAccounts {
-    return _accountsData.stream;
+class AccountBloc extends Bloc<AccountEvent,AccountState>{
+
+  AccountBloc() : super(const AccountState()){
+
+    on<OnLoadInitAllAccountsEvent> (
+      (event, emit) => emit(state.copyWith(all: event.all)),
+    );
+
+    on<OnUpdateAccountListEvent> (
+          (event, emit) => emit(state.copyWith(accounts: event.accounts)),
+    );
+
+    on<OnUpdateServiceListEvent> (
+          (event, emit) => emit(state.copyWith(services: event.services)),
+    );
   }
 
   void getAccounts() async{
@@ -18,16 +33,23 @@ class AccountBloc{
         userData["PhoneImei"]);
     var message = jsonDecode(response)["Message"];
     Iterable<dynamic> list = jsonDecode(message);
-    _accountsData.sink.add(list);
+    add(OnLoadInitAllAccountsEvent(list.toList()));
+    _filterList(list.toList());
+  }
+
+  _filterList(List<dynamic> all){
+    var accounts = all
+        .where((element) => element["AccountTypeRegister"] == "Cuenta")
+        .toList();
+    var services = all
+        .where((element) => element["AccountTypeRegister"] == "Servicio")
+        .toList();
+
+    add(OnUpdateAccountListEvent(accounts));
+    add(OnUpdateServiceListEvent(services));
   }
 
   void reloadAccounts() async{
     getAccounts();
   }
-
-  void dispose(){
-    _accountsData.close();
-  }
 }
-
-final accountBloc = AccountBloc();

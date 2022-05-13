@@ -1,15 +1,14 @@
 import 'dart:convert';
 
+import 'package:app_cre/src/blocs/account/account_bloc.dart';
 import 'package:app_cre/src/models/account_detail.dart';
 import 'package:app_cre/src/providers/edit_refrence_form_provider.dart';
-import 'package:app_cre/src/ui/screens/home_screen.dart';
+import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/components/input_decorations.dart';
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class EditReferenceScreen extends StatefulWidget {
@@ -186,7 +185,6 @@ class _FormEditReference  extends StatelessWidget {
                                 });
                               }
                               FocusScope.of(context).unfocus();
-                              // //Todo Login Forms
                               if (!referenceForm.isValidForm()) return;
                             }),
                         MaterialButton(
@@ -264,6 +262,8 @@ class _FormEditReference  extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    final accountBloc = BlocProvider.of<AccountBloc>(context);
+                    accountBloc.reloadAccounts();
                     Navigator.pop(context);
                     Navigator.pushReplacement(
                         context,

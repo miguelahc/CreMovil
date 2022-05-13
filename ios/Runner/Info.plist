@@ -43,5 +43,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Necesitamos el acceso a su ubicación porque nuestra aplicación ofrece servicios basados en Geolocalización</string>
 </dict>
 </plist>

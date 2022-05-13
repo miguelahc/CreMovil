@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 
 class ReadingFormProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String _reading = "";
+  File? _image;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -24,4 +27,11 @@ class ReadingFormProvider extends ChangeNotifier {
   }
 
   String get reading => _reading;
+
+  set image(File? image){
+    _image = image;
+    notifyListeners();
+  }
+
+  File? get image => _image;
 }

@@ -4,6 +4,7 @@ import 'package:app_cre/src/ui/screens/account/invoice_detail_screen.dart';
 import 'package:app_cre/src/ui/components/box_decoration.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class AccountHistoryTable extends StatelessWidget {
@@ -101,7 +102,10 @@ class AccountHistoryTable extends StatelessWidget {
             )),
         Expanded(
             child:
-                ListView(children: data.map((e) => row(e, accountDetail, context)).toList()))
+                GestureDetector(child: ListView(children: data.map((e) => row(e, accountDetail, context)).toList(), physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),),
+                onVerticalDragStart: (e){
+                  print("gesture");
+                },))
       ],
     ));
   }

@@ -1,3 +1,4 @@
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,10 +35,12 @@ class _AccessButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text('Es necesario el acceso a GPS'),
+        const Text('Utilizaremos la geolocalizacion en segundo plano'),
+        const Text('para visualizar los Puntos de Atencion y Pago'),
         MaterialButton(
+            color: SecondaryColor,
             child: const Text('Solicitar Acceso',
                 style: TextStyle(color: Colors.white)),
-            color: Colors.black,
             shape: const StadiumBorder(),
             elevation: 0,
             splashColor: Colors.transparent,

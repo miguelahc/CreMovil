@@ -1,19 +1,14 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:app_cre/src/blocs/country/country_bloc.dart';
-import 'package:app_cre/src/models/country.dart';
-import 'package:app_cre/src/services/country_service.dart';
+import 'package:app_cre/src/blocs/blocs.dart';
+import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/src/providers/login_form_provider.dart';
-import 'package:app_cre/src/ui/components/input_decorations.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:app_cre/src/models/models.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,6 +18,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  List<Country> countries = List.empty(growable: true);
+  bool loadCountries = false;
+
+  @override
+  void initState() {
+    getCountries();
+    super.initState();
+  }
+
+  void getCountries() async {
+    final token = await TokenService().readToken();
+    final response = await CountryService().getCountries(token);
+    var message = jsonDecode(response)["Message"];
+    List<dynamic> list = jsonDecode(message);
+    setState(() {
+      countries = CountryService().parseData(list);
+      countries.sort((a, b) => a.id.compareTo(b.id));
+      loadCountries = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             alignment: Alignment.center,
                             child: ChangeNotifierProvider(
                               create: (_) => LoginFormProvider(),
-                              child: _FormLogin(),
+                              child: _FormLogin(countries: countries),
                             ),
                           )),
                         ],
@@ -81,6 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class _FormLogin extends StatefulWidget {
+  List<Country> countries;
+
+  _FormLogin({Key? key, required this.countries});
+
   @override
   State<_FormLogin> createState() => _FormLoginState();
 }
@@ -102,7 +122,7 @@ class _FormLoginState extends State<_FormLogin> {
             children: [
               const _Nombres(),
               const SizedBox(height: 15),
-              _Telefono(),
+              _Telefono(countries: widget.countries),
               const SizedBox(height: 30),
               MaterialButton(
                   padding: const EdgeInsets.all(0),
@@ -129,7 +149,9 @@ class _FormLoginState extends State<_FormLogin> {
                       loginForm.isLoading = true;
                       var user = loginForm.getValues();
                       TokenService().readToken().then((token) {
-                        UserService().sendPin(token, user.phone).then((value) {
+                        UserService()
+                            .sendPin(token, user.phone, user.prefixPhone)
+                            .then((value) {
                           var code = jsonDecode(value)["Code"];
                           var message = jsonDecode(value)["Message"];
                           if (code == 0) {
@@ -295,6 +317,10 @@ class _Nombres extends StatelessWidget {
 }
 
 class _Telefono extends StatefulWidget {
+  List<Country> countries;
+
+  _Telefono({Key? key, required this.countries});
+
   @override
   State<_Telefono> createState() => _TelefonoState();
 }
@@ -308,17 +334,10 @@ class _TelefonoState extends State<_Telefono> {
       alignment: Alignment.center,
       child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
         Container(
-            width: 90,
-            child: StreamBuilder(
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    return withData(
-                        context, snapshot.data as List<Country>, loginForm);
-                  } else {
-                    return withOutData(context, loginForm);
-                  }
-                },
-                stream: countryBloc.allCountries)),
+            width: 100,
+            child: widget.countries.isEmpty
+                ? withOutData(context, loginForm)
+                : withData(context, widget.countries, loginForm)),
         Expanded(
           child: TextFormField(
             initialValue: '',
@@ -381,29 +400,6 @@ class _TelefonoState extends State<_Telefono> {
   }
 
   Widget withOutData(context, loginForm) {
-    return DropdownButtonFormField(
-        isExpanded: true,
-        value: '+591',
-        items: [
-          DropdownMenuItem(
-              value: '+591',
-              child: Row(children: [
-                Image.asset("assets/icons/bolivia.png"),
-                const SizedBox(
-                  width: 8,
-                ),
-                const Text('+591')
-              ]))
-        ],
-        decoration: const InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFF84BD00)),
-          ),
-          focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFF84BD00), width: 2)),
-        ),
-        onChanged: (value) {
-          loginForm.setPrefixPhone(value.toString());
-        });
+    return SizedBox();
   }
 }

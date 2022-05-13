@@ -12,6 +12,7 @@ import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/themes/themes.dart';
 
 part 'map_event.dart';
+
 part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
@@ -29,9 +30,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<UpdateUserPolylineEvent>(_onPolylineNewPoint);
     on<OnToggleUserRoute>(
         (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
-
     on<DisplayPolylinesEvent>(
         (event, emit) => emit(state.copyWith(polylines: event.polylines)));
+
+    on<OnChangeMapTypeEvent>(
+        (event, emit) => emit(state.copyWith(currentMapType: event.currentMapType)));
+
+    on<OnChangeCategoryMarkerEvent>(
+        ((event, emit) => emit(state.copyWith(categoryMarker: event.categoryMarker)))
+    );
 
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKnownLocation != null) {
@@ -48,7 +55,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   void _onInitMap(OnMapInitialzedEvent event, Emitter<MapState> emit) {
     _mapController = event.controller;
     _mapController!.setMapStyle(jsonEncode(uberMapTheme));
-
     emit(state.copyWith(isMapInitialized: true));
   }
 

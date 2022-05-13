@@ -1,4 +1,3 @@
-import 'package:app_cre/src/services/traffic_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,6 +23,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     on<AddToHistoryEvent>((event, emit) =>
         emit(state.copyWith(history: [event.place, ...state.history])));
+
+    on<OnNewPlacesOFoundEvent>(
+            (event, emit) => emit(state.copyWith(placesOther:  event.placesO)));
+
+    on<CopyToHistoryOtherEvent>(
+            (event, emit) => emit(state.copyWith(historyOther: event.historyOther)));
+
   }
 
   Future<RouteDestination> getCoorsStartToEnd(LatLng start, LatLng end) async {
@@ -44,9 +50,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         points: latLngList, duration: duration, distance: distance);
   }
 
+  Future getAllPlace() async{
+    List<AttentionPaymentPoint> points = await AttentionPaymentPointsService().getPoints("");
+    add(CopyToHistoryOtherEvent(points));
+  }
+
   Future getPlacesByQuery(LatLng proximity, String query) async {
     final newPlaces = await trafficService.getResultsByQuery(proximity, query);
-
     add(OnNewPlacesFoundEvent(newPlaces));
+    List<AttentionPaymentPoint> points = await AttentionPaymentPointsService().getPoints(query);
+    add(OnNewPlacesOFoundEvent(points));
   }
 }

@@ -36,7 +36,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
       Slide(
         title: "Registra tus datos",
         description:
-            "Solo debes ingresar 4 datos y podrás ver tus facturas de consumo.\n\n Puedes registrar uno o varios medidores y consultar fechas de emisión, corte y pago.",
+            "Solo debes ingresar 4 datos y podrás ver tus facturas de consumo.\n\nPuedes registrar uno o varios medidores y consultar fechas de emisión, corte y pago.",
         pathImage: "assets/data.png",
         colorBegin: const Color(0xFF2E6361),
         colorEnd: const Color(0xFF3A3D5F),
@@ -74,7 +74,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
           height: double.infinity,
           color: Colors.transparent,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 60.0, top: 120.0),
+            margin: const EdgeInsets.only(bottom: 60.0, top: 100.0),
             child: SizedBox(
               height: 200,
               child: ListView(
@@ -99,11 +99,11 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    margin: const EdgeInsets.only(top: 40.0),
+                    margin: const EdgeInsets.only(top: 50.0),
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 80, vertical: 40),
+                    height: 100,
+                    margin: const EdgeInsets.only(left: 80, right: 80, top: 40 ),
                     child: Text(
                       currentSlide.description.toString(),
                       style: const TextStyle(
@@ -111,7 +111,7 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
                           fontFamily: 'Mulish',
                           fontSize: 14.0),
                       textAlign: TextAlign.center,
-                      maxLines: 5,
+                      maxLines: 6,
                     ),
                   ),
                 ],
@@ -135,8 +135,8 @@ class _IntroSliderPageState extends State<IntroSliderPage> {
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
               gradient: LinearGradient(colors: [
-                Color.fromARGB(255, 255, 255, 255),
-                Color.fromARGB(255, 255, 255, 255),
+                Color.fromARGB(255, 247, 247, 247),
+                Color.fromARGB(255, 247, 247, 247),
               ])),
         ),
         IntroSlider(

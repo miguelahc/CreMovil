@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:app_cre/src/ui/screens/profile/edit_profile_screen.dart';
+import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/widgets/item_option.dart';
+import 'package:app_cre/src/ui/components/components.dart';
+import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 

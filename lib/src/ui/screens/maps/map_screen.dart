@@ -1,12 +1,9 @@
+import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:app_cre/src/blocs/blocs.dart';
 import 'package:app_cre/src/ui/views/map_view.dart';
-
-import 'package:app_cre/src/ui/widgets/btn_toggle_user_route.dart';
-import 'package:app_cre/src/ui/widgets/widgets.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -36,10 +33,12 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: appBar(context, true),
+      extendBodyBehindAppBar: true,
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, locationState) {
           if (locationState.lastKnownLocation == null) {
-            return const Center(child: Text('Espere por favor...'));
+            return circularProgress();
           }
 
           return BlocBuilder<MapBloc, MapState>(
@@ -55,6 +54,9 @@ class _MapScreenState extends State<MapScreen> {
                     MapView(
                       initialLocation: locationState.lastKnownLocation!,
                       polylines: polylines.values.toSet(),
+                      mapType: mapState.currentMapType,
+                      categoryMarker: mapState.categoryMarker,
+                      markers: Set<Marker>(),
                     ),
                     const SearchBar(),
                     const ManualMarker(),
@@ -69,7 +71,8 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
-          BtnToggleUserRoute(),
+          // BtnToggleUserRoute(),
+          BtnMapType(),
           BtnFollowUser(),
           BtnCurrentLocation(),
         ],

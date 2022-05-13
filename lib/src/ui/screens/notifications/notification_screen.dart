@@ -1,15 +1,11 @@
 import 'dart:convert';
 
-import 'package:app_cre/src/blocs/notification/notification_bloc.dart';
-import 'package:app_cre/src/models/notification.dart';
-import 'package:app_cre/src/ui/screens/notifications/notification_category_screen.dart';
+import 'package:app_cre/src/models/models.dart';
+import 'package:app_cre/src/ui/components/components.dart';
+import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/widgets/circular_progress.dart';
-import 'package:app_cre/src/ui/widgets/item_option.dart';
+import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'package:app_cre/src/models/category.dart';
-import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -85,9 +81,28 @@ class _NotificationScreenState extends State<NotificationScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Notificaciones",
-              style: TextStyle( fontFamily: 'Mulish', fontSize: 18, fontWeight: FontWeight.w400),
+            Container(
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      "Notificaciones",
+                      style: TextStyle( fontFamily: 'Mulish', fontSize: 18, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  IconButton(
+                    color: const Color(0xFF84BD00),
+                    icon:  const ImageIcon(
+                        AssetImage(
+                            "assets/icons/vuesax-linear-setting-2.png"),
+                        color: DarkColor),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => NotificationSettingsScreen(serviceCategories: serviceCategories)));
+                    },
+                  ),
+                ],
+              ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TabButtom(
@@ -120,39 +135,47 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     },
                     controller: _pageController,
                     children: [
-                      Container(
-                          padding:
+                      ListView(
+                        children: [
+                          Container(
+                              padding:
                               const EdgeInsets.only(top: 16, left: 1, right: 1),
-                          child: Column(
-                              children: serviceCategories
-                                  .map((e) => itemOptionWithImage(
+                              child: Column(
+                                  children: serviceCategories
+                                      .map((e) => itemOptionWithImage(
                                       e.descriptionCategory,
                                       e.imageCategory,
-                                      () => openNotificationCategory(
+                                          () => openNotificationCategory(
                                           Notifications(
                                               e.descriptionCategory,
                                               NotificationsService()
                                                   .filterOnlyCategory(
-                                                      notifications,
-                                                      e.numberCategory))),
+                                                  notifications,
+                                                  e.numberCategory))),
                                       countNotificationNoRead(NotificationsService()
                                           .filterOnlyCategory(
                                           notifications,
                                           e.numberCategory))))
-                                  .toList())),
-                      Container(
-                          padding:
+                                      .toList())),
+                        ],
+                      ),
+                      ListView(
+                        children: [
+                          Container(
+                              padding:
                               const EdgeInsets.only(top: 16, left: 8, right: 8),
-                          child: Column(
-                            children: [
-                              itemOption("Asistencia social cooperativa",
-                                  "vuesax-linear-star.png", () => null, false),
-                              itemOption("Medco", "vuesax-linear-story.png",
-                                  () => null, false),
-                              itemOption("Crece",
-                                  "vuesax-linear-send-square.png", () => null, false),
-                            ],
-                          )),
+                              child: Column(
+                                children: [
+                                  itemOption("Asistencia social cooperativa",
+                                      "vuesax-linear-star.png", () => null, false),
+                                  itemOption("Medco", "vuesax-linear-story.png",
+                                          () => null, false),
+                                  itemOption("Crece",
+                                      "vuesax-linear-send-square.png", () => null, false),
+                                ],
+                              )),
+                        ],
+                      )
                     ],
                   ))
           ]),

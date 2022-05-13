@@ -1,3 +1,4 @@
+import 'package:app_cre/src/ui/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +43,7 @@ class _ManualMarkerBody extends StatelessWidget {
               offset: const Offset(0, -22),
               child: BounceInDown(
                   from: 100,
-                  child: const Icon(Icons.location_on_rounded, size: 60)),
+                  child: const Icon(Icons.location_on_rounded, size: 55)),
             ),
           ),
 
@@ -56,13 +57,12 @@ class _ManualMarkerBody extends StatelessWidget {
                   minWidth: size.width - 120,
                   child: const Text('Confimar destino',
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w300)),
-                  color: Colors.black,
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                  color: SecondaryColor,
                   elevation: 0,
                   height: 50,
                   shape: const StadiumBorder(),
                   onPressed: () async {
-                    // Todo: loading
 
                     final start = locationBloc.state.lastKnownLocation;
                     if (start == null) return;
@@ -98,10 +98,10 @@ class _BtnBack extends StatelessWidget {
     return FadeInLeft(
       duration: const Duration(milliseconds: 300),
       child: CircleAvatar(
-        maxRadius: 30,
+        maxRadius: 24,
         backgroundColor: Colors.white,
         child: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios_new, color: DarkColor),
           onPressed: () {
             BlocProvider.of<SearchBloc>(context)
                 .add(OnDeactivateManualMarkerEvent());

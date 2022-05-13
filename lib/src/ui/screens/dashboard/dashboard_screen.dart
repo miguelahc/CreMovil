@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:app_cre/src/blocs/account/account_bloc.dart';
 import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/providers/conection_status.dart';
+import 'package:app_cre/src/ui/screens/dashboard/user_data.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:badges/badges.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -41,8 +41,6 @@ class DashboardContent extends StatefulWidget {
 }
 
 class _DashboardContent extends State<DashboardContent> {
-  var accounts = [];
-  var services = [];
 
   @override
   void initState() {
@@ -51,9 +49,8 @@ class _DashboardContent extends State<DashboardContent> {
 
   @override
   Widget build(BuildContext context) {
-    accountBloc.getAccounts();
     return Column(children: [
-      const _CajaSuperiorDatos(),
+      const UserData(),
       Container(
         margin: const EdgeInsets.only(left: 16, right: 16, top: 8),
         child: Column(children: [
@@ -98,53 +95,26 @@ class _DashboardContent extends State<DashboardContent> {
         ]),
       ),
       widget.status.isOnline
-          ? StreamBuilder(
-              builder: (_, snapshot) {
-                if (snapshot.hasData) {
-                  return AccountsDiaplay(
-                      context, snapshot.data as Iterable<dynamic>);
-                } else if (snapshot.hasError) {
-                  return circularProgress();
-                } else {
-                  return circularProgress();
-                }
-              },
-              stream: accountBloc.allAccounts)
-          : Container(
-              margin: const EdgeInsets.only(top: 24),
-              width: MediaQuery.of(context).size.width * 0.75,
-              height: 150,
-              decoration: customBoxDecoration(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(top: 32, bottom: 24),
-                    child: Text("¡Problemas de conexión!"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 64, right: 64, bottom: 24),
-                    child: Text(
-                      "Por favor revisa tu\nServicio de Internet y\nvuelve a intentar",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          ? BlocBuilder<AccountBloc, AccountState>(builder: (context, accountState) {
+            final accountBloc = BlocProvider.of<AccountBloc>(context);
+            if(accountState.all.isEmpty){
+              accountBloc.getAccounts();
+              return circularProgress();
+            }
+            return AccountsDisplay(context);
+      })
+          : NoConnection()
     ]);
   }
 
-  Widget AccountsDiaplay(context, Iterable<dynamic> list) {
-    accounts = list
-        .where((element) => element["AccountTypeRegister"] == "Cuenta")
-        .toList();
-    services = list
-        .where(
-            (element) => element["AccountTypeRegister"] == "Servicio")
-        .toList();
+  Widget AccountsDisplay(context) {
+    final accountBloc = BlocProvider.of<AccountBloc>(context);
+    var accounts = accountBloc.state.accounts;
+    var services = accountBloc.state.services;
     return Expanded(
         child: ListView(
+      physics:
+      const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       children: [
         Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -250,6 +220,7 @@ class _DashboardContent extends State<DashboardContent> {
                       account.numberInvoicesDue = data["NumberInvoicesDue"];
                       account.dateLastReading = data["DateLastReading"];
                       account.lastReading = data["LastReading"];
+                      account.accountType = data["AccountType"];
                       account.category = data["Category"];
                       Navigator.push(
                           context,
@@ -594,8 +565,9 @@ class _ConfirmDialog extends State<ConfirmDialog> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    final accountBloc = BlocProvider.of<AccountBloc>(context);
                     accountBloc.reloadAccounts();
+                    Navigator.pop(context);
                   })),
         ],
       ),
@@ -603,164 +575,6 @@ class _ConfirmDialog extends State<ConfirmDialog> {
   }
 }
 
-class _CajaSuperiorDatos extends StatefulWidget {
-  const _CajaSuperiorDatos({Key? key}) : super(key: key);
 
-  @override
-  State<_CajaSuperiorDatos> createState() => __CajaSuperiorDatosState();
-}
 
-class __CajaSuperiorDatosState extends State<_CajaSuperiorDatos> {
-  String name = "";
-  String email = "";
 
-  @override
-  void initState() {
-    super.initState();
-    UserService().readUserData().then((data) {
-      var userData = jsonDecode(data);
-      setState(() {
-        name = userData["Name"];
-        email = userData["Email"];
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return perfilUsuario(context);
-  }
-
-  Container perfilUsuario(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 32,
-      height: 105,
-      decoration: customBoxDecoration(10),
-      child: Container(
-        padding: const EdgeInsets.only(left: 12, right: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            DottedBorder(
-              padding: const EdgeInsets.all(2),
-              borderType: BorderType.Circle,
-              dashPattern: const [6, 3, 6, 3, 6, 3],
-              child: CircleAvatar(
-                radius: MediaQuery.of(context).size.width / 13,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.width / 10,
-                  backgroundImage: const AssetImage('assets/foto.png'),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 35,
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              Row(
-                                children: [
-                                  Text("Hola, $name",
-                                      style: const TextStyle(
-                                          color: Color(0XFF3A3D5F),
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'SF Pro Display')),
-                                  SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero,
-                                        color: const Color(0xFF84BD00),
-                                        iconSize: 24,
-                                        icon: const ImageIcon(
-                                          AssetImage(
-                                              'assets/icons/vuesax-linear-edit.png'),
-                                          color: Color(0XFF84BD00),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeScreen(
-                                                          currentPage: 2)));
-                                        },
-                                      ))
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(email,
-                      style: const TextStyle(
-                          color: Color(0XFFA39F9F),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'SF Pro Display'))
-                ],
-              ),
-            ),
-            const DidYouKnow(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DidYouKnow extends StatelessWidget {
-  const DidYouKnow({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 8, bottom: 8),
-        alignment: Alignment.center,
-        width: 86,
-        height: 80,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.elliptical(20, 10)),
-            color: const Color(0XFFF7F7F7),
-            boxShadow: customBoxShadow()),
-        child: Column(
-          children: [
-            IconButton(
-              color: const Color(0xFF84BD00),
-              icon: Badge(
-                position: BadgePosition.topEnd(end: -2, top: -2),
-                child: const ImageIcon(
-                  AssetImage('assets/icons/vuesax-linear-lamp-charge.png'),
-                  color: Color(0XFF84BD00),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const DidYouKnowScreen()));
-              },
-            ),
-            const Text(
-              " ¿Sabías que?",
-              style: TextStyle(
-                  fontFamily: 'Mulish', color: Color(0XFF3A3D5F), fontSize: 12),
-            )
-          ],
-        ));
-  }
-}

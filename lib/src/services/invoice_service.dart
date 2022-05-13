@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:path/path.dart';
+import 'dart:io';
 
 import 'package:app_cre/src/models/invoice_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_cre/src/services/environment.dart' as environment;
+import 'package:path_provider/path_provider.dart';
 
 import '../models/resultjson.dart';
 
@@ -158,8 +161,15 @@ class InvoiceService {
   }
 
   Future<dynamic> registerReading(
-      token, userData, accountNumber, companyNumber, currentReading) async {
-    var image = (await rootBundle.load('assets/medidor.jpg')).buffer.asUint8List();
+      token, userData, accountNumber, companyNumber, currentReading, File file) async {
+    final appDirectory = await getApplicationDocumentsDirectory();
+    Directory directory = Directory(appDirectory.path + "/images");
+    if(!directory.existsSync()){
+      directory.createSync();
+    }
+    final fileName = basename(file.path);
+    File fileCopy = file.copySync(directory.path+"/"+fileName);
+    var image2 = fileCopy.readAsBytesSync();
     final response = await http.post(
         Uri.parse(environment.urlcre + 'RegistrarLectura'),
         headers: <String, String>{
@@ -173,7 +183,7 @@ class InvoiceService {
           'P_Lect': currentReading,
           'P_Modo': environment.env
         },
-        body: image
+        body: image2
     );
     var bodyResponse = Utf8Decoder().convert(response.bodyBytes);
     ResultJson rjson;

@@ -1,9 +1,13 @@
 export 'package:app_cre/src/services/account_service.dart';
+export 'package:app_cre/src/services/attention_payment_points_service.dart';
 export 'package:app_cre/src/services/auth_service.dart';
+export 'package:app_cre/src/services/country_service.dart';
+export 'package:app_cre/src/services/did_you_know_service.dart';
 export 'package:app_cre/src/services/environment.dart';
 export 'package:app_cre/src/services/invoice_service.dart';
 export 'package:app_cre/src/services/notifications_service.dart';
 export 'package:app_cre/src/services/pushnotification_service.dart';
+export 'package:app_cre/src/services/requisites_services.dart';
 export 'package:app_cre/src/services/storage_service.dart';
 export 'package:app_cre/src/services/token_service.dart';
 export 'package:app_cre/src/services/user_service.dart';

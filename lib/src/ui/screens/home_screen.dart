@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:app_cre/src/blocs/account/account_bloc.dart';
-import 'package:app_cre/src/blocs/notification/notification_bloc.dart';
+import 'package:app_cre/src/blocs/blocs.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
@@ -166,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ], onTap: (index) {
             setState(() {
-              accountBloc.reloadAccounts();
+              // accountBloc.reloadAccounts();
               _paginaActual = index;
             });
           }),

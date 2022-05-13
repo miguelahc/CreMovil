@@ -1,15 +1,14 @@
 import 'dart:convert';
 
 import 'package:app_cre/src/models/models.dart';
-import 'package:app_cre/src/models/reading.dart';
 import 'package:app_cre/src/services/services.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SimulatedInvoiceScreen extends StatefulWidget {
   final Reading reading;
+
   const SimulatedInvoiceScreen({Key? key, required this.reading})
       : super(key: key);
 
@@ -32,7 +31,7 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
         var userData = jsonDecode(data);
         InvoiceService()
             .simulateInvoice(token, userData, reading.accountNumber,
-            reading.companyNumber, reading.currentReading)
+                reading.companyNumber, reading.currentReading)
             .then((dataS) {
           setState(() {
             InvoiceService().parseData(invoiceDetail, dataS);
@@ -49,93 +48,101 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
     return Scaffold(
         appBar: appBar(context, true),
         endDrawer: SafeArea(child: endDrawer(authService, context)),
+        floatingActionButton: FloatingHomeButton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         backgroundColor: const Color(0XFFF7F7F7),
         body: onLoad
             ? circularProgress()
             : SafeArea(
-          child: Container(
-              margin: const EdgeInsets.only(left: 16, right: 16),
-              child: Column(children: [
-                Container(
-                    padding: const EdgeInsets.only(
-                        left: 16, bottom: 16, right: 16),
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Factura Simulada",
-                            style: TextStyle( fontFamily: 'Mulish', 
-                                color: Color(0XFF82BA00),
-                                fontWeight: FontWeight.bold)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Text("Código Fijo: ",
-                                style: TextStyle( fontFamily: 'Mulish', 
-                                    color: Color(0XFF3A3D5F),
-                                    fontWeight: FontWeight.bold)),
-                            Text(reading.accountNumber,
-                                style: const TextStyle( fontFamily: 'Mulish', 
-                                    color: Color(0XFF666666)))
-                          ],
-                        )
-                      ],
-                    )),
-                rowData("Titular: ", invoiceDetail.titularName),
-                rowData("Categoria: ", invoiceDetail.categoryName),
-                Column(
-                    children: invoiceDetail.others
-                        .map((e) => rowData(
-                        e["Description"] + ": ",
-                        e["Concept"] != ""
-                            ? e["Concept"]
-                            : e["Value"].toString()))
-                        .toList()),
-                const CustomDivider(),
-                const SizedBox(
-                  height: 8,
-                ),
-                Expanded(
-                    child: ListView(
-                      children: [
-                        // Seccion energia y potencia
-                        section(
-                            "Energía y potencia", "Monto Bs.", Colors.white),
-                        Column(
-                            children: invoiceDetail.energyPower
-                                .map((e) => doubleSimpleRowData(
-                                e["Description"], e["Value"].toString()))
-                                .toList()),
-                        // Seccion tasas municipales
-                        section(
-                            "Tasas municipales", "Monto Bs.", Colors.white),
-                        Column(
-                            children: invoiceDetail.municipalFees
-                                .map((e) => doubleSimpleRowData(
-                                e["Description"], e["Value"].toString()))
-                                .toList()),
-                        // Seccion Cargos y abonos
-                        section("Cargos / abonos", "Monto Bs.", Colors.white),
-                        Column(
-                            children: invoiceDetail.chargesPayments
-                                .map((e) => doubleSimpleRowData(
-                                e["Description"], e["Value"].toString()))
-                                .toList()),
+                child: Container(
+                    margin: const EdgeInsets.only(left: 16, right: 16),
+                    child: Column(children: [
+                      Container(
+                          padding: const EdgeInsets.only(
+                              left: 16, bottom: 16, right: 16),
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Factura Simulada",
+                                  style: TextStyle(
+                                      fontFamily: 'Mulish',
+                                      color: Color(0XFF82BA00),
+                                      fontWeight: FontWeight.bold)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Text("Código Fijo: ",
+                                      style: TextStyle(
+                                          fontFamily: 'Mulish',
+                                          color: Color(0XFF3A3D5F),
+                                          fontWeight: FontWeight.bold)),
+                                  Text(reading.accountNumber,
+                                      style: const TextStyle(
+                                          fontFamily: 'Mulish',
+                                          color: Color(0XFF666666)))
+                                ],
+                              )
+                            ],
+                          )),
+                      Expanded(
+                          child: ListView(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        children: [
+                          rowData("Titular: ", invoiceDetail.titularName),
+                          rowData("Categoria: ", invoiceDetail.categoryName),
+                          Column(
+                              children: invoiceDetail.others
+                                  .map((e) => rowData(
+                                      e["Description"] + ": ",
+                                      e["Concept"] != ""
+                                          ? e["Concept"]
+                                          : e["Value"].toString()))
+                                  .toList()),
+                          const CustomDivider(),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          // Seccion energia y potencia
+                          section(
+                              "Energía y potencia", "Monto Bs.", Colors.white),
+                          Column(
+                              children: invoiceDetail.energyPower
+                                  .map((e) => doubleSimpleRowData(
+                                      e["Description"], e["Value"].toString()))
+                                  .toList()),
+                          // Seccion tasas municipales
+                          section(
+                              "Tasas municipales", "Monto Bs.", Colors.white),
+                          Column(
+                              children: invoiceDetail.municipalFees
+                                  .map((e) => doubleSimpleRowData(
+                                      e["Description"], e["Value"].toString()))
+                                  .toList()),
+                          // Seccion Cargos y abonos
+                          section("Cargos / abonos", "Monto Bs.", Colors.white),
+                          Column(
+                              children: invoiceDetail.chargesPayments
+                                  .map((e) => doubleSimpleRowData(
+                                      e["Description"], e["Value"].toString()))
+                                  .toList()),
 
-                        doubleSimpleRowData("Base p/cred. fiscal Bs.",
-                          invoiceDetail.baseTaxCredit.toString()),
-                        section(
-                            "Total facturado Bs.",
-                            invoiceDetail.totalInvoice.toString(),
-                            const Color(0XFF393E5E)),
-                        const SizedBox(
-                          height: 16,
-                        )
-                      ],
-                    ))
-              ])),
-        ));
+                          doubleSimpleRowData("Base p/cred. fiscal Bs.",
+                              invoiceDetail.baseTaxCredit.toString()),
+                          section(
+                              "Total facturado Bs.",
+                              invoiceDetail.totalInvoice.toString(),
+                              const Color(0XFF393E5E)),
+                          const SizedBox(
+                            height: 16,
+                          )
+                        ],
+                      ))
+                    ])),
+              ));
   }
+
   Widget rowData(String key, String value) {
     return Column(
       children: [
@@ -147,14 +154,18 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
             children: [
               Text(
                 key,
-                style: const TextStyle( fontFamily: 'Mulish', 
+                style: const TextStyle(
+                    fontFamily: 'Mulish',
                     fontWeight: FontWeight.bold,
                     color: Color(0XFF3A3D5F),
                     fontSize: 14),
               ),
               Text(
                 value,
-                style: const TextStyle( fontFamily: 'Mulish', color: Color(0XFF999999), fontSize: 14),
+                style: const TextStyle(
+                    fontFamily: 'Mulish',
+                    color: Color(0XFF999999),
+                    fontSize: 14),
               )
             ],
           ),
@@ -174,7 +185,8 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
               Expanded(
                 child: Text(
                   key,
-                  style: const TextStyle( fontFamily: 'Mulish', 
+                  style: const TextStyle(
+                      fontFamily: 'Mulish',
                       fontWeight: FontWeight.bold,
                       color: Color(0XFF999999),
                       fontSize: 14),
@@ -185,7 +197,8 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                 children: [
                   Text(
                     key2,
-                    style: const TextStyle( fontFamily: 'Mulish', 
+                    style: const TextStyle(
+                        fontFamily: 'Mulish',
                         fontWeight: FontWeight.bold,
                         color: Color(0XFF999999),
                         fontSize: 14),
@@ -217,7 +230,8 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
           ),
           alignment: Alignment.center,
           padding: const EdgeInsets.only(left: 16, right: 16),
-          margin: const EdgeInsets.only(left: 1.5, right: 1.5, top: 1, bottom: 1),
+          margin:
+              const EdgeInsets.only(left: 1.5, right: 1.5, top: 1, bottom: 1),
           height: 40,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -225,7 +239,8 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
               Expanded(
                   child: Text(
                 key,
-                style: TextStyle( fontFamily: 'Mulish', 
+                style: TextStyle(
+                    fontFamily: 'Mulish',
                     fontWeight: FontWeight.bold,
                     color: (color == Colors.white)
                         ? const Color(0XFF3A3D5F)
@@ -237,7 +252,8 @@ class _SimulatedInvoiceScreenState extends State<SimulatedInvoiceScreen> {
                 children: [
                   Text(
                     key2,
-                    style: TextStyle( fontFamily: 'Mulish', 
+                    style: TextStyle(
+                        fontFamily: 'Mulish',
                         fontWeight: FontWeight.bold,
                         color: (color == Colors.white)
                             ? const Color(0XFF3A3D5F)

@@ -21,3 +21,13 @@ class AddToHistoryEvent extends SearchEvent {
   const AddToHistoryEvent(this.place);
 }
 
+class OnNewPlacesOFoundEvent extends SearchEvent{
+  final List<AttentionPaymentPoint> placesO;
+  const OnNewPlacesOFoundEvent(this.placesO);
+}
+
+class CopyToHistoryOtherEvent extends SearchEvent {
+  final List<AttentionPaymentPoint> historyOther;
+  const CopyToHistoryOtherEvent(this.historyOther);
+}
+

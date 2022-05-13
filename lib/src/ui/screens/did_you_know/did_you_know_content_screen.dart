@@ -1,12 +1,9 @@
 import 'dart:convert';
 
-import 'package:app_cre/src/models/did_you_know.dart';
-import 'package:app_cre/src/services/did_you_know_service.dart';
+import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/box_decoration.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/widgets/circular_progress.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_cre/src/ui/components/components.dart';
+import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class DidYouKnowContentScreen extends StatefulWidget {

@@ -1,19 +1,11 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:app_cre/src/models/did_you_know.dart';
-import 'package:app_cre/src/ui/screens/did_you_know/did_you_know_content_screen.dart';
-import 'package:app_cre/src/services/auth_service.dart';
-import 'package:app_cre/src/services/did_you_know_service.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/widgets/app_bar.dart';
-import 'package:app_cre/src/ui/widgets/custom_card.dart';
-import 'package:app_cre/src/ui/widgets/end_drawer.dart';
+import 'package:app_cre/src/ui/components/components.dart';
+import 'package:app_cre/src/ui/screens/did_you_know/did_you_know_content_screen.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_cre/src/models/models.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DidYouKnowScreen extends StatefulWidget {
   const DidYouKnowScreen({Key? key}) : super(key: key);

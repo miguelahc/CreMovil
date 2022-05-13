@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:app_cre/src/ui/screens/check_auth_screen.dart';
+import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/widgets/circular_progress.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_cre/src/ui/components/components.dart';
+import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class NoConnectionScreen extends StatefulWidget{

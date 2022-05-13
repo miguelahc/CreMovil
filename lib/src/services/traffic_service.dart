@@ -4,7 +4,7 @@ import 'package:app_cre/src/models/models.dart';
 
 import 'package:app_cre/src/services/services.dart';
 
-class TrafficService {
+class   TrafficService {
   final Dio _dioTraffic;
   final Dio _dioPlaces;
 

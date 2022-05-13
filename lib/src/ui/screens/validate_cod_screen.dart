@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:app_cre/src/services/services.dart';
-import 'package:app_cre/src/ui/components/colors.dart';
-import 'package:app_cre/src/ui/widgets/title.dart';
+import 'package:app_cre/src/ui/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -9,6 +8,7 @@ import 'package:app_cre/src/models/models.dart';
 
 class ValidateCodScreen extends StatefulWidget {
   final User user;
+
   const ValidateCodScreen({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -72,7 +72,8 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.22,
+                                                0.18,
+                                        margin: const EdgeInsets.only(top: 16),
                                         child: Row(
                                           children: <Widget>[
                                             const ImageIcon(
@@ -249,8 +250,11 @@ class _ValidateCodScreenState extends State<ValidateCodScreen> {
                                                     .readToken()
                                                     .then((token) {
                                                   UserService()
-                                                      .sendPin(token,
-                                                          widget.user.phone)
+                                                      .sendPin(
+                                                          token,
+                                                          widget.user.phone,
+                                                          widget
+                                                              .user.prefixPhone)
                                                       .then((value) {
                                                     var code = jsonDecode(
                                                         value)["Code"];

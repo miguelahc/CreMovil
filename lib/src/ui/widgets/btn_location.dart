@@ -1,5 +1,7 @@
 import 'package:app_cre/src/blocs/location/location_bloc.dart';
 import 'package:app_cre/src/blocs/map/map_bloc.dart';
+import 'package:app_cre/src/ui/components/box_decoration.dart';
+import 'package:app_cre/src/ui/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_cre/src/blocs/blocs.dart';
@@ -14,12 +16,16 @@ class BtnCurrentLocation extends StatelessWidget {
     final mapBloc = BlocProvider.of<MapBloc>(context);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: CircleAvatar(
-        backgroundColor: Colors.white,
-        maxRadius: 25,
+        width: 40,
+        height: 40,
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: customBoxDecoration(10),
         child: IconButton(
-            icon: const Icon(Icons.my_location_outlined, color: Colors.black),
+            icon: const ImageIcon(
+              AssetImage('assets/icons/icon-Ubicacion.png'),
+              color: DarkColor,
+              size: 26,
+            ),
             onPressed: () {
               final userLocation = locationBloc.state.lastKnownLocation;
 
@@ -30,8 +36,6 @@ class BtnCurrentLocation extends StatelessWidget {
               }
 
               mapBloc.moveCamera(userLocation);
-            }),
-      ),
-    );
+            }));
   }
 }
