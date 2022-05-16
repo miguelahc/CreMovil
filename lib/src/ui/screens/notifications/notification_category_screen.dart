@@ -1,12 +1,14 @@
 import 'dart:collection';
 import 'dart:convert';
 
+import 'package:app_cre/src/blocs/blocs.dart';
 import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/services/services.dart';
 import 'package:app_cre/src/ui/components/components.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class NotificationCategoryScreen extends StatefulWidget {
@@ -28,9 +30,13 @@ class _NotificationCategoryScreenState
   @override
   void initState() {
     notification = widget.notification;
-    List<dynamic> allNotifications = notification.notifications;
+    final notificationBloc = BlocProvider.of<NotificationBloc>(context);
+    notification.notifications = notificationBloc
+            .state.notifications[notification.category.numberCategory] ??
+        [];
+    notification.noRead = notificationBloc.state.categories[notification.category] ?? 0;
     setState(() {
-      allNotifications.forEach((notification) {
+      notification.notifications.forEach((notification) {
         int key = notification["nucuen"];
         if (!hashNotification.containsKey(key)) {
           List<dynamic> listTemp = List.empty(growable: true);
@@ -108,7 +114,8 @@ class _NotificationCategoryScreenState
                             alignment: Alignment.center,
                           ),
                           Container(
-                            child: Text(notification.category,
+                            child: Text(
+                                notification.category.descriptionCategory,
                                 style: const TextStyle(
                                     fontFamily: 'Mulish',
                                     fontSize: 18,
@@ -119,8 +126,8 @@ class _NotificationCategoryScreenState
                       ))
                     ]),
               ),
-              notification.notifications.isEmpty
-                  ? const SizedBox()
+              notification.noRead == 0
+                  ? const SizedBox(height: 8,)
                   : Container(
                       margin: const EdgeInsets.only(right: 16, bottom: 8),
                       alignment: Alignment.centerRight,
@@ -296,7 +303,7 @@ class _NotificationCategoryScreenState
                 ],
               )),
         ),
-        index == length - 1 ? const SizedBox(): const CustomDivider()
+        index == length - 1 ? const SizedBox() : const CustomDivider()
       ],
     );
   }

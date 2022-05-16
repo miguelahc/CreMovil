@@ -58,6 +58,7 @@ class NotificationsService {
         Uri.parse(environment.urlcre + 'RetornaNotificaciones'),
         headers: <String, String>{
           'Content-Type': 'application/json',
+          'Response-Type': 'application/json',
           'Authorization': token
         },
         body: jsonEncode({

@@ -21,4 +21,5 @@ export 'package:app_cre/src/ui/widgets/payments_table.dart';
 export 'package:app_cre/src/ui/widgets/product_image.dart';
 export 'package:app_cre/src/ui/widgets/screens_background.dart';
 export 'package:app_cre/src/ui/widgets/searchbar.dart';
+export 'package:app_cre/src/ui/widgets/tab_button.dart';
 export 'package:app_cre/src/ui/widgets/title.dart';

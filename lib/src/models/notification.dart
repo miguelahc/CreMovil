@@ -1,7 +1,8 @@
+import 'package:app_cre/src/models/models.dart';
+
 class Notifications {
   int id = -1;
-  String category;
-  List<dynamic> notifications;
+  List<dynamic> notifications = [];
   int companyNumber = 1;
   String alias = "";
   int code = -1;
@@ -10,6 +11,7 @@ class Notifications {
   DateTime date = DateTime(1999,1,1);
   int imageId = -1;
   bool havePosition = false;
-  int categoryId = -1;
-  Notifications(this.category, this.notifications);
+  Category category;
+  int noRead = 0;
+  Notifications(this.category);
 }

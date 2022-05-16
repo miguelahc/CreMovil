@@ -12,7 +12,6 @@ import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/themes/themes.dart';
 
 part 'map_event.dart';
-
 part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {

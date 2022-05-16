@@ -3,6 +3,7 @@ import 'package:app_cre/src/ui/screens/screens.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'package:app_cre/src/services/services.dart';
@@ -28,18 +29,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _paginaActual = widget.currentPage;
+    final notificationBloc = BlocProvider.of<NotificationBloc>(context);
+    if (notificationBloc.state.categories.isEmpty) {
+      notificationBloc.getNotifications();
+    }
     super.initState();
-    NotificationsService().countNotificationsToRead().then((value) {
-      setState(() {
-        countNotifications = value;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
-    final notificationBloc = Provider.of<NotificationBloc>(context, listen: false);
+    final notificationBloc = BlocProvider.of<NotificationBloc>(context);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -47,15 +47,16 @@ class _HomeScreenState extends State<HomeScreen> {
             endDrawer: SafeArea(child: endDrawer(authService, context)),
             appBar: appBar(context, false),
             body: _pages[_paginaActual],
-            bottomNavigationBar: ChangeNotifierProvider(
-                create: (_) => NotificationBloc(),
-                child: SafeArea(child: bottomAppBar(notificationBloc)))));
+            bottomNavigationBar:
+                BlocBuilder<NotificationBloc, NotificationState>(
+              builder: (context, state) {
+                return SafeArea(child: bottomAppBar(context));
+              },
+            )));
   }
 
-
-
-  Widget bottomAppBar(provider) {
-    final notificationBloc = Provider.of<NotificationBloc>(context, listen: false);
+  Widget bottomAppBar(context) {
+    final notificationBloc = BlocProvider.of<NotificationBloc>(context);
     return Container(
       color: const Color(0XFF3A3D5F),
       height: 120,
@@ -73,7 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
           alignment: Alignment.center,
           height: 90,
           child: ConvexAppBar.badge(
-              {0: notificationBloc.notificationsToRead > 0 ? notificationBloc.notificationsToRead.toString() : ""},
+              {
+                0: notificationBloc.state.notificationCounter == 0
+                    ? ""
+                    : notificationBloc.state.notificationCounter.toString()
+              },
               badgeMargin: const EdgeInsets.only(left: 20, bottom: 20),
               elevation: 0,
               height: 60,
@@ -163,7 +168,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ], onTap: (index) {
             setState(() {
-              // accountBloc.reloadAccounts();
               _paginaActual = index;
             });
           }),

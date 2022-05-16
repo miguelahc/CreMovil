@@ -27,16 +27,24 @@ class _MapNotificationDetailState extends State<MapNotificationDetail> {
   PositionMobil positionMobil = PositionMobil("", -1, -1);
   Set<Marker> markers = Set();
   late BitmapDescriptor icon, iconCar;
+  late LocationBloc locationBloc;
 
   @override
   void initState() {
-    final locationBloc = BlocProvider.of<LocationBloc>(context);
+    locationBloc = BlocProvider.of<LocationBloc>(context);
+    locationBloc.getCurrentPosition();
     locationBloc.startFollowingUser();
     getPointToAccount();
-    if(widget.notification.categoryId == 5){
+    if(widget.notification.category.numberCategory == 5){
       getPositionMobil();
     }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    locationBloc.stopFollowingUser();
+    super.dispose();
   }
 
   getPositionMobil() async{
@@ -100,6 +108,7 @@ class _MapNotificationDetailState extends State<MapNotificationDetail> {
         child: BlocBuilder<LocationBloc, LocationState>(
           builder: (context, locationState) {
             if (locationState.lastKnownLocation == null) {
+              print(locationState.lastKnownLocation.toString());
               return circularProgress();
             }
 

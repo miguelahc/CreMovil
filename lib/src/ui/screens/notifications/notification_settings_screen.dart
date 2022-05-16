@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:app_cre/src/blocs/blocs.dart';
 import 'package:app_cre/src/ui/components/components.dart';
 import 'package:app_cre/src/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_cre/src/models/category.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotificationSettingsScreen extends StatefulWidget {
-  Iterable<Category> serviceCategories;
-
-  NotificationSettingsScreen({Key? key, required this.serviceCategories})
-      : super(key: key);
+  NotificationSettingsScreen({Key? key}) : super(key: key);
 
   @override
   State<NotificationSettingsScreen> createState() =>
@@ -20,11 +19,9 @@ class NotificationSettingsScreen extends StatefulWidget {
 
 class _NotificationSettingsScreen extends State<NotificationSettingsScreen> {
   bool _notificationActive = false;
-  late Iterable<Category> serviceCategories;
 
   @override
   void initState() {
-    serviceCategories = widget.serviceCategories;
     super.initState();
   }
 
@@ -59,14 +56,16 @@ class _NotificationSettingsScreen extends State<NotificationSettingsScreen> {
                             style: TextStyle(
                                 fontFamily: 'Mulish',
                                 fontSize: 14,
-                                fontWeight: FontWeight.w400, color: Colors.black54),
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black54),
                           )
                         ],
                       ),
                     ),
                     Expanded(
                         child: ListView(
-                          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                      physics: const AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
                       children: [
                         Container(
                           height: 30,
@@ -75,12 +74,12 @@ class _NotificationSettingsScreen extends State<NotificationSettingsScreen> {
                             children: [
                               const Expanded(
                                   child: Text(
-                                    "De Servicio",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: DarkColor,
-                                        fontFamily: "Mulish"),
-                                  )),
+                                "De Servicio",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: DarkColor,
+                                    fontFamily: "Mulish"),
+                              )),
                               Switch(
                                   activeColor: SecondaryColor,
                                   inactiveTrackColor: DarkColor,
@@ -93,25 +92,34 @@ class _NotificationSettingsScreen extends State<NotificationSettingsScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                            padding:
-                            const EdgeInsets.only(top: 8, left: 1, right: 1),
-                            child: Column(
-                              children: serviceCategories.map((e) => itemOptionSwitch(e.descriptionCategory, e.imageCategory)).toList(),
-                            )),
+                        BlocBuilder<NotificationBloc, NotificationState>(
+                            builder: (context, state) {
+                              if(state.categories.isEmpty){
+                                return circularProgress();
+                              }
+                          return Container(
+                              padding: const EdgeInsets.only(
+                                  top: 8, left: 1, right: 1),
+                              child: Column(
+                                children: state.categories.entries
+                                    .map((category) => itemOptionSwitch(
+                                    category.key.descriptionCategory, category.key.imageCategory))
+                                    .toList(),
+                              ));
+                        }),
                         Container(
                           height: 30,
-                          margin: EdgeInsets.only(top: 16, left: 16, right: 15),
+                          margin: const EdgeInsets.only(top: 16, left: 16, right: 15),
                           child: Row(
                             children: [
                               const Expanded(
                                   child: Text(
-                                    "De Fundacion CRE",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: DarkColor,
-                                        fontFamily: "Mulish"),
-                                  )),
+                                "De Fundacion CRE",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: DarkColor,
+                                    fontFamily: "Mulish"),
+                              )),
                               Switch(
                                   activeColor: SecondaryColor,
                                   inactiveTrackColor: DarkColor,
@@ -124,21 +132,31 @@ class _NotificationSettingsScreen extends State<NotificationSettingsScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                            padding:
-                            const EdgeInsets.only(top: 8, left: 1, right: 1),
-                            child: Column(
-                              children: serviceCategories.map((e) => itemOptionSwitch(e.descriptionCategory, e.imageCategory)).toList(),
-                            )),
-                        const SizedBox(height: 16,)
+                        BlocBuilder<NotificationBloc, NotificationState>(
+                            builder: (context, state) {
+                              if(state.categories.isEmpty){
+                                return circularProgress();
+                              }
+                              return Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 8, left: 1, right: 1),
+                                  child: Column(
+                                    children: state.categories.entries
+                                        .map((category) => itemOptionSwitch(
+                                        category.key.descriptionCategory, category.key.imageCategory))
+                                        .toList(),
+                                  ));
+                            }),
+                        const SizedBox(
+                          height: 16,
+                        )
                       ],
                     ))
                   ])),
         ));
   }
 
-  Widget itemOptionSwitch(
-      String title, String image) {
+  Widget itemOptionSwitch(String title, String image) {
     Uint8List bytes = const Base64Decoder().convert(image);
     return Container(
         height: 50,
@@ -148,11 +166,12 @@ class _NotificationSettingsScreen extends State<NotificationSettingsScreen> {
         child: Row(
           children: [
             Padding(
-                padding: const EdgeInsets.only(left: 16, right: 12),
-                child: Image.memory(
-                  bytes,
-                  width: 24,
-                ),),
+              padding: const EdgeInsets.only(left: 16, right: 12),
+              child: Image.memory(
+                bytes,
+                width: 24,
+              ),
+            ),
             Expanded(
                 child: ListView(
               scrollDirection: Axis.horizontal,
@@ -172,18 +191,16 @@ class _NotificationSettingsScreen extends State<NotificationSettingsScreen> {
               ],
             )),
             Padding(
-              padding: EdgeInsets.only(left: 4, right: 12),
-              child:
-              Switch(
-                  activeColor: SecondaryColor,
-                  inactiveTrackColor: DarkColor,
-                  value: _notificationActive,
-                  onChanged: (value) {
-                    setState(() {
-                      _notificationActive = value;
-                    });
-                  })
-            )
+                padding: EdgeInsets.only(left: 4, right: 12),
+                child: Switch(
+                    activeColor: SecondaryColor,
+                    inactiveTrackColor: DarkColor,
+                    value: _notificationActive,
+                    onChanged: (value) {
+                      setState(() {
+                        _notificationActive = value;
+                      });
+                    }))
           ],
         ));
   }

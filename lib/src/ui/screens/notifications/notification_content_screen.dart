@@ -56,7 +56,6 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
     notification.message = widget.item["dsmens"];
     notification.date = DateTime.parse(widget.item["fcnoti"]);
     notification.imageId = widget.item["idimag"] ?? -1;
-    notification.categoryId = widget.item["nucate"];
     notification.id = widget.item["idnoti"];
     notification.companyNumber = widget.item["nucomp"];
     notification.havePosition = widget.item["opunirxy"] != "S" ? false : true;
@@ -167,7 +166,7 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
                             alignment: Alignment.center,
                           ),
                           Container(
-                            child: Text(notification.category,
+                            child: Text(notification.category.descriptionCategory,
                                 style: const TextStyle(
                                     fontFamily: 'Mulish',
                                     fontSize: 18,
@@ -303,7 +302,7 @@ class _NotificationContentScreenState extends State<NotificationContentScreen> {
                             ],
                           ))
                       : const SizedBox(),
-                  notification.categoryId == 5
+                  notification.category.numberCategory == 5
                       ? map()
                       : notification.havePosition
                           ? map()
