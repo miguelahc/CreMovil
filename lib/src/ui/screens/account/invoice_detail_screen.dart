@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/services/services.dart';
@@ -19,13 +20,22 @@ class InvoiceDetailScreen extends StatefulWidget {
   State<InvoiceDetailScreen> createState() => _InvoiceDetailScreenState();
 }
 
-class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
+class _InvoiceDetailScreenState extends State<InvoiceDetailScreen>
+    with SingleTickerProviderStateMixin {
   bool onLoad = true;
   late InvoiceDetail invoiceDetail;
   late bool document;
+  late Uint8List image;
+  bool onLoadImage = true;
+  late TransformationController controller;
+  late AnimationController animationController;
+  Animation<Matrix4>? animation;
 
   @override
   void initState() {
+    controller = TransformationController();
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200));
     invoiceDetail = widget.invoiceDetail;
     super.initState();
     TokenService().readToken().then((token) {
@@ -73,6 +83,18 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
             setState(() {
               document = false;
               onLoad = false;
+            });
+          }
+        });
+        InvoiceService()
+            .getImageInvoice(token, userData, invoiceDetail.documentNumber)
+            .then((value) {
+          var code = jsonDecode(value)["Code"];
+          if (code == 0) {
+            var msg = jsonDecode(value)["Message"];
+            setState(() {
+              image = const Base64Decoder().convert(jsonDecode(msg)["imagen"]);
+              onLoadImage = false;
             });
           }
         });
@@ -224,7 +246,8 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                             ),
                             Expanded(
                                 child: ListView(
-                                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
                               children: [
                                 rowData("Titular: ", invoiceDetail.titularName),
                                 rowData(
@@ -444,15 +467,26 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        contentPadding:
-            const EdgeInsets.only(top: 30, bottom: 20, left: 80, right: 80),
-        actionsPadding: const EdgeInsets.only(bottom: 30),
+        contentPadding: const EdgeInsets.all(2),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Container(
-          height: MediaQuery.of(context).size.height * 0.25,
-          child: Image.asset('assets/medidor.jpg'),
-        ),
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: onLoadImage
+                ? circularProgress()
+                : InteractiveViewer(
+                    transformationController: controller,
+                    minScale: 1,
+                    maxScale: 4,
+                    child: AspectRatio(
+                        aspectRatio: 1,
+                        child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            child: Image.memory(
+                              image,
+                              // fit: BoxFit.cover,
+                            ))))),
       ),
     );
   }

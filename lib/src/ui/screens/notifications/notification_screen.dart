@@ -115,47 +115,63 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 },
                 controller: _pageController,
                 children: [
-                  ListView(
-                    children: [
-                      Container(
-                          padding:
-                              const EdgeInsets.only(top: 16, left: 1, right: 1),
-                          child: Column(
-                              children: state.categories.entries
-                                  .map((category) => itemOptionWithImage(
-                                    category.key.descriptionCategory,
-                                    category.key.imageCategory,
-                                      () => openNotificationCategory(
-                                          Notifications(
-                                              category.key)),
-                                      category.value == 0 ? false: true))
-                                  .toList())),
-                    ],
-                  ),
-                  ListView(
-                    children: [
-                      Container(
-                          padding:
-                              const EdgeInsets.only(top: 16, left: 8, right: 8),
-                          child: Column(
-                            children: [
-                              itemOption("Asistencia social cooperativa",
-                                  "vuesax-linear-star.png", () => null, false),
-                              itemOption("Medco", "vuesax-linear-story.png",
-                                  () => null, false),
-                              itemOption(
-                                  "Crece",
-                                  "vuesax-linear-send-square.png",
-                                  () => null,
-                                  false),
-                            ],
-                          )),
-                    ],
-                  )
+                  RefreshIndicator(
+                      child: ListView(
+                        physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()),
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.only(
+                                  top: 16, left: 1, right: 1),
+                              child: Column(
+                                  children: state.categories.entries
+                                      .map((category) => itemOptionWithImage(
+                                          category.key.descriptionCategory,
+                                          category.key.imageCategory,
+                                          () => openNotificationCategory(
+                                              Notifications(category.key)),
+                                          category.value == 0 ? false : true))
+                                      .toList())),
+                        ],
+                      ),
+                      onRefresh: _onRefresh, color: SecondaryColor),
+                  RefreshIndicator(
+                      child: ListView(
+                        physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()),
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.only(
+                                  top: 16, left: 8, right: 8),
+                              child: Column(
+                                children: [
+                                  itemOption(
+                                      "Asistencia social cooperativa",
+                                      "vuesax-linear-star.png",
+                                      () => null,
+                                      false),
+                                  itemOption("Medco", "vuesax-linear-story.png",
+                                      () => null, false),
+                                  itemOption(
+                                      "Crece",
+                                      "vuesax-linear-send-square.png",
+                                      () => null,
+                                      false),
+                                ],
+                              )),
+                        ],
+                      ),
+                      onRefresh: _onRefresh, color: SecondaryColor,)
                 ],
               ));
             })
           ]),
     ));
+  }
+
+  Future _onRefresh() async {
+    final notificationBloc = BlocProvider.of<NotificationBloc>(context);
+    notificationBloc.reloadNotifications();
+    changePage(0);
   }
 }

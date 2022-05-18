@@ -14,6 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({Key? key}) : super(key: key);
+
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
@@ -89,7 +91,7 @@ class _DashboardContent extends State<DashboardContent> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => RegisterAccountSession()));
+                          builder: (context) => const RegisterAccountSession()));
                 })
           ])
         ]),
@@ -150,7 +152,7 @@ class _DashboardContent extends State<DashboardContent> {
                         ),
                       )
                     : accounts.isEmpty
-                        ? SizedBox()
+                        ? const SizedBox()
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

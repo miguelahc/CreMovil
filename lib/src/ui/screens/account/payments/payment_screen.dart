@@ -182,15 +182,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(
-                              child: Container(
-                            child: const Text(
-                              "Transferencia bancaria mediante código QR",
-                              style: TextStyle(
-                                  fontFamily: 'Mulish',
-                                  color: Color(0XFF666666)),
-                            ),
-                          )),
+                          const Expanded(
+                              child: Text(
+                                "Transferencia bancaria mediante código QR",
+                                style: TextStyle(
+                                    fontFamily: 'Mulish',
+                                    color: Color(0XFF666666)),
+                              )),
                           Radio<bool>(
                               visualDensity: VisualDensity.compact,
                               activeColor: SecondaryColor,
@@ -209,15 +207,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(
-                              child: Container(
-                            child: const Text(
-                              "Tarjeta de Crédito",
-                              style: TextStyle(
-                                  fontFamily: 'Mulish',
-                                  color: Color(0XFF666666)),
-                            ),
-                          )),
+                          const Expanded(
+                              child: Text(
+                                "Tarjeta de Crédito",
+                                style: TextStyle(
+                                    fontFamily: 'Mulish',
+                                    color: Color(0XFF666666)),
+                              )),
                           Radio<bool>(
                               visualDensity: VisualDensity.compact,
                               activeColor: SecondaryColor,
@@ -268,7 +264,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           color: DarkColor,
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Column(children: [
-        Container(
+        SizedBox(
           height: 43,
           child: Row(
             children: [
@@ -410,7 +406,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         });
                       }
                     })
-                : SizedBox(),
+                : const SizedBox(),
             MaterialButton(
                 padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(

@@ -15,7 +15,6 @@ class InvoiceService {
   Future<dynamic> getInvoiceDetail(
       token, userData, documentNumber, companyNumber) async {
     final response = await http.post(
-      //Uri.parse(environment.url + 'cre_getinvoicedetails'),
         Uri.parse(environment.urlcre + 'RetornaDatosFactura'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -65,16 +64,13 @@ class InvoiceService {
           "Error en la respuesta del servicio [RetornaDatosFactura]...",
           bodyResponse);
     }
-    //return response.body;
     datajson = jsonEncode(rjson.toJson());
     return datajson;
-    //return response.body;
   }
 
   Future<dynamic> simulateInvoice(
       token, userData, accountNumber, companyNumber, currentReading) async {
     final response = await http.post(
-      //Uri.parse(environment.url + 'cre_getsimulateinvoice'),
         Uri.parse(environment.urlcre + 'SimulaFactura'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -125,10 +121,8 @@ class InvoiceService {
           "Error en la respuesta del servicio [SimulaFactura]...",
           bodyResponse);
     }
-    //return response.body;
     datajson = jsonEncode(rjson.toJson());
     return datajson;
-    //return response.body;
   }
 
   parseData(InvoiceDetail invoiceDetail, String data) {
@@ -202,8 +196,46 @@ class InvoiceService {
           "Error en la respuesta del servicio [RegistrarLectura]...",
           bodyResponse);
     }
-    //return response.body;
     var datajson = jsonEncode(rjson.toJson());
     return datajson;
   }
+
+  Future<dynamic> getImageInvoice(
+      token, userData, documentNumber) async {
+    final response = await http.post(
+        Uri.parse(environment.urlcre + 'RetornaImagenLecturaFactura'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: jsonEncode({
+          'P_Pin': userData["Pin"],
+          'P_NuTele': userData["PhoneNumber"],
+          'P_ImeiTele': userData["PhoneImei"],
+          'P_NumeroDocumento': documentNumber,
+          'P_Modo': environment.env
+        }));
+
+    var bodyResponse = const Utf8Decoder().convert(response.bodyBytes);
+
+    var datajson;
+    ResultJson rjson;
+    if (bodyResponse != null && bodyResponse != "") {
+      List<dynamic> images = jsonDecode(bodyResponse)["imagenlectura"];
+      if (images.isNotEmpty) {
+        datajson = jsonEncode(images[0]);
+        rjson = ResultJson(0, datajson, "");
+      } else {
+        rjson = ResultJson(4, "", "Error en la respuesta del servicio [RetornaImagenLecturaFactura]");
+      }
+    } else {
+      rjson = ResultJson(
+          5,
+          "Error en la respuesta del servicio [RetornaImagenLecturaFactura]...",
+          bodyResponse);
+    }
+    datajson = jsonEncode(rjson.toJson());
+    return datajson;
+  }
+
 }

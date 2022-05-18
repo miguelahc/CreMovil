@@ -14,6 +14,10 @@ class OnGetAllCategoryNotification extends NotificationEvent {
   const OnGetAllCategoryNotification(this.categories);
 }
 
+class OnResetAllCategoryNotification extends NotificationEvent {
+  const OnResetAllCategoryNotification();
+}
+
 class OnGetAllNotifications extends NotificationEvent {
   final Map<int, List<dynamic>> notifications;
   const OnGetAllNotifications(this.notifications);

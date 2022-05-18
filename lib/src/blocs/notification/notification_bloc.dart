@@ -23,6 +23,9 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (event, emit) =>
           emit(state.copyWith(notificationCounter: event.notificationCounter)),
     );
+    on<OnResetAllCategoryNotification>(
+          (event, emit) => emit(state.copyWith(categories: const {})),
+    );
   }
 
   Future getNotifications() async {
@@ -30,6 +33,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     var data = await UserService().readUserData();
     var userData = jsonDecode(data);
     _getCategories(token, userData);
+  }
+
+  Future reloadNotifications() async{
+    add(const OnResetAllCategoryNotification());
+    getNotifications();
   }
 
   Future _getCategories(token, userData) async {
