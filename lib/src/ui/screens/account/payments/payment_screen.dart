@@ -71,7 +71,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         paymentId, methodSelected, accountDetail.accountNumber,
         accountDetail.companyNumber, paymentBloc.state.invoiceCount);
     if(emitPaymentDetail != null){
-      print("Si se pudi burro");
+      print("Ok");
     }
   }
 
