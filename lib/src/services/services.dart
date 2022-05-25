@@ -6,6 +6,7 @@ export 'package:app_cre/src/services/did_you_know_service.dart';
 export 'package:app_cre/src/services/environment.dart';
 export 'package:app_cre/src/services/invoice_service.dart';
 export 'package:app_cre/src/services/notifications_service.dart';
+export 'package:app_cre/src/services/payment_service.dart';
 export 'package:app_cre/src/services/pushnotification_service.dart';
 export 'package:app_cre/src/services/requisites_services.dart';
 export 'package:app_cre/src/services/storage_service.dart';

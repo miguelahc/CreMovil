@@ -2,6 +2,7 @@ import 'package:app_cre/src/blocs/blocs.dart';
 import 'package:app_cre/src/blocs/gps/gps_bloc.dart';
 import 'package:app_cre/src/blocs/location/location_bloc.dart';
 import 'package:app_cre/src/blocs/notification/notification_bloc.dart';
+import 'package:app_cre/src/blocs/payment/payment_bloc.dart';
 import 'package:app_cre/src/models/models.dart';
 import 'package:app_cre/src/providers/conection_status.dart';
 import 'package:app_cre/src/ui/screens/screens.dart';
@@ -34,7 +35,8 @@ class AppState extends StatelessWidget {
             create: (context) =>
                 MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
         BlocProvider(
-            create: (context) => SearchBloc(trafficService: TrafficService()))
+            create: (context) => SearchBloc(trafficService: TrafficService())),
+        BlocProvider(create: (context) => PaymentBloc())
       ],
       child: const MyApp(),
     );

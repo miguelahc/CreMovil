@@ -5,3 +5,4 @@ export 'package:app_cre/src/blocs/location/location_bloc.dart';
 export 'package:app_cre/src/blocs/map/map_bloc.dart';
 export 'package:app_cre/src/blocs/notification/notification_bloc.dart';
 export 'package:app_cre/src/blocs/search/search_bloc.dart';
+export 'package:app_cre/src/blocs/payment/payment_bloc.dart';

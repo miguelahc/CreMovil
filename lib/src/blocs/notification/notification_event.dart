@@ -1,7 +1,7 @@
 part of 'notification_bloc.dart';
 
 
-class NotificationEvent extends Equatable{
+abstract class NotificationEvent extends Equatable{
 
   const NotificationEvent();
 
